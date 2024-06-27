@@ -25,12 +25,10 @@ $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 clean:
 	rm -f src/*.o
 	$(MAKE) -C $(LIB) clean
-	$(MAKE) -C $(PRT) clean
 
 fclean: clean
-	rm -f push_swap
+	rm -f minishell
 	$(MAKE) -C $(LIB) fclean
-	$(MAKE) -C $(PRT) fclean
 
 re: fclean all
 
