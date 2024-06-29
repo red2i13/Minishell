@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/28 18:49:07 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/29 11:41:03 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,8 @@
 /*parsing.c*/
 char **get_paths(char **env);
 char *check_cmd(char *cmd, char **paths);
+
+/*error.c*/
+void    error_func(int errnum, int exit_num);
 
 #endif
