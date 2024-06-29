@@ -13,14 +13,20 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "../libft/libft.h"
 # include <stdio.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../libft/libft.h"
 # include <unistd.h>
+# include <errno.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+# include <fcntl.h>
+# include<stdlib.h>
+# include <string.h>
 
 /*parsing.c*/
-int check_cmd(char *cmd);
 char **get_paths(char **env);
+char *check_cmd(char *cmd, char **paths);
 
 #endif

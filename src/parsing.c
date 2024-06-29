@@ -43,3 +43,26 @@ char	**get_paths(char **env)
 	free(first_part);
 	return (the_paths);
 }
+
+char *check_cmd(char *cmd, char **paths)
+{
+    int num; 
+    int i ;
+    char *tmp;
+    i= 0;
+    num = -1;
+    while(paths[i])
+    {
+		tmp = ft_strjoin( "/", cmd);
+        tmp = ft_strjoin(paths[i], tmp);
+        //printf("%s\n", tmp);
+        num = access(tmp, F_OK | X_OK);
+		if(!num)
+			return(tmp);
+		free(tmp);
+        i++;
+    }
+    // if(num == -1)
+    //     error_func(errno, 2);
+	return(0);
+}
