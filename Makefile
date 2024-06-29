@@ -1,6 +1,6 @@
 CFLAGS = -Wall -Wextra -Werror
 FLAGS = -lreadline
-FILES =  minishell.c 
+FILES =  minishell.c parsing.c
 SOURCES = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJECTS = $(SOURCES:.c=.o)
 NAME = minishell
