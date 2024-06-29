@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/28 18:48:53 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/29 12:36:32 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char *check_cmd(char *cmd, char **paths)
 		free(tmp);
         i++;
     }
-    // if(num == -1)
-    //     error_func(errno, 2);
-	return(0);
+    if(num == -1)
+        error_func(errno, 2);
+		return(0);
 }
