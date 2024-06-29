@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/29 11:41:03 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/29 11:58:10 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <fcntl.h>
 # include<stdlib.h>
 # include <string.h>
+# include <sys/wait.h>
 
 /*parsing.c*/
 char **get_paths(char **env);
