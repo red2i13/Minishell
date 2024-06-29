@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/29 12:14:51 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/29 13:28:06 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int main(int argc, char **argv, char **env)
     (void)argc;
     (void)argv;
     
-    paths = get_paths(env);
+    paths = split_paths(get_PATH(env));
     // while (*paths)
     //     printf("%s\n", *paths++);
     while (1)

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/29 12:36:32 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/06/29 13:28:13 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,25 +16,32 @@
     
 // }
 
-char	**get_paths(char **env)
+char *get_PATH(char **env)
 {
-	char	*paths;
+	char	*path;
+	int		i;
+
+	i = 0;
+	path = NULL;
+	while (env[i])
+	{
+		path = ft_strnstr(env[i], "PATH", 4);
+		if (path)
+			break ;
+		i++;
+	}
+	return path;
+}
+
+char	**split_paths(char *paths)
+{
 	int		i;
     char	*first_part;
 	char	**the_paths;
 
 	i = 0;
-	paths = NULL;
-	while (env[i])
-	{
-		paths = ft_strnstr(env[i], "PATH", 4);
-		if (paths)
-			break ;
-		i++;
-	}
 	if (paths == NULL)
 		return (NULL);
-
 	i = 0;
 	while (paths[i] && paths[i] != '=')
 		i++;
