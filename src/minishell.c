@@ -22,8 +22,8 @@ int main(int argc, char **argv, char **env)
     (void)argv;
     
     paths = get_paths(env);
-    while (*paths)
-        printf("%s\n", *paths++);
+    // while (*paths)
+    //     printf("%s\n", *paths++);
     while (1)
     {
         line = readline("Minishell$");
@@ -31,6 +31,7 @@ int main(int argc, char **argv, char **env)
         // print the args
         for (int i = 0; args[i]; i++)
             printf("%s\n", args[i]);
+        printf("%s\n", check_cmd("ls", paths));
         add_history(line);
     }
     return (0);
