@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/06/29 13:28:06 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:46:47 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,7 @@
 int main(int argc, char **argv, char **env)
 {
     char    *line;
-    char    **args;
     char    **paths;
-    int pid;
 
     (void)argc;
     (void)argv;
@@ -30,19 +28,14 @@ int main(int argc, char **argv, char **env)
         line = readline("Minishell$");
         if (line[0] == '\0')
             continue;
-        args = ft_split(line, ' ');
         // print the args
-        for (int i = 0; args[i]; i++)
-            printf("%s\n", args[i]);
-        pid = fork();
-        if (pid == 0)
+        t_token *head = init_tokens(line);
+        while (head)
         {
-            char *path = check_cmd(args[0], paths);
-            printf("%s\n", path);
-            execve(path, args, env);
-            exit(0);
+            printf("%s\n", head->value);
+            head = head->next;
         }
-        wait(0);
+        
         add_history(line);
     }
     return (0);
