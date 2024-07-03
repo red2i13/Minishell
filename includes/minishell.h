@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/02 09:57:20 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/02 11:26:07 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ typedef struct s_token
 }       t_token;
 
 
-/*parsing.c*/
+/*parsing_utils.c*/
 char	**split_paths(char *paths);
 char *check_cmd(char *cmd, char **paths);
 char *get_PATH(char **env);
@@ -48,5 +48,7 @@ void	add_back_t(t_token **head, t_token *new);
 t_token *create_token(char *value);
 size_t	size_list(t_token *head);
 void list_clear(t_token *head);
+/*parser.c*/
+t_token *init_tokens(char *cmd);
 
 #endif

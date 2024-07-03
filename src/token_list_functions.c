@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/02 09:56:47 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/02 12:58:26 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ void	add_back_t(t_token **head, t_token *new)
 	if (!new)
 		return;
 	if (!head || !*head)
+	{
 		*head = new;
+		return;
+	}
 	tmp = *head;
 	while (tmp->next)
 		tmp = tmp->next;
