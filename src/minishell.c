@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/02 11:46:47 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/03 10:05:34 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int main(int argc, char **argv, char **env)
         t_token *head = init_tokens(line);
         while (head)
         {
-            printf("%s\n", head->value);
+            printf("=>%s\n", head->value);
             head = head->next;
         }
         
