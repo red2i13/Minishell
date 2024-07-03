@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/03 13:15:32 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:32:22 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ int main(int argc, char **argv, char **env)
         while (head)
         {
             printf("#########################\n");
-            printf("%i: cmd => %s\n", i, head->value);
-            printf("type => %s\n", head->type);
+            printf("%i: Token => %s\n", i, head->value);
+            printf("Type => %s\n", head->type);
             i++;
             head = head->next;
         }

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/03 13:13:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:32:01 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int count_op(char *cmd, char *op)
     }
     return(count);
 }
-void    init_redirec(t_token *t,char *str, char *op)
+void    init_redirec(t_token **t,char *str, char *op)
 {
     char **tokens;
     int i;
@@ -41,10 +41,10 @@ void    init_redirec(t_token *t,char *str, char *op)
     while(tokens[i])
     {
         
-        add_back_t(&t, create_token(tokens[i]));
+        add_back_t(t, create_token(tokens[i]));
         if (count)
         {
-            add_back_t(&t, create_token(sign));
+            add_back_t(t, create_token(sign));
             count--;
         }
         i++;
@@ -64,13 +64,13 @@ t_token *init_tokens(char *cmd)
     while(tokens[i])
     {
         if  (ft_strnstr(tokens[i], ">>", ft_strlen(tokens[i])))
-            init_redirec(list, tokens[i], ">>");
+            init_redirec(&list, tokens[i], ">>");
         else if  (ft_strnstr(tokens[i], "<<", ft_strlen(tokens[i])))
-            init_redirec(list, tokens[i], "<<");
+            init_redirec(&list, tokens[i], "<<");
         else if  (ft_strchr(tokens[i], '<'))
-            init_redirec(list, tokens[i],"<");
+            init_redirec(&list, tokens[i],"<");
         else if  (ft_strchr(tokens[i], '>'))
-            init_redirec(list, tokens[i],">");
+            init_redirec(&list, tokens[i],">");
         else
             add_back_t(&list, create_token(tokens[i]));
         if (count)
