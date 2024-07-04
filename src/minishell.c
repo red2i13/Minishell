@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/03 10:05:34 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:32:22 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,16 @@ int main(int argc, char **argv, char **env)
             continue;
         // print the args
         t_token *head = init_tokens(line);
+        add_t_type(head);
+        int i = 0;
         while (head)
         {
-            printf("=>%s\n", head->value);
+            printf("#########################\n");
+            printf("%i: Token => %s\n", i, head->value);
+            printf("Type => %s\n", head->type);
+            i++;
             head = head->next;
         }
-        
         add_history(line);
     }
     return (0);

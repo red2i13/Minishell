@@ -3,45 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/03 10:16:27 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/03 13:32:01 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int count_op(char *cmd, char op)
+int count_op(char *cmd, char *op)
 {
     int count;
+    int i;
+    char **scmd = ft_split(cmd, ' ');
 
     count = 0;
-    while(*cmd)
+    i = 0;
+    while(scmd[i])
     {
-        if(*cmd == op)
+        if(ft_strnstr(scmd[i], op, ft_strlen(scmd[i])))
             count++;
-        cmd++;
+        i++;
     }
     return(count);
 }
-void    init_redirec(t_token *t,char *str, char op)
+void    init_redirec(t_token **t,char *str, char *op)
 {
     char **tokens;
     int i;
     int count; 
     
     i = 0;
-    tokens = ft_split(str, op);
+    tokens = ft_split(str, op[0]);
     count = count_op(str, op);
-    char *sign = ft_substr(&op, 0, 1);
+    char *sign = ft_substr(op, 0, 2);
     while(tokens[i])
     {
         
-        add_back_t(&t, create_token(tokens[i]));
+        add_back_t(t, create_token(tokens[i]));
         if (count)
         {
-            add_back_t(&t, create_token(sign));
+            add_back_t(t, create_token(sign));
             count--;
         }
         i++;
@@ -54,16 +57,20 @@ t_token *init_tokens(char *cmd)
     char **tokens;
     t_token *list;
     
-    count = count_op(cmd, '|');    
+    count = count_op(cmd, "|");    
     list = NULL;
     i = 0;
     tokens = ft_split(cmd, '|');
     while(tokens[i])
     {
-        if  (ft_strchr(tokens[i], '<'))
-            init_redirec(list, tokens[i], '<');
+        if  (ft_strnstr(tokens[i], ">>", ft_strlen(tokens[i])))
+            init_redirec(&list, tokens[i], ">>");
+        else if  (ft_strnstr(tokens[i], "<<", ft_strlen(tokens[i])))
+            init_redirec(&list, tokens[i], "<<");
+        else if  (ft_strchr(tokens[i], '<'))
+            init_redirec(&list, tokens[i],"<");
         else if  (ft_strchr(tokens[i], '>'))
-            init_redirec(list, tokens[i], '>');
+            init_redirec(&list, tokens[i],">");
         else
             add_back_t(&list, create_token(tokens[i]));
         if (count)
@@ -74,4 +81,20 @@ t_token *init_tokens(char *cmd)
         i++;
     }
     return (list);
+}
+
+void add_t_type(t_token *head)
+{
+    while (head)
+    {
+        if (ft_strchr(head->value, '|'))
+            head->type = ft_substr("PIPE", 0, 4);
+        else if (ft_strchr(head->value, '>') || ft_strchr(head->value, '<'))
+            head->type = ft_substr("RD", 0, 2);
+        else if (head->prev != NULL && ft_strchr(head->prev->type, 'R'))
+            head->type = ft_substr("FILE", 0, 4);
+        else 
+            head->type = ft_substr("CMD", 0, 3);
+        head = head->next;
+    }
 }
