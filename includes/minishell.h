@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/03 11:33:59 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:41:01 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ typedef struct s_token
 {
     char    *value;
     char    *type;
+    char    **args;
     struct s_token  *next;
     struct s_token  *prev;
 }       t_token;
@@ -40,6 +41,7 @@ typedef struct s_token
 char	**split_paths(char *paths);
 char *check_cmd(char *cmd, char **paths);
 char *get_PATH(char **env);
+void	split_args(t_token *head);
 
 /*error.c*/
 void    error_func(int errnum, int exit_num);
