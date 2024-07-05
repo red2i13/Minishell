@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utlis.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/03 10:17:45 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:43:43 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,19 @@ char *check_cmd(char *cmd, char **paths)
     if(num == -1)
         error_func(errno, 2);
 		return(0);
+}
+
+
+void	split_args(t_token *head)
+{
+	while (head)
+	{
+		if (ft_strnstr(head->type, "CMD", 3))
+		{
+			head->args = ft_split(head->value, ' ');
+		}
+		else
+			head->args = NULL;
+		head = head->next;
+	}
 }

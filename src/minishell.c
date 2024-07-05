@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/03 13:32:22 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:48:31 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,21 @@ int main(int argc, char **argv, char **env)
         // print the args
         t_token *head = init_tokens(line);
         add_t_type(head);
+        split_args(head);
         int i = 0;
         while (head)
         {
             printf("#########################\n");
             printf("%i: Token => %s\n", i, head->value);
+            if (head->args != NULL)
+            {
+                for (int i = 0; head->args[i]; i++)
+                {
+                    printf("arg[%i] => %s\n", i, head->args[i]);
+                }
+            }
+            else
+                printf("args => %s\n", "NULL");
             printf("Type => %s\n", head->type);
             i++;
             head = head->next;
