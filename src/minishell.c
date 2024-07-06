@@ -19,7 +19,7 @@ int main(int argc, char **argv, char **env)
 
     (void)argc;
     (void)argv;
-    
+    (void)paths;
     paths = split_paths(get_PATH(env));
     // while (*paths)
     //     printf("%s\n", *paths++);
