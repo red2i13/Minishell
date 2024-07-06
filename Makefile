@@ -1,7 +1,7 @@
 #Dont forget to delet the -g flag
 CFLAGS = -Wall -Wextra -Werror -g
 FLAGS = -lreadline
-FILES =  minishell.c parsing_utlis.c error.c parser.c token_list_functions.c builtin.c
+FILES =  minishell.c parsing_utlis.c error.c lexer.c token_list_functions.c builtin.c
 SOURCES = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJECTS = $(SOURCES:.c=.o)
 NAME = minishell
