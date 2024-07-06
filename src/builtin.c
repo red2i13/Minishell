@@ -26,17 +26,21 @@ void echo(char **cmd)
 {
     int i ;
     int flag;
-    int fla
+    int flag2;
     i = 1;
     flag = 0;
+    flag2 = 0;
     while(cmd[i])
     {
-        if(cmd[i][0] == '-' && !check_nl(&cmd[i][1]))
+        if(cmd[i][0] == '-' && !check_nl(&cmd[i][1]) && !flag2)
         {
             flag = 1;
         }
         else
+        {
+            flag2 = 1;
             printf("%s", cmd[i]);
+        }
         i++;
     }
     if(!flag)
