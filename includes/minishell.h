@@ -6,7 +6,11 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/05 23:14:09 by rbenmakh         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/06 09:38:56 by ysahraou         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +56,15 @@ t_token *create_token(char *value);
 size_t	size_list(t_token *head);
 void list_clear(t_token *head);
 
-/*parser.c*/
+/*lexer.c*/
 t_token *init_tokens(char *cmd);
 void add_t_type(t_token *head);
+<<<<<<< HEAD
 /*builtin.c*/
 void echo(char **cmd);
+=======
+int count_op(char *cmd, char *op);
+void    init_redirec(t_token **t,char *str, char *op);
+>>>>>>> main
 
 #endif
