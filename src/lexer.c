@@ -50,6 +50,7 @@ void    init_redirec(t_token **t,char *str, char *op)
         i++;
     }
 }
+
 t_token *init_tokens(char *cmd)
 {
     int i;
@@ -85,16 +86,25 @@ t_token *init_tokens(char *cmd)
 
 void add_t_type(t_token *head)
 {
+    char    *p;
+    char    *f;
+    char    *c;
+    char    *r;
+
+    p = ft_substr("PIPE", 0, 4);
+    r = ft_substr("RD", 0, 2);
+    f = ft_substr("FILE", 0, 4);
+    c = ft_substr("CMD", 0, 3);
     while (head)
     {
-        if (ft_strchr(head->value, '|'))
-            head->type = ft_substr("PIPE", 0, 4);
+        if (head->value && ft_strchr(head->value, '|'))
+            head->type = p;
         else if (ft_strchr(head->value, '>') || ft_strchr(head->value, '<'))
-            head->type = ft_substr("RD", 0, 2);
+            head->type = r;
         else if (head->prev != NULL && ft_strchr(head->prev->type, 'R'))
-            head->type = ft_substr("FILE", 0, 4);
+            head->type = f;
         else 
-            head->type = ft_substr("CMD", 0, 3);
+            head->type = c;
         head = head->next;
     }
 }

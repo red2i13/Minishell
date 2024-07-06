@@ -1,6 +1,15 @@
-CFLAGS = -Wall -Wextra -Werror
+#Dont forget to delet the -g flag
+CFLAGS = -Wall -Wextra -Werror -g
 FLAGS = -lreadline
+<<<<<<< HEAD
 FILES =  minishell.c parsing_utlis.c error.c lexer.c token_list_functions.c 
+=======
+<<<<<<< HEAD
+FILES =  minishell.c parsing_utlis.c error.c lexer.c token_list_functions.c builtin.c
+=======
+FILES =  minishell.c parsing_utlis.c error.c lexer.c token_list_functions.c 
+>>>>>>> main
+>>>>>>> built
 SOURCES = $(addprefix $(SRC_DIR)/, $(FILES))
 OBJECTS = $(SOURCES:.c=.o)
 NAME = minishell
@@ -14,7 +23,7 @@ INCLUDES = include
 all: $(NAME) 
 
 $(NAME): $(OBJECTS) libft/libft.a 
-	$(CC) $(CFLAGS) $(FLAGS) -I$(LIBFT_DIR) -I$(INCLUDES) -o $@ $^
+	$(CC) $(CFLAGS)  -I$(LIBFT_DIR) -I$(INCLUDES) -o $@ $^  $(FLAGS)
 
 $(LIB)/libft.a:
 	$(MAKE) -C $(LIB) all

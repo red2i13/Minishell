@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/06 09:38:56 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/05 10:41:01 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,5 @@ void list_clear(t_token *head);
 /*lexer.c*/
 t_token *init_tokens(char *cmd);
 void add_t_type(t_token *head);
-int count_op(char *cmd, char *op);
-void    init_redirec(t_token **t,char *str, char *op);
 
 #endif
