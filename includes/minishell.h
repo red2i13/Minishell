@@ -6,11 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-<<<<<<< HEAD
 /*   Updated: 2024/07/05 10:41:01 by ysahraou         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/05 23:14:09 by rbenmakh         ###   ########.fr       */
->>>>>>> built
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +55,10 @@ void list_clear(t_token *head);
 /*lexer.c*/
 t_token *init_tokens(char *cmd);
 void add_t_type(t_token *head);
-<<<<<<< HEAD
-=======
 /*builtin.c*/
 void echo(char **cmd);
 int count_op(char *cmd, char *op);
 void    init_redirec(t_token **t,char *str, char *op);
->>>>>>> built
+
 
 #endif
