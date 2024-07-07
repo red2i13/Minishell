@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/05 23:22:09 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/07 15:38:28 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,4 +47,18 @@ void echo(char **cmd)
         printf("\n");
 }
 
+void cd (char **args)
+{
+    if(chdir(args[1]) != 0);
+        //write and exit on error
+    return(0);
+    
+}
+void pwd(char **args)
+{
+    char *path ;
+    path = getcwd(0, 0);
+
+    printf("%s\n", path);
+}
 
