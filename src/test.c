@@ -10,6 +10,7 @@ typedef struct  s_env
     char *value;
     struct  s_env *next;
 }               t_env;
+
 int main(int ac, char **av, char **env)
 {
     // char *path = getcwd(0, 0);

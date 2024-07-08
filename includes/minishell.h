@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/05 10:41:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/08 09:29:21 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,10 +38,10 @@ typedef struct s_token
 
 
 /*parsing_utils.c*/
-char	**split_paths(char *paths);
-char *check_cmd(char *cmd, char **paths);
-char *get_PATH(char **env);
-void	split_args(t_token *head);
+char    **split_paths(char *paths);
+char    *check_cmd(char *cmd, char **paths);
+char    *get_PATH(char **env);
+void    split_args(t_token *head);
 
 /*error.c*/
 void    error_func(int errnum, int exit_num);
@@ -49,16 +49,19 @@ void    error_func(int errnum, int exit_num);
 /*token_list_functions.c*/
 void	add_back_t(t_token **head, t_token *new);
 t_token *create_token(char *value);
-size_t	size_list(t_token *head);
-void list_clear(t_token *head);
+size_t  size_list(t_token *head);
+void    list_clear(t_token *head);
 
 /*lexer.c*/
 t_token *init_tokens(char *cmd);
-void add_t_type(t_token *head);
-/*builtin.c*/
-void echo(char **cmd);
-int count_op(char *cmd, char *op);
+void    add_t_type(t_token *head);
 void    init_redirec(t_token **t,char *str, char *op);
+int     count_op(char *cmd, char *op);
+/*builtin.c*/
+void    echo(char **cmd);
+void    print_env(char **env);
+int    cd(char **args);
+void    pwd(char **args);
 
 
 #endif
