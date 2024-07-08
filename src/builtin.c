@@ -74,24 +74,24 @@ void print_env(char **env)
         i++;
     }
 }
-// void export(char **env, char *var_name, char *var_value)
-// {
-//     (void)var_name;
-//     (void)var_name;
+void export(char **env, char *var_name, char *var_value)
+{
+    (void)var_name;
+    (void)var_name;
 
-//     int i;
-//     int j;
+    int i;
+    int j;
 
-//     i = 0;
-//     while(env[i])
-//     {
-//         j = i + 1;
-//         while(env[j])
-//         {
+    i = 0;
+    while(env[i])
+    {
+        j = i + 1;
+        while(env[j])
+        {
             
-//             j++;
-//         }
-//         i++;
-//     }
-// }
+            j++;
+        }
+        i++;
+    }
+}
 

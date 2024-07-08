@@ -90,7 +90,7 @@ void split_quotes(char **args)
 	i = 0;
 	while (args[i])
 	{
-		if(args[i][0] == '\'' || args[i][0] = '"')
+		if(args[i][0] == '\'' || args[i][0] == '"')
 		{
 			tmp = args[i];
 			
@@ -106,7 +106,7 @@ void	split_args(t_token *head)
 		if (ft_strnstr(head->type, "CMD", 3))
 		{
 			if(check_quotes(head->value) == 2 && (head->value[0] == '\'' || head->value[0] == '"'))
-				head->args = ft_split(head->value, ' ');
+				head->args = head->value;
 			else
 				split_quotes(head->args);
 		}
