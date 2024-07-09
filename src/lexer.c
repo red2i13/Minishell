@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser.c                                           :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/03 13:32:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/09 14:25:52 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,37 +51,61 @@ void    init_redirec(t_token **t,char *str, char *op)
     }
 }
 
-t_token *init_tokens(char *cmd)
+t_token *init_tokens(char *line)
 {
-    int i;
-    int count ;
-    char **tokens;
-    t_token *list;
-    
-    count = count_op(cmd, "|");    
-    list = NULL;
-    i = 0;
-    tokens = ft_split(cmd, '|');
-    while(tokens[i])
+    int i = 0;
+    int size = 0;
+    int j = i;
+    t_token *head = NULL;
+    while (line[i])
     {
-        if  (ft_strnstr(tokens[i], ">>", ft_strlen(tokens[i])))
-            init_redirec(&list, tokens[i], ">>");
-        else if  (ft_strnstr(tokens[i], "<<", ft_strlen(tokens[i])))
-            init_redirec(&list, tokens[i], "<<");
-        else if  (ft_strchr(tokens[i], '<'))
-            init_redirec(&list, tokens[i],"<");
-        else if  (ft_strchr(tokens[i], '>'))
-            init_redirec(&list, tokens[i],">");
-        else
-            add_back_t(&list, create_token(tokens[i]));
-        if (count)
+        if (line[i] == '|')
         {
-            add_back_t(&list, create_token("|"));
-            count--;
+            add_back_t(&head, create_token(ft_substr(line, j, size)));
+            add_back_t(&head, create_token(ft_strdup("|")));
+            size = 0;
+            i++;
+            j = i;
         }
+        else if (line[i] == '>' && line[i+1] == '>')
+        {
+            add_back_t(&head, create_token(ft_substr(line, j, size)));
+            add_back_t(&head, create_token(ft_strdup(">>")));
+            size = 0;
+            i++;
+            i++;
+            j = i;
+        }
+        else if (line[i] == '<' && line[i+1] == '<')
+        {
+            add_back_t(&head, create_token(ft_substr(line, j, size)));
+            add_back_t(&head, create_token(ft_strdup("<<")));
+            size = 0;
+            i++;
+            i++;
+            j = i;
+        }
+        else if (line[i] == '>')
+        {
+            add_back_t(&head, create_token(ft_substr(line, j, size)));
+            add_back_t(&head, create_token(ft_strdup(">")));
+            size = 0;
+            i++;
+            j = i;
+        }
+        else if (line[i] == '<')
+        {
+            add_back_t(&head, create_token(ft_substr(line, j, size)));
+            add_back_t(&head, create_token(ft_strdup("<")));
+            size = 0;
+            i++;
+            j = i;
+        }
+        size++;
         i++;
     }
-    return (list);
+    add_back_t(&head, create_token(ft_substr(line, j, size)));
+    return head;
 }
 
 void add_t_type(t_token *head)
