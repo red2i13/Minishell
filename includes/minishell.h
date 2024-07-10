@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/08 09:29:21 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:12:20 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,13 @@ void    init_redirec(t_token **t,char *str, char *op);
 int     count_op(char *cmd, char *op);
 /*builtin.c*/
 void    echo(char **cmd);
-void    print_env(char **env);
-int    cd(char **args);
+void    print_env(t_list *envl);
+int     cd(char **args);
 void    pwd(char **args);
+void    export(t_list **envl, char *var_name, char *var_value);
+void unset(t_list **envl, char *var_name);
+t_list  *setup_env(char **env);
+
 
 
 #endif

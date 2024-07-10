@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/08 11:02:14 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/10 22:13:29 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,18 @@ int main(int argc, char **argv, char **env)
         if (line[0] == '\0')
             continue;
         // print the args
+        t_list *envl = setup_env(env);
+        export(&envl, 0, 0);
+        export(&envl, "SHLVL=", "455");
+        printf("-----------------------------------------------------\n");
+        unset(&envl, "SHLVL");
+        export(&envl, 0, 0);
+        
+        exit(3);
         t_token *head = init_tokens(line);
         add_t_type(head);
         split_args(head);
-
+        //test    
         int i = 0;
         while (head)
         {
@@ -56,6 +64,7 @@ int main(int argc, char **argv, char **env)
             i++;
             head = head->next;
         }
+        //end of test
         add_history(line);
     }
     return (0);

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/08 12:07:56 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/09 10:47:10 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ void	split_args(t_token *head)
 		if (ft_strnstr(head->type, "CMD", 3))
 		{
 			if(check_quotes(head->value) == 2 && (head->value[0] == '\'' || head->value[0] == '"'))
-				head->args = head->value;
+				head->args = &head->value;
 			else
 				split_quotes(head->args);
 		}
