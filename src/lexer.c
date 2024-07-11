@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/09 14:25:52 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:07:12 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,34 @@ t_token *init_tokens(char *line)
     t_token *head = NULL;
     while (line[i])
     {
-        if (line[i] == '|')
+        if (line[i] == '"')
         {
+            if (size > 0)
+            {
+                add_back_t(&head, create_token(ft_substr(line, j, size)));
+                size = 0;
+                i++;
+                j = i;
+            }
+            else
+            {
+                i++;
+                j = i;
+            }
+            while (line[i] != '"')
+            {
+                size++;
+                i++;
+            }
             add_back_t(&head, create_token(ft_substr(line, j, size)));
+            size = 0;
+            i++;
+            j = i;
+        }
+        else if (line[i] == '|')
+        {
+            if (size > 0 )
+                add_back_t(&head, create_token(ft_substr(line, j, size)));
             add_back_t(&head, create_token(ft_strdup("|")));
             size = 0;
             i++;
@@ -101,10 +126,14 @@ t_token *init_tokens(char *line)
             i++;
             j = i;
         }
-        size++;
-        i++;
+        else 
+        {
+            size++;
+            i++;
+        }
     }
-    add_back_t(&head, create_token(ft_substr(line, j, size)));
+    if (size > 0)
+        add_back_t(&head, create_token(ft_substr(line, j, size)));
     return head;
 }
 
