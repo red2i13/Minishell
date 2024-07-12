@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
 /*   Updated: 2024/07/12 16:27:55 by rbenmakh         ###   ########.fr       */
@@ -11,12 +11,19 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-/*
-TODO LIST:
--fix the redirection <<
-- add a tty dedection interactive mode or non interactive mode
-- fix the parsing
-*/
+
+void run_cmd(t_token *head, char **env)
+{
+    int pid;
+
+    pid = fork();
+    if (!pid)
+    {
+        execve(head->args[0], head->args, env);
+    }
+    else
+        wait(0);     
+}
 int main(int argc, char **argv, char **env)
 {
     char    *line;
@@ -35,12 +42,18 @@ int main(int argc, char **argv, char **env)
         line = readline("Minishell$ ");
         if (line[0] == '\0')
             continue;
-        char **arr = ft_split(line, ' ');
-        cd(arr, &envl);
-        // t_token *head = init_tokens(line);
-        // add_t_type(head);
-        // split_args(head);
+        // print the args
+        t_token *head = init_tokens(line);
+        add_t_type(head);
+        split_args(head);
+        // echo(head->args);
         // int i = 0;
+        if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
+        {
+            if (head->args[1] != NULL)
+                exit(ft_atoi(head->args[1]));
+        }
+        run_cmd(head, env);
         // while (head)
         // {
         //     printf("#########################\n");
