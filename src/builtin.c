@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/05 23:22:09 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:20:06 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,156 @@ void echo(char **cmd)
     if(!flag)
         printf("\n");
 }
+char*    pwd(int i)
+{
+    char *pwd ;
+    pwd = getcwd(0, 0);
+    if (i == 1)
+        printf("%s\n", pwd);
+    return(pwd);
+}
+char    *fenv(t_list    *envl, char *str)
+{
+    while(envl)
+    {
+        if(ft_strnstr((char*)envl->content, str, ft_strlen(str)))
+            return(ft_strdup(envl->content));
+        envl = envl->next;
+    }
+    return(NULL);
+}
 
+int    cd(char **args, t_list **envl)
+{
+    char *path;
+
+    path =NULL;
+    if (!args[1] || args[1][0] == '~')
+    {
+        path = fenv(*envl, "HOME=");
+        export(envl, "OLDPWD=", pwd(0));
+        chdir(path + 5);
+    }
+    else if(args[1][0] == '-')
+    {
+        path = fenv(*envl, "OLDPWD=");
+        export(envl, "OLDPWD=", pwd(0));
+        chdir(path + 7);
+        pwd(1);
+    }
+    else
+    {
+        export(envl, "OLDPWD=", pwd(0));
+        chdir(args[1]);
+    }
+    free(path);
+    return(0);
+}
+void    print_env(t_list *envl)
+{
+    int i;
+
+    i = 0;
+    while(envl)
+    {
+        printf("%s\n", (char *)envl->content);
+        envl = envl->next;
+    }
+}
+t_list    *setup_env(char **env)
+{
+    t_list *envl;
+
+    envl = NULL; 
+
+    int i = 0;
+    while(env[i])
+    {
+        ft_lstadd_back(&envl, ft_lstnew(ft_substr(env[i], 0, ft_strlen(env[i]))));
+        i++;
+    } 
+    return(envl);
+}
+void print_export(t_list *exp_list)
+{
+    t_list  *head;
+    t_list  *tmp;
+    char    *temp;
+    
+    head = exp_list;
+    while (exp_list->next)
+    {
+        tmp = exp_list->next;
+        while(tmp)
+        {
+            if(ft_strncmp((char *)exp_list->content, (char *)tmp->content, ft_strlen((char *)exp_list->content)) > 0)
+            {
+                temp = (char *)exp_list->content;
+                exp_list->content = tmp->content;
+                tmp->content = temp;
+            }
+            tmp = tmp->next;
+        }
+        exp_list = exp_list->next;
+    }
+    while(head)
+    {
+        printf("%s\n", (char*)head->content);
+        head = head->next;
+    }
+}
+
+void export(t_list **envl, char *var_name, char *var_value)
+{
+    char    *tmp;
+    char    *str;
+    int     flag;
+    t_list  *exp_list;
+    t_list  *env;
+
+    env = *envl;
+    flag = 0;
+    exp_list = NULL;
+    while(env)
+    {
+        str = (char*)env->content;
+        ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
+        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
+        {
+            flag = 1;
+            tmp = str;
+            env->content = ft_strjoin(var_name, var_value);
+            free(tmp);
+        }
+        env = env->next;
+    }
+    if(!flag && var_name)
+        ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
+    if(!var_name)
+        print_export(exp_list);
+}
+//unset command
+void unset(t_list **envl, char *var_name)
+{
+    t_list  *env;
+    t_list  *prev;
+    
+    env = *envl;
+    prev = NULL;
+    while(env)
+    {
+        if(ft_strnstr((char*)env->content, var_name, ft_strlen(var_name)))
+        {
+            if(!prev)
+                (*envl) = env->next;
+            else
+                prev->next = env->next;
+            free(env->content);
+            free(env);
+            break;
+        }
+        prev = env;
+        env = env->next;
+    }
+}
 

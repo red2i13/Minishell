@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/12 10:56:48 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/12 16:27:55 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,17 @@ void run_cmd(t_token *head, char **env)
     else
         wait(0);     
 }
-
 int main(int argc, char **argv, char **env)
 {
     char    *line;
     char    **paths;
+    t_list *envl ;
 
     (void)argc;
     (void)argv;
     (void)paths;
     paths = split_paths(get_PATH(env));
+    envl= setup_env(env);
     // while (*paths)
     //     printf("%s\n", *paths++);
     while (1)
