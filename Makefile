@@ -18,7 +18,7 @@ $(NAME): $(OBJECTS) libft/libft.a
 	$(CC) $(CFLAGS)  -I$(LIBFT_DIR) -I$(INCLUDES) -o $@ $^  $(FLAGS)
 
 $(LIB)/libft.a:
-	$(MAKE) -C $(LIB) all
+	$(MAKE) -C $(LIB) all bonus
 
 $(SRC_DIR)/%.o: $(SRC_DIR)/%.c
 	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(INCLUDES) -c $< -o $@

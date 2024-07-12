@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/09 10:47:10 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:35:07 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,49 +69,62 @@ char *check_cmd(char *cmd, char **paths)
         error_func(errno, 2);
 		return(0);
 }
-int	check_quotes(char *cmd)
-{
-	int count; 
-	count = 0;
-
-	while(*cmd)
-	{
-		if(*cmd == '\'' || *cmd == '"')
-			count++;
-		cmd++;
-	}
-	return(count);
-}
-void split_quotes(char **args)
-{
-	int i ;
-	char *tmp;
-
-	i = 0;
-	while (args[i])
-	{
-		if(args[i][0] == '\'' || args[i][0] == '"')
-		{
-			tmp = args[i];
-			
-		}
-	}
-		
-}
-
 void	split_args(t_token *head)
 {
 	while (head)
 	{
 		if (ft_strnstr(head->type, "CMD", 3))
 		{
-			if(check_quotes(head->value) == 2 && (head->value[0] == '\'' || head->value[0] == '"'))
-				head->args = &head->value;
-			else
-				split_quotes(head->args);
+			head->args = ft_split(head->value, ' ');
 		}
 		else
 			head->args = NULL;
 		head = head->next;
 	}
 }
+// int	check_quotes(char *cmd)
+// {
+// 	int count; 
+// 	count = 0;
+
+// 	while(*cmd)
+// 	{
+// 		if(*cmd == '\'' || *cmd == '"')
+// 			count++;
+// 		cmd++;
+// 	}
+// 	return(count);
+// }
+// void split_quotes(char **args)
+// {
+// 	int i ;
+// 	char *tmp;
+
+// 	i = 0;
+// 	while (args[i])
+// 	{
+// 		if(args[i][0] == '\'' || args[i][0] == '"')
+// 		{
+// 			tmp = args[i];
+			
+// 		}
+// 	}
+		
+// }
+//
+// void	split_args(t_token *head)
+// {
+// 	while (head)
+// 	{
+// 		if (ft_strnstr(head->type, "CMD", 3))
+// 		{
+// 			if(check_quotes(head->value) == 2 && (head->value[0] == '\'' || head->value[0] == '"'))
+// 				head->args = &head->value;
+// 			else
+// 				split_quotes(head->args);
+// 		}
+// 		else
+// 			head->args = NULL;
+// 		head = head->next;
+// 	}
+// }
