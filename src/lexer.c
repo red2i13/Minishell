@@ -6,48 +6,75 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/11 12:07:12 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/12 10:40:24 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int count_op(char *cmd, char *op)
+void init_v1(t_token **head, int *size, int *i, int *j, char *line, char *type)
 {
-    int count;
-    int i;
-    char **scmd = ft_split(cmd, ' ');
-
-    count = 0;
-    i = 0;
-    while(scmd[i])
-    {
-        if(ft_strnstr(scmd[i], op, ft_strlen(scmd[i])))
-            count++;
-        i++;
-    }
-    return(count);
+    while (line[*j] == ' ')
+        *j += 1;
+    if (*size > 0)
+        add_back_t(head, create_token(ft_substr(line, *j, *size)));
+    add_back_t(head, create_token(ft_strdup(type)));
+    *size = 1;
+    *i += 1;
+    if (line[*i] == '>' || line[*i] == '<')
+        *i += 1;
+    *j = *i;
 }
-void    init_redirec(t_token **t,char *str, char *op)
+
+void init_q(t_token **head, int *size, int *i, int *j, char *line, char *type)
 {
-    char **tokens;
-    int i;
-    int count; 
-    
-    i = 0;
-    tokens = ft_split(str, op[0]);
-    count = count_op(str, op);
-    char *sign = ft_substr(op, 0, 2);
-    while(tokens[i])
+    if (*size > 0)
     {
-        
-        add_back_t(t, create_token(tokens[i]));
-        if (count)
-        {
-            add_back_t(t, create_token(sign));
-            count--;
-        }
-        i++;
+        while (line[*j] == ' ')
+            *j += 1;
+        add_back_t(head, create_token(ft_substr(line, *j, *size)));
+        *size = 0;
+        *i += 1;
+        *j = *i;
+    }
+    else
+    {
+        *i += 1;
+        *j = *i;
+    }
+    while (line[*i] != *type)
+    {
+        *size += 1;
+        *i += 1;
+    }
+    add_back_t(head, create_token(ft_substr(line, *j, *size)));
+    *size = 0;
+    *i += 1;
+    *j = *i;
+}
+
+
+void init_v2(t_token **head, int *size, int *i, int *j, char *line)
+{
+    if (line[*i] == '"')
+        init_q(head, size, i, j, line, "\"");
+    else if (line[*i] == '\'')
+        init_q(head, size, i, j, line, "'");
+    else if (line[*i] == '|')
+        init_v1(head, size, i, j, line, "|");
+    else if (line[*i] == '>' && line[*i+1] == '>')
+        init_v1(head, size, i, j, line, ">>");
+    else if (line[*i] == '<' && line[*i+1] == '<')
+        init_v1(head, size, i, j, line, "<<");
+    else if (line[*i] == '>')
+        init_v1(head, size, i, j, line, ">");
+    else if (line[*i] == '<')
+        init_v1(head, size, i, j, line, "<");
+    else 
+    {
+        if (line[*i] != ' ')
+            *size += 1;
+        *i += 1;
     }
 }
 
@@ -58,82 +85,13 @@ t_token *init_tokens(char *line)
     int j = i;
     t_token *head = NULL;
     while (line[i])
-    {
-        if (line[i] == '"')
-        {
-            if (size > 0)
-            {
-                add_back_t(&head, create_token(ft_substr(line, j, size)));
-                size = 0;
-                i++;
-                j = i;
-            }
-            else
-            {
-                i++;
-                j = i;
-            }
-            while (line[i] != '"')
-            {
-                size++;
-                i++;
-            }
-            add_back_t(&head, create_token(ft_substr(line, j, size)));
-            size = 0;
-            i++;
-            j = i;
-        }
-        else if (line[i] == '|')
-        {
-            if (size > 0 )
-                add_back_t(&head, create_token(ft_substr(line, j, size)));
-            add_back_t(&head, create_token(ft_strdup("|")));
-            size = 0;
-            i++;
-            j = i;
-        }
-        else if (line[i] == '>' && line[i+1] == '>')
-        {
-            add_back_t(&head, create_token(ft_substr(line, j, size)));
-            add_back_t(&head, create_token(ft_strdup(">>")));
-            size = 0;
-            i++;
-            i++;
-            j = i;
-        }
-        else if (line[i] == '<' && line[i+1] == '<')
-        {
-            add_back_t(&head, create_token(ft_substr(line, j, size)));
-            add_back_t(&head, create_token(ft_strdup("<<")));
-            size = 0;
-            i++;
-            i++;
-            j = i;
-        }
-        else if (line[i] == '>')
-        {
-            add_back_t(&head, create_token(ft_substr(line, j, size)));
-            add_back_t(&head, create_token(ft_strdup(">")));
-            size = 0;
-            i++;
-            j = i;
-        }
-        else if (line[i] == '<')
-        {
-            add_back_t(&head, create_token(ft_substr(line, j, size)));
-            add_back_t(&head, create_token(ft_strdup("<")));
-            size = 0;
-            i++;
-            j = i;
-        }
-        else 
-        {
-            size++;
-            i++;
-        }
-    }
+        init_v2(&head, &size, &i, &j, line);
     if (size > 0)
+    {
+        while (line[j] == ' ')
+            j++;
         add_back_t(&head, create_token(ft_substr(line, j, size)));
+    }
     return head;
 }
 
