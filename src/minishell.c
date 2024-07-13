@@ -6,11 +6,13 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/12 16:27:55 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/13 09:59:09 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int status_code;
 
 void run_cmd(t_token *head, char **env)
 {
@@ -37,9 +39,19 @@ int main(int argc, char **argv, char **env)
     envl= setup_env(env);
     // while (*paths)
     //     printf("%s\n", *paths++);
+    pid_t pid;
     while (1)
     {
         line = readline("Minishell$ ");
+        pid = fork();
+        if (!pid)
+        {
+            check_pipe(line);
+            exit(0);
+        }
+        else
+            wait(&status_code);
+        printf("%i\n", WEXITSTATUS(status_code));
         if (line[0] == '\0')
             continue;
         // print the args
