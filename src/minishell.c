@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/14 12:07:50 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/14 18:02:01 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ int main(int argc, char **argv, char **env)
             continue;
         // print the args
         t_token *head = init_tokens(ft_strtrim(line, " "));
+        head = init_tokens(join_tokens(head));
         add_t_type(head);
         split_args(head);
         // echo(head->args);
@@ -89,7 +90,6 @@ int main(int argc, char **argv, char **env)
         }
         // run_cmd(head, env);
         p_cmd(head);
-        
         add_history(line);
     }
     return (0);

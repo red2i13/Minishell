@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/14 13:26:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/14 14:45:12 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ t_token *create_token(char *value);
 size_t  size_list(t_token *head);
 void    list_clear(t_token *head);
 t_token *last_t(t_token *head);
+
 /*lexer.c*/
 t_token *init_tokens(char *cmd);
 void    add_t_type(t_token *head);
+char *join_tokens(t_token *head);
 
 /*builtin.c*/
 void    echo(char **cmd);

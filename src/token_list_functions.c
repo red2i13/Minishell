@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/14 13:24:54 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:58:27 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	add_back_t(t_token **head, t_token *new, int q)
 
 t_token *last_t(t_token *head)
 {
+	if (head == NULL)
+		return NULL;
 	while (head->next)
 		head = head->next;
 	return head;

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/14 13:26:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/14 18:01:48 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,16 @@ void init_v1(t_token **head, int *size, int *i, int *j, char *line, char *type)
 {
     while (line[*j] == ' ')
         *j += 1;
-    if (*size > 0 && last_t(*head)->q == 0)
-        add_back_t(head, create_token(ft_substr(line, *j, *size)), 0);
+    if (*size > 0)
+    {
+        if (*head != NULL)
+        {
+            if (last_t(*head)->q == 0)
+                add_back_t(head, create_token(ft_substr(line, *j, *size)), 0);
+        }
+        else
+            add_back_t(head, create_token(ft_substr(line, *j, *size)), 0);
+    }
     add_back_t(head, create_token(ft_strdup(type)), 0);
     *size = 0;
     *i += 1;
@@ -122,4 +130,16 @@ void add_t_type(t_token *head)
             head->type = c;
         head = head->next;
     }
+}
+
+
+char *join_tokens(t_token *head)
+{
+    char *join = ft_strdup("");
+    while (head)
+    {
+        join = ft_strjoin(join, head->value);
+        head = head->next;
+    }
+    return  join;
 }
