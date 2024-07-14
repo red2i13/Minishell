@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/13 09:59:09 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/14 09:32:04 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int main(int argc, char **argv, char **env)
         pid = fork();
         if (!pid)
         {
-            check_pipe(line);
+            check_syntax(line);
             exit(0);
         }
         else

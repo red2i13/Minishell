@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/13 09:38:03 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/14 09:31:57 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,6 @@ t_list  *setup_env(char **env);
 char    *fenv(t_list    *envl, char *str);
 
 /*checker.c*/
-void    check_pipe(char *line);
+void    check_syntax(char *line);
 
 #endif
