@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utlis.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/11 10:35:07 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/14 12:00:47 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,10 @@ void	split_args(t_token *head)
 {
 	while (head)
 	{
-		if (ft_strnstr(head->type, "CMD", 3))
+		printf("%i\n", head->q);
+		if (ft_strnstr(head->type, "CMD", 3) && head->q == 0)
 		{
-			head->args = ft_split(head->value, ' ');
+				head->args = ft_split(head->value, ' ');
 		}
 		else
 			head->args = NULL;

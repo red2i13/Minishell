@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/14 09:32:04 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/14 12:07:50 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,29 @@ void run_cmd(t_token *head, char **env)
     else
         wait(0);     
 }
+
+void p_cmd(t_token *head)
+{
+    int i = 0;
+    while (head)
+    {
+        printf("#########################\n");
+        printf("%i: Token => %s\n", i, head->value);
+        if (head->args != NULL)
+        {
+            for (int i = 0; head->args[i]; i++)
+            {
+                printf("arg[%i] => (%s)\n", i, head->args[i]);
+            }
+        }
+        else
+            printf("args => (%s)\n", "NULL");
+        printf("Type => %s\n", head->type);
+        i++;
+        head = head->next;
+    }
+}
+
 int main(int argc, char **argv, char **env)
 {
     char    *line;
@@ -55,34 +78,18 @@ int main(int argc, char **argv, char **env)
         if (line[0] == '\0')
             continue;
         // print the args
-        t_token *head = init_tokens(line);
+        t_token *head = init_tokens(ft_strtrim(line, " "));
         add_t_type(head);
         split_args(head);
         // echo(head->args);
-        // int i = 0;
         if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
         {
             if (head->args[1] != NULL)
                 exit(ft_atoi(head->args[1]));
         }
-        run_cmd(head, env);
-        // while (head)
-        // {
-        //     printf("#########################\n");
-        //     printf("%i: Token => %s\n", i, head->value);
-        //     if (head->args != NULL)
-        //     {
-        //         for (int i = 0; head->args[i]; i++)
-        //         {
-        //             printf("arg[%i] => %s\n", i, head->args[i]);
-        //         }
-        //     }
-        //     else
-        //         printf("args => %s\n", "NULL");
-        //     printf("Type => %s\n", head->type);
-        //     i++;
-        //     head = head->next;
-        // }
+        // run_cmd(head, env);
+        p_cmd(head);
+        
         add_history(line);
     }
     return (0);
