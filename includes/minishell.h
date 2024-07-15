@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/14 10:09:27 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/15 22:24:46 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # include<stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
+# include <stdbool.h>
 
 /*linkd list*/
 typedef struct s_token
@@ -32,6 +33,7 @@ typedef struct s_token
     char    *value;
     char    *type;
     char    **args;
+    int    q;
     struct s_token  *next;
     struct s_token  *prev;
 }       t_token;
@@ -45,18 +47,20 @@ void    split_args(t_token *head);
 
 /*error.c*/
 void    error_func(int errnum, int exit_num);
+void    error_exit(char *str, int exit_num);
 
 /*token_list_functions.c*/
-void	add_back_t(t_token **head, t_token *new);
+void	add_back_t(t_token **head, t_token *new, int q);
 t_token *create_token(char *value);
 size_t  size_list(t_token *head);
 void    list_clear(t_token *head);
+t_token *last_t(t_token *head);
 
 /*lexer.c*/
 t_token *init_tokens(char *cmd);
 void    add_t_type(t_token *head);
-void    init_redirec(t_token **t,char *str, char *op);
-int     count_op(char *cmd, char *op);
+char *join_tokens(t_token *head);
+
 /*builtin.c*/
 void    echo(char **cmd);
 void    print_env(t_list *envl);
@@ -68,6 +72,7 @@ t_list  *setup_env(char **env);
 char    *fenv(t_list    *envl, char *str);
 char **convert_to_array(t_list *envl);
 
-
+/*checker.c*/
+void    check_syntax(char *line);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/15 22:19:37 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/15 22:24:29 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,10 @@ void	split_args(t_token *head)
 {
 	while (head)
 	{
-		if (ft_strnstr(head->type, "CMD", 3))
+		printf("%i\n", head->q);
+		if (ft_strnstr(head->type, "CMD", 3) && head->q == 0)
 		{
-			head->args = ft_split(head->value, ' ');
+				head->args = ft_split(head->value, ' ');
 		}
 		else
 			head->args = NULL;
