@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/12 16:20:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/14 12:21:31 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void echo(char **cmd)
     int i ;
     int flag;
     int flag2;
+    
     i = 1;
     flag = 0;
     flag2 = 0;
@@ -198,4 +199,31 @@ void unset(t_list **envl, char *var_name)
         env = env->next;
     }
 }
+//Add some function
+char **convert_to_array(t_list *envl)
+{
+    int i;
+    char **cenv;
+    t_list *tmp;
+    
+    i  = 0;
+    tmp = envl;
+    while(tmp)
+    {
+        i++;
+        tmp = tmp->next;
+    }
+    cenv = (char **)malloc(sizeof(char *) * i + 1);
+    if(!cenv)
+        return(0);
+    i = 0;
+    while (envl)
+    {
+        cenv[i++] = (char *)envl->content;
+        envl = envl->next;
+    }
+    cenv[i] = 0;
+    return(cenv);
+}
+
 

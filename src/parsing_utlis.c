@@ -6,7 +6,11 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/15 16:12:14 by rbenmakh         ###   ########.fr       */
+<<<<<<< Updated upstream
+/*   Updated: 2024/07/15 16:30:58 by rbenmakh         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/14 10:11:41 by rbenmakh         ###   ########.fr       */
+>>>>>>> Stashed changes
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +25,7 @@ char *get_PATH(char **env)
 	path = NULL;
 	while (env[i])
 	{
-		path = ft_strnstr(env[i], "PATH", 4);
+		path = ft_strnstr(env[i], "PATH=", 5);
 		if (path)
 			break ;
 		i++;
@@ -65,9 +69,10 @@ char *check_cmd(char *cmd, char **paths)
 		free(tmp);
         i++;
     }
-    if(num == -1)
-        error_func(errno, 2);
-		return(0);
+	//if the command not found return 127 as exit code
+    // if(num == -1)
+    //     error_func(errno, 2);
+	return(0);
 }
 void	split_args(t_token *head)
 {
