@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/15 21:36:09 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/15 22:20:07 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void run_cmd(t_token *head, t_list **envl, char **paths)
     {
         if(ft_strnstr(head->args[0], "cd", 3))
             cd(head->args, envl);
-        // else if(ft_strnstr(head->args[0], "echo", 5))
-        //     echo("test");
+        else if(ft_strnstr(head->args[0], "echo", 5))
+            echo(head->args);
         else if(ft_strnstr(head->args[0], "export", 7))
             export(envl, head->args[1], head->args[2]);
         else if(ft_strnstr(head->args[0], "unset", 6))

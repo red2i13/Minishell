@@ -5,12 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-<<<<<<< Updated upstream
-/*   Updated: 2024/07/15 16:30:58 by rbenmakh         ###   ########.fr       */
-=======
-/*   Updated: 2024/07/14 10:11:41 by rbenmakh         ###   ########.fr       */
->>>>>>> Stashed changes
+/*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
+/*   Updated: 2024/07/15 22:19:37 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
