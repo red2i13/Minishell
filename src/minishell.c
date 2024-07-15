@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/15 22:24:23 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/15 22:47:47 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ int main(int argc, char **argv, char **env)
             exit(0);
         }
         else
-            wait(&status_code);
-        printf("%i\n", WEXITSTATUS(status_code));
+            wait(0);
+        //printf("%i\n", WEXITSTATUS(status_code));
         if (line[0] == '\0')
             continue;
         // print the args
