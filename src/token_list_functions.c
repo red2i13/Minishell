@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/02 12:58:26 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/14 15:58:27 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	add_back_t(t_token **head, t_token *new)
+void	add_back_t(t_token **head, t_token *new, int q)
 {
 	t_token *tmp;
 	if (!new)
@@ -20,13 +20,24 @@ void	add_back_t(t_token **head, t_token *new)
 	if (!head || !*head)
 	{
 		*head = new;
+		new->q = q;
 		return;
 	}
 	tmp = *head;
 	while (tmp->next)
 		tmp = tmp->next;
+	new->q = q;
 	tmp->next = new;
 	new->prev = tmp;
+}
+
+t_token *last_t(t_token *head)
+{
+	if (head == NULL)
+		return NULL;
+	while (head->next)
+		head = head->next;
+	return head;
 }
 
 t_token *create_token(char *value)

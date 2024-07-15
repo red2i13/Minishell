@@ -1,28 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   error.c                                            :+:      :+:    :+:   */
+/*   checker.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/29 10:19:25 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/13 09:45:02 by ysahraou         ###   ########.fr       */
+/*   Created: 2024/07/13 09:32:38 by ysahraou          #+#    #+#             */
+/*   Updated: 2024/07/14 09:31:46 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void error_func(int errnum, int exit_num)
-{
-    char *str_err;
-    
-    str_err = strerror(errnum);
-    printf("%s\n", str_err);
-    exit(exit_num);
-}
 
-void error_exit(char *str, int exit_num)
+void check_syntax(char *line)
 {
-    write(2, str, ft_strlen(str));
-    exit(exit_num);
+    if (line[0] == '|' || ft_strnstr(line, "||", ft_strlen(line)))
+        error_exit("Minishell: syntax error near unexpected token `|'\n", 2);
+    else if (ft_strnstr(line, ">>>", ft_strlen(line)))
+        error_exit("Minishell: syntax error near unexpected token `>'\n", 2);
+    else if (ft_strnstr(line, "<<<", ft_strlen(line)))
+        error_exit("Minishell: syntax error near unexpected token `<'\n", 2);
 }
