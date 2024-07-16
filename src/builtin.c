@@ -94,9 +94,6 @@ int    cd(char **args, t_list **envl)
 }
 void    print_env(t_list *envl)
 {
-    int i;
-
-    i = 0;
     while(envl)
     {
         printf("%s\n", (char *)envl->content);
@@ -158,38 +155,68 @@ void print_export(t_list *exp_list)
         head = head->next;
     }
 }
-
-void export(t_list **envl, char *var_name, char *var_value)
+void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     char    *tmp;
     char    *str;
     int     flag;
-    t_list  *exp_list;
-    t_list  *env;
+    t_list *tmpl;
 
-    env = *envl;
     flag = 0;
-    exp_list = NULL;
-    while(env)
+    tmpl = *exp_list;
+    while(tmpl)
     {
-        str = (char*)env->content;
-        ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
+        str = (char*)tmpl->content;
         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
         {
             flag = 1;
             tmp = str;
-            env->content = ft_strjoin(var_name, var_value);
+            tmpl->content = ft_strjoin(var_name, var_value);
             free(tmp);
         }
-        env = env->next;
+        tmpl = tmpl->next;
     }
     if(!flag && var_name)
         ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
+    else if(!var_value && var_name)
+        ft_lstadd_back(exp_list, ft_lstnew(ft_strdup(var_name)));
     if(!var_name)
         print_export(exp_list);
-    free(var_name);
-    free(var_value);
+    //free var_name and var_value
 }
+//old
+// void export(t_list **envl, char *var_name, char *var_value)
+// {
+//     char    *tmp;
+//     char    *str;
+//     int     flag;
+//     t_list  *exp_list;
+//     t_list  *env;
+
+//     env = *envl;
+//     flag = 0;
+//     exp_list = NULL;
+//     while(env)
+//     {
+//         str = (char*)env->content;
+//         ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
+//         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
+//         {
+//             flag = 1;
+//             tmp = str;
+//             env->content = ft_strjoin(var_name, var_value);
+//             free(tmp);
+//         }
+//         env = env->next;
+//     }
+//     if(!flag && var_name)
+//         ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
+//     else if(!var_value && var_name)
+
+//     if(!var_name)
+//         print_export(exp_list);
+//     //free var_name and var_value
+// }
 //unset command
 void unset(t_list **envl, char *var_name)
 {

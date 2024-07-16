@@ -33,15 +33,25 @@ void run_cmd(t_token *head, t_list **envl, char **paths)
             echo(head->args);
         else if(ft_strnstr(head->args[0], "export", 7))
         {
-            char *f = ft_strchr(head->args[1], '=');
-            printf("dfsdfsd\n");
+            char *f ;
+            f = NULL;
+            if(head->args[1])
+                f= ft_strchr(head->args[1], '=');
             char *var_value;
-            printf("9 %s\n", head->args[0]);
-            if(!f)
+            char *var_name;
+            if(!head->args[1])
+                var_name = NULL;
+            else if(!f)
+            {
+                var_name = ft_substr(head->args[1], 0, ft_strlen(head->args[1]));
                 var_value = ft_strdup("");
+            }
             else
+            {
+                var_name =  ft_substr(head->args[1], 0, f - head->args[1] + 1 );
                 var_value = ft_strdup(ft_strchr(head->args[1], '=') + 1);
-            export(envl, ft_substr(head->args[1], 0, (f != NULL) * (f - head->args[1] + 1) + (!f) * ft_strlen(head->args[1])), var_value);
+            }
+            export(envl,var_name, var_value);
         }
         else if(ft_strnstr(head->args[0], "unset", 6))
             unset(envl, head->args[1]);
@@ -89,19 +99,21 @@ int main(int argc, char **argv, char **env)
     envl= setup_env(env);
     // while (*paths)
     //     printf("%s\n", *paths++);
-    pid_t pid;
+    //pid_t pid;
     while (1)
     {
         line = readline("Minishell$ ");
-        pid = fork();
-        if (!pid)
-        {
-            check_syntax(line);
-            exit(0);
-        }
-        else
-            wait(0);
+//uncomment when finish debugging
+        // pid = fork();
+        // if (!pid)
+        // {
+        //     check_syntax(line);
+        //     exit(0);
+        // }
+        // else
+        //     wait(0);
         //printf("%i\n", WEXITSTATUS(status_code));
+        //
         if (line[0] == '\0')
             continue;
         // print the args
@@ -109,16 +121,12 @@ int main(int argc, char **argv, char **env)
         head = init_tokens(join_tokens(head));
         add_t_type(head);
         split_args(head);
-        // echo(head->args);
         if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
         {
             if (head->args[1] != NULL)
                 exit(ft_atoi(head->args[1]));
         }
-        // for(int k = 0;head->args[k]; k++)
-        // {
-        //     printf("t: %s\n", head->args[k]);
-        // }
+
         //DONE: add the function that run the command in while with the paths splited 
         run_cmd(head, &envl, split_paths(get_PATH(env)));
         // while (head)

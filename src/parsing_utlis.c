@@ -74,7 +74,6 @@ void	split_args(t_token *head)
 {
 	while (head)
 	{
-		printf("%i\n", head->q);
 		if (ft_strnstr(head->type, "CMD", 3) && head->q == 0)
 		{
 				head->args = ft_split(head->value, ' ');
