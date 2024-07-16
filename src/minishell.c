@@ -6,14 +6,14 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/16 13:06:48 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/16 23:10:41 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
 
-void run_cmd(t_token *head, t_list **envl, char **paths)
+void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int pid;
     char *cmd;
@@ -28,7 +28,7 @@ void run_cmd(t_token *head, t_list **envl, char **paths)
     if (!pid)
     {
         if(ft_strnstr(head->args[0], "cd", 3))
-            cd(head->args, envl);
+            cd(head->args, envl, exp_list);
         else if(ft_strnstr(head->args[0], "echo", 5))
             echo(head->args);
         else if(ft_strnstr(head->args[0], "export", 7))
@@ -39,19 +39,19 @@ void run_cmd(t_token *head, t_list **envl, char **paths)
                 f= ft_strchr(head->args[1], '=');
             char *var_value;
             char *var_name;
-            if(!head->args[1])
-                var_name = NULL;
-            else if(!f)
+            var_name = NULL;
+            var_value = NULL;
+            if(!f && var_name)
             {
                 var_name = ft_substr(head->args[1], 0, ft_strlen(head->args[1]));
                 var_value = ft_strdup("");
             }
-            else
+            else if(var_name)
             {
                 var_name =  ft_substr(head->args[1], 0, f - head->args[1] + 1 );
                 var_value = ft_strdup(ft_strchr(head->args[1], '=') + 1);
             }
-            export(envl,var_name, var_value);
+            export(exp_list,envl,var_name, var_value);
         }
         else if(ft_strnstr(head->args[0], "unset", 6))
             unset(envl, head->args[1]);
@@ -91,12 +91,14 @@ int main(int argc, char **argv, char **env)
     char    *line;
     char    **paths;
     t_list  *envl ;
+    t_list  *exp_list;
 
     (void)argc;
     (void)argv;
     (void)paths;
     paths = split_paths(get_PATH(env));
     envl= setup_env(env);
+    exp_list = setup_exp(envl);
     // while (*paths)
     //     printf("%s\n", *paths++);
     //pid_t pid;
@@ -128,7 +130,7 @@ int main(int argc, char **argv, char **env)
         }
 
         //DONE: add the function that run the command in while with the paths splited 
-        run_cmd(head, &envl, split_paths(get_PATH(env)));
+        run_cmd(head, &envl, &exp_list,split_paths(get_PATH(env)));
         // while (head)
         // {
         //     printf("#########################\n");
