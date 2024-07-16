@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/15 22:24:46 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/16 10:04:52 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <fcntl.h>
-# include<stdlib.h>
+# include <stdlib.h>
 # include <string.h>
 # include <sys/wait.h>
 # include <stdbool.h>

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/15 22:47:47 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/16 13:06:48 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ void run_cmd(t_token *head, t_list **envl, char **paths)
     cmd = check_cmd(head->args[0], paths);
     // if(!cmd)
     //     return ;
-    //printf("dubuug %s\n", head->args[0]);
     pid = fork();
     if (!pid)
     {
@@ -33,7 +32,17 @@ void run_cmd(t_token *head, t_list **envl, char **paths)
         else if(ft_strnstr(head->args[0], "echo", 5))
             echo(head->args);
         else if(ft_strnstr(head->args[0], "export", 7))
-            export(envl, head->args[1], head->args[2]);
+        {
+            char *f = ft_strchr(head->args[1], '=');
+            printf("dfsdfsd\n");
+            char *var_value;
+            printf("9 %s\n", head->args[0]);
+            if(!f)
+                var_value = ft_strdup("");
+            else
+                var_value = ft_strdup(ft_strchr(head->args[1], '=') + 1);
+            export(envl, ft_substr(head->args[1], 0, (f != NULL) * (f - head->args[1] + 1) + (!f) * ft_strlen(head->args[1])), var_value);
+        }
         else if(ft_strnstr(head->args[0], "unset", 6))
             unset(envl, head->args[1]);
         else if(ft_strnstr(head->args[0], "env", 4))

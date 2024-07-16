@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/14 12:21:31 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/16 12:03:24 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,19 @@ t_list    *setup_env(char **env)
     } 
     return(envl);
 }
+t_list  *setup_exp(t_list   *envl)
+{
+    t_list  *exp_list;
+    char    *str;
+    exp_list = NULL;
+    while(envl)
+    {
+        str = (char*)envl->content;
+        ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
+        envl = envl->next;
+    }
+    return(envl);
+}
 void print_export(t_list *exp_list)
 {
     t_list  *head;
@@ -174,6 +187,8 @@ void export(t_list **envl, char *var_name, char *var_value)
         ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
     if(!var_name)
         print_export(exp_list);
+    free(var_name);
+    free(var_value);
 }
 //unset command
 void unset(t_list **envl, char *var_name)
