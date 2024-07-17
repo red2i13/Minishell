@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/16 23:10:41 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:47:41 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,14 +39,15 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
                 f= ft_strchr(head->args[1], '=');
             char *var_value;
             char *var_name;
+            
             var_name = NULL;
             var_value = NULL;
-            if(!f && var_name)
+            if(!f && head->args[1])
             {
                 var_name = ft_substr(head->args[1], 0, ft_strlen(head->args[1]));
-                var_value = ft_strdup("");
+                //var_value = ft_strdup("");
             }
-            else if(var_name)
+            else if(f && head->args[1])
             {
                 var_name =  ft_substr(head->args[1], 0, f - head->args[1] + 1 );
                 var_value = ft_strdup(ft_strchr(head->args[1], '=') + 1);
@@ -127,6 +128,8 @@ int main(int argc, char **argv, char **env)
         {
             if (head->args[1] != NULL)
                 exit(ft_atoi(head->args[1]));
+            else
+                exit(0);
         }
 
         //DONE: add the function that run the command in while with the paths splited 

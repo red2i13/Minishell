@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/16 22:43:55 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/17 12:40:18 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ t_list  *setup_exp(t_list   *envl)
         ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
         envl = envl->next;
     }
-    return(envl);
+    return(exp_list);
 }
 void print_export(t_list *exp_list)
 {
@@ -167,6 +167,8 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     while(tmpl)
     {
         str = (char*)tmpl->content;
+        //debug
+        printf("debug str %s\n", str);
         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
         {
             flag = 1;
@@ -179,63 +181,32 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     //search for export list
     t_list *tmpl2;
     int flag2;
+    
     flag2 = 0;
     tmpl2 = *exp_list;
     while(tmpl2)
     {
         str = (char*)tmpl2->content;
-        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
+        if(var_name && ft_strnstr(str, var_name,  ft_strlen(var_name) - !ft_strchr(var_name, '=') * 1))
         {
-            flag = 1;
+            flag2 = 1;
             tmp = str;
             tmpl2->content = ft_strjoin(var_name, var_value);
             free(tmp);
         }
         tmpl2 = tmpl2->next;
     }
-    if(!flag && var_name)
-        ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
-    if(!flag && var_name)
-        ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, var_value)));
-    else if(!var_value && var_name)
+    if(!var_value && var_name)
         ft_lstadd_back(exp_list, ft_lstnew(ft_strdup(var_name)));
+    if(!flag && var_name && var_value)
+        ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
+    if(!flag2 && var_name && var_value)
+        ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, var_value)));
     if(!var_name)
         print_export(*exp_list);
     //free var_name and var_value
 }
-//old
-// void export(t_list **envl, char *var_name, char *var_value)
-// {
-//     char    *tmp;
-//     char    *str;
-//     int     flag;
-//     t_list  *exp_list;
-//     t_list  *env;
 
-//     env = *envl;
-//     flag = 0;
-//     exp_list = NULL;
-//     while(env)
-//     {
-//         str = (char*)env->content;
-//         ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
-//         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
-//         {
-//             flag = 1;
-//             tmp = str;
-//             env->content = ft_strjoin(var_name, var_value);
-//             free(tmp);
-//         }
-//         env = env->next;
-//     }
-//     if(!flag && var_name)
-//         ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
-//     else if(!var_value && var_name)
-
-//     if(!var_name)
-//         print_export(exp_list);
-//     //free var_name and var_value
-// }
 //unset command
 void unset(t_list **envl, char *var_name)
 {
