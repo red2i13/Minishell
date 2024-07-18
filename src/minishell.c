@@ -55,7 +55,10 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             export(exp_list,envl,var_name, var_value);
         }
         else if(ft_strnstr(head->args[0], "unset", 6))
+        {
             unset(envl, head->args[1]);
+            unset(exp_list, head->args[1]); 
+        }
         else if(ft_strnstr(head->args[0], "env", 4))
             print_env(*envl);
         else
@@ -127,7 +130,7 @@ int main(int argc, char **argv, char **env)
         if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
         {
             if (head->args[1] != NULL)
-                exit(ft_atoi(head->args[1]));
+                exit(ft_atoi(head->args[1]) % 256);
             else
                 exit(0);
         }

@@ -22,6 +22,7 @@ int check_nl(char *s)
     }
     return(0);
 }
+//fix the new line opriotn
 void echo(char **cmd)
 {
     int i ;
@@ -33,13 +34,15 @@ void echo(char **cmd)
     flag2 = 0;
     while(cmd[i])
     {
-        if(cmd[i][0] == '-' && !check_nl(&cmd[i][1]) && !flag2)
+        if(flag2 && cmd[i][0] == '-' && !check_nl(&cmd[i][1]))
         {
             flag = 1;
         }
         else
         {
             flag2 = 1;
+            if(i > 1)
+                printf(" ");
             printf("%s", cmd[i]);
         }
         i++;
@@ -155,6 +158,29 @@ void print_export(t_list *exp_list)
         head = head->next;
     }
 }
+int find_var(t_list **list, char *var_name, char *var_value)
+{
+    char    *tmp;
+    char    *str;
+    int     flag;
+    t_list *tmpl;
+
+    flag = 0;
+    tmpl = *list;
+    while(tmpl)
+    {
+        str = (char*)tmpl->content;
+        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
+        {
+            flag = 1;
+            tmp = str;
+            tmpl->content = ft_strjoin(var_name, var_value);
+            free(tmp);
+        }
+        tmpl = tmpl->next;
+    }
+    return(flag);
+}
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     char    *tmp;
@@ -167,8 +193,6 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     while(tmpl)
     {
         str = (char*)tmpl->content;
-        //debug
-        printf("debug str %s\n", str);
         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
         {
             flag = 1;
@@ -187,7 +211,8 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     while(tmpl2)
     {
         str = (char*)tmpl2->content;
-        if(var_name && ft_strnstr(str, var_name,  ft_strlen(var_name) - !ft_strchr(var_name, '=') * 1))
+
+        if(var_name && ft_strnstr(str, var_name,  ft_strlen(var_name)))
         {
             flag2 = 1;
             tmp = str;
@@ -197,7 +222,7 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
         tmpl2 = tmpl2->next;
     }
     if(!var_value && var_name)
-        ft_lstadd_back(exp_list, ft_lstnew(ft_strdup(var_name)));
+        ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
     if(!flag && var_name && var_value)
         ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
     if(!flag2 && var_name && var_value)
