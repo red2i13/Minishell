@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/17 12:47:41 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:49:13 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,50 +22,49 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     env= convert_to_array(*envl);
     //make exit function with 2 states run in child and in the main process
     cmd = check_cmd(head->args[0], paths);
-    // if(!cmd)
-    //     return ;
-    pid = fork();
-    if (!pid)
+
+    if(ft_strnstr(head->args[0], "cd", 3))
+        cd(head->args, envl, exp_list);
+    else if(ft_strnstr(head->args[0], "echo", 5))
+        echo(head->args);
+    else if(ft_strnstr(head->args[0], "export", 7))
     {
-        if(ft_strnstr(head->args[0], "cd", 3))
-            cd(head->args, envl, exp_list);
-        else if(ft_strnstr(head->args[0], "echo", 5))
-            echo(head->args);
-        else if(ft_strnstr(head->args[0], "export", 7))
+        char *f ;
+        f = NULL;
+        if(head->args[1])
+            f= ft_strchr(head->args[1], '=');
+        char *var_value;
+        char *var_name;
+        
+        var_name = NULL;
+        var_value = NULL;
+        if(!f && head->args[1])
         {
-            char *f ;
-            f = NULL;
-            if(head->args[1])
-                f= ft_strchr(head->args[1], '=');
-            char *var_value;
-            char *var_name;
-            
-            var_name = NULL;
-            var_value = NULL;
-            if(!f && head->args[1])
-            {
-                var_name = ft_substr(head->args[1], 0, ft_strlen(head->args[1]));
-                //var_value = ft_strdup("");
-            }
-            else if(f && head->args[1])
-            {
-                var_name =  ft_substr(head->args[1], 0, f - head->args[1] + 1 );
-                var_value = ft_strdup(ft_strchr(head->args[1], '=') + 1);
-            }
-            export(exp_list,envl,var_name, var_value);
+            var_name = ft_substr(head->args[1], 0, ft_strlen(head->args[1]));
+            //var_value = ft_strdup("");
         }
-        else if(ft_strnstr(head->args[0], "unset", 6))
+        else if(f && head->args[1])
         {
-            unset(envl, head->args[1]);
-            unset(exp_list, head->args[1]); 
+            var_name =  ft_substr(head->args[1], 0, f - head->args[1] + 1 );
+            var_value = ft_strdup(ft_strchr(head->args[1], '=') + 1);
         }
-        else if(ft_strnstr(head->args[0], "env", 4))
-            print_env(*envl);
-        else
-            execve(cmd, head->args, env);
+        export(exp_list,envl,var_name, var_value);
     }
+    else if(ft_strnstr(head->args[0], "unset", 6))
+    {
+        unset(envl, head->args[1]);
+        unset(exp_list, head->args[1]); 
+    }
+    else if(ft_strnstr(head->args[0], "env", 4))
+        print_env(*envl);
     else
-        wait(0);  
+    {
+        pid = fork();
+        if(!pid)
+            execve(cmd, head->args, env);
+        else
+            wait(0);  
+    }
 }
 
 void p_cmd(t_token *head)
