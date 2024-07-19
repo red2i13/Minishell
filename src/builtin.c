@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/12 16:20:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/18 13:04:43 by younesssahr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,6 @@ int    cd(char **args, t_list **envl)
 }
 void    print_env(t_list *envl)
 {
-    int i;
-
-    i = 0;
     while(envl)
     {
         printf("%s\n", (char *)envl->content);
