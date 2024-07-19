@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/19 10:49:13 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/19 13:13:06 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,13 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     int pid;
     char *cmd;
     char **env ;
+    (void)pid;
     
     env= convert_to_array(*envl);
-    //make exit function with 2 states run in child and in the main process
+    //make exit function with 2n states run in child and in the main process
     cmd = check_cmd(head->args[0], paths);
-
+    if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
+            ft_exit(head->args[1]);
     if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
     else if(ft_strnstr(head->args[0], "echo", 5))
@@ -50,12 +52,12 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         }
         export(exp_list,envl,var_name, var_value);
     }
-    else if(ft_strnstr(head->args[0], "unset", 6))
+    else if(ft_strnstr(head->args[0], "unset", 4))
     {
         unset(envl, head->args[1]);
         unset(exp_list, head->args[1]); 
     }
-    else if(ft_strnstr(head->args[0], "env", 4))
+    else if(ft_strnstr(head->args[0], "env", 2))
         print_env(*envl);
     else
     {
@@ -126,13 +128,15 @@ int main(int argc, char **argv, char **env)
         head = init_tokens(join_tokens(head));
         add_t_type(head);
         split_args(head);
-        if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
-        {
-            if (head->args[1] != NULL)
-                exit(ft_atoi(head->args[1]) % 256);
-            else
-                exit(0);
-        }
+        
+
+        // if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
+        // {
+        //     if (head->args[1] != NULL)
+        //         exit(ft_atoi(head->args[1]) % 256);
+        //     else
+        //         exit(0);
+        // }
 
         //DONE: add the function that run the command in while with the paths splited 
         run_cmd(head, &envl, &exp_list,split_paths(get_PATH(env)));

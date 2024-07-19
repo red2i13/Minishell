@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/17 10:03:39 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/19 12:56:42 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ t_list  *setup_env(char **env);
 t_list  *setup_exp(t_list   *envl);
 char    *fenv(t_list    *envl, char *str);
 char **convert_to_array(t_list *envl);
+void    ft_exit(char *val);
 
 /*checker.c*/
 void    check_syntax(char *line);
