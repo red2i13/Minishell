@@ -6,7 +6,7 @@
 /*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/18 13:15:52 by younesssahr      ###   ########.fr       */
+/*   Updated: 2024/07/19 17:22:44 by younesssahr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ char *join_tokens(t_token *head)
     while (head)
     {
         join = ft_strjoin(join, head->value);
+        join = ft_strjoin(join, " ");
         head = head->next;
     }
     return  join;

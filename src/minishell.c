@@ -6,7 +6,7 @@
 /*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/18 13:13:29 by younesssahr      ###   ########.fr       */
+/*   Updated: 2024/07/19 17:22:07 by younesssahr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv, char **env)
             continue;
         // print the args
         t_token *head = init_tokens(ft_strtrim(line, " "));
-        // head = init_tokens(join_tokens(head));
+        head = init_tokens(join_tokens(head));
         add_t_type(head);
         split_args(head);
         // echo(head->args);
