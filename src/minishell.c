@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/20 23:43:53 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:44:51 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,16 +124,24 @@ int main(int argc, char **argv, char **env)
 { 
     char    *line;
     char    **paths;
+<<<<<<< HEAD
     t_list  *envl ;
     t_list  *exp_list;
+=======
+    // t_list *envl ;
+>>>>>>> main
 
     (void)argc;
     (void)argv;
     (void)paths;
     signal_setup();
     paths = split_paths(get_PATH(env));
+<<<<<<< HEAD
     envl= setup_env(env);
     exp_list = setup_exp(envl);
+=======
+    // envl= setup_env(env);
+>>>>>>> main
     // while (*paths)
     //     printf("%s\n", *paths++);
     //pid_t pid;

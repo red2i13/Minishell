@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/14 18:01:48 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/19 17:22:44 by younesssahr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void init_v1(t_token **head, int *size, int *i, int *j, char *line, char *type)
     *size = 0;
     *i += 1;
     if (line[*i] == '>' || line[*i] == '<')
+        *i += 1;
+    while (line[*i] == ' ')
         *i += 1;
     *j = *i;
 }
@@ -80,7 +82,6 @@ void init_v2(t_token **head, int *size, int *i, int *j, char *line)
         init_v1(head, size, i, j, line, "<");
     else 
     {
-        // if (line[*i] != ' ')
             *size += 1;
         *i += 1;
     }
@@ -139,6 +140,7 @@ char *join_tokens(t_token *head)
     while (head)
     {
         join = ft_strjoin(join, head->value);
+        join = ft_strjoin(join, " ");
         head = head->next;
     }
     return  join;

@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/20 23:42:29 by rbenmakh         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/18 13:04:43 by younesssahr      ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
