@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/19 12:56:42 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:45:35 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
 # include <string.h>
 # include <sys/wait.h>
 # include <stdbool.h>
-
+# include <signal.h>
 /*linkd list*/
 typedef struct s_token
 {

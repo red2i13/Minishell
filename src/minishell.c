@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/19 13:13:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:38:29 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     env= convert_to_array(*envl);
     //make exit function with 2n states run in child and in the main process
     cmd = check_cmd(head->args[0], paths);
+    // if(!cmd)
+    //     return;
     if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
             ft_exit(head->args[1]);
     if(ft_strnstr(head->args[0], "cd", 3))
@@ -63,7 +65,16 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     {
         pid = fork();
         if(!pid)
-            execve(cmd, head->args, env);
+        {
+            if(execve(cmd, head->args, env) == -1)
+            {
+                //use perror of strerror function
+                //perror("Error ");
+                // char *error = strerror(errno);
+                // printf("debug %s\n", error);
+                exit(127);
+            }
+        }
         else
             wait(0);  
     }
@@ -90,7 +101,25 @@ void p_cmd(t_token *head)
         head = head->next;
     }
 }
+//funcitons for signals
+void sighandler(int signum) 
+{
+    if(signum == SIGINT)
+    {
+        rl_replace_line("", 0);
+        rl_redisplay();
+        write(STDOUT_FILENO, "\n", 1);
+        printf("Minishell$ ");
+    }
+}
 
+void signal_setup()
+{
+    signal(SIGINT, sighandler);
+    signal(SIGQUIT, sighandler);
+    //signal(EOF, sighandler);
+}
+//
 int main(int argc, char **argv, char **env)
 { 
     char    *line;
@@ -101,6 +130,7 @@ int main(int argc, char **argv, char **env)
     (void)argc;
     (void)argv;
     (void)paths;
+    signal_setup();
     paths = split_paths(get_PATH(env));
     envl= setup_env(env);
     exp_list = setup_exp(envl);
@@ -110,7 +140,7 @@ int main(int argc, char **argv, char **env)
     while (1)
     {
         line = readline("Minishell$ ");
-//uncomment when finish debugging
+        //uncomment when finish debugging
         // pid = fork();
         // if (!pid)
         // {
@@ -121,6 +151,11 @@ int main(int argc, char **argv, char **env)
         //     wait(0);
         //printf("%i\n", WEXITSTATUS(status_code));
         //
+        if(!line)
+        {
+            printf("Exit\n");
+            ft_exit(0);
+        }
         if (line[0] == '\0')
             continue;
         // print the args

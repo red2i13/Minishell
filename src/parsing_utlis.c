@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/15 22:24:29 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/20 21:38:58 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,33 @@ char	**split_paths(char *paths)
 	free(first_part);
 	return (the_paths);
 }
+int	check_builtin(char *cmd)
+{
+	char *str;
 
+	str = "cd";
+	if(!ft_strncmp(cmd, str, 3))
+		return(0);
+	str = "pwd";
+	if(!ft_strncmp(cmd, str, 4))
+		return(0);
+	str = "export";
+	if(!ft_strncmp(cmd, str, 7))
+		return(0);
+	str = "unset";
+	if(!ft_strncmp(cmd, str, 6))
+		return(0);
+	str = "env";
+	if(!ft_strncmp(cmd, str, 4))
+		return(0);
+	str = "echo";
+	if(!ft_strncmp(cmd, str, 5))
+		return(0);
+	str = "exit";
+	if(!ft_strncmp(cmd, str, 5))
+		return(0);
+	return(1);
+}
 char *check_cmd(char *cmd, char **paths)
 {
     int num; 
@@ -66,8 +92,12 @@ char *check_cmd(char *cmd, char **paths)
         i++;
     }
 	//if the command not found return 127 as exit code
-    // if(num == -1)
-    //     error_func(errno, 2);
+    if(num == -1 && check_builtin(cmd))
+	{
+        //this function should store the exit code if the command is not found
+		printf("$: command not found: %s\n", cmd);
+		//error_func(errno, 127);
+	}
 	return(0);
 }
 void	split_args(t_token *head)

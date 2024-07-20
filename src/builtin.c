@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/19 13:00:37 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:37:33 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,21 +28,21 @@ void echo(char **cmd)
     int i ;
     int flag;
     int flag2;
-    
+    //fixed new line 
     i = 1;
     flag = 0;
     flag2 = 0;
     while(cmd[i])
     {
-        if(flag2 && cmd[i][0] == '-' && !check_nl(&cmd[i][1]))
+        if(!flag2 && cmd[i][0] == '-' && !check_nl(&cmd[i][1]))
         {
             flag = 1;
         }
         else
         {
-            flag2 = 1;
-            if(i > 1)
+            if(i > 1 && flag2)
                 printf(" ");
+            flag2 = 1;
             printf("%s", cmd[i]);
         }
         i++;
@@ -242,7 +242,7 @@ void unset(t_list **envl, char *var_name)
     prev = NULL;
     while(env)
     {
-        if(ft_strnstr((char*)env->content, var_name, ft_strlen(var_name)))
+        if(ft_strncmp((char*)env->content, var_name, ft_strlen(var_name)))
         {
             if(!prev)
                 (*envl) = env->next;
@@ -284,9 +284,8 @@ char **convert_to_array(t_list *envl)
 }
 void    ft_exit(char *val)
 {
-    // if (val != NULL)
-    //     exit(ft_atoi(val) % 256);
-    // else
-    (void)val;
+    if (val != NULL)
+        exit(ft_atoi(val) % 256);
+    else
         exit(0);
 }
