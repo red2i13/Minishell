@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/20 23:37:33 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/20 23:42:29 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,8 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     while(tmpl)
     {
         str = (char*)tmpl->content;
+        //debug
+        printf("debug str %s\n", str);
         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
         {
             flag = 1;
@@ -208,8 +210,10 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     
     flag2 = 0;
     tmpl2 = *exp_list;
+    //printf("******check %lu\n", ft_strlen(var_name) - (!ft_strchr(var_name, '=')) * 1);
     while(tmpl2)
     {
+        printf("str (%s)\n", str);
         str = (char*)tmpl2->content;
 
         if(var_name && ft_strnstr(str, var_name,  ft_strlen(var_name)))
