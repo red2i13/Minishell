@@ -6,7 +6,7 @@
 /*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/19 16:50:20 by younesssahr       #+#    #+#             */
-/*   Updated: 2024/07/19 17:40:55 by younesssahr      ###   ########.fr       */
+/*   Updated: 2024/07/20 12:23:27 by younesssahr      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ char  *heredoc(char *end)
         if (ft_strnstr(line, end, ft_strlen(end)) != 0)
             break;
         str = ft_strjoin(str, line);
+        free(line);
     }
     return str;
 }
