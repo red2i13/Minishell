@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/21 10:12:33 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:23:21 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,15 @@ char    *fenv(t_list    *envl, char *str)
 int    cd(char **args, t_list **envl, t_list **exp_list)
 {
     char *path;
-
+    
     path =NULL;
+    if(args[2])
+        return(write(2, "cd: string not is pwd\n", 23), 1);
     if (!args[1] || args[1][0] == '~')
     {
         path = fenv(*envl, "HOME=");
+        if(!path)
+            return(write(2, "cd: HOME not set", 17), 1);
         export(exp_list, envl, "OLDPWD=", pwd(0));
         chdir(path + 5);
     }
@@ -90,7 +94,11 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
     else
     {
         export(exp_list, envl, "OLDPWD=", pwd(0));
-        chdir(args[1]);
+        if(chdir(args[1]))
+        {
+            printf("cd: %s ", args[1]);
+            error_func(errno, 1);
+        }
     }
     free(path);
     return(0);
@@ -194,7 +202,7 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     {
         str = (char*)tmpl->content;
         //debug
-        printf("debug str %s\n", str);
+        //printf("debug str %s\n", str);
         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
         {
             flag = 1;
@@ -213,7 +221,7 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     //printf("******check %lu\n", ft_strlen(var_name) - (!ft_strchr(var_name, '=')) * 1);
     while(tmpl2)
     {
-        printf("str (%s)\n", str);
+        // printf("str (%s)\n", str);
         str = (char*)tmpl2->content;
 
         if(var_name && ft_strnstr(str, var_name,  ft_strlen(var_name)))

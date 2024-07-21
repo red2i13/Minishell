@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/21 10:12:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:34:11 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,10 @@ void sighandler(int signum)
 {
     if(signum == SIGINT)
     {
-        rl_replace_line("", 0);
+        //rl_replace_line("", 0);
         rl_redisplay();
-        write(STDOUT_FILENO, "\n", 1);
-        printf("Minishell$ ");
+        //write(STDOUT_FILENO, "\n", 1);
+        //printf("Minishell$ ");
     }
 }
 
