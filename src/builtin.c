@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/21 11:23:21 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/22 15:48:23 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,12 +249,12 @@ void unset(t_list **envl, char *var_name)
 {
     t_list  *env;
     t_list  *prev;
-    
+
     env = *envl;
     prev = NULL;
     while(env)
     {
-        if(ft_strncmp((char*)env->content, var_name, ft_strlen(var_name)))
+        if(!ft_strncmp((char*)env->content, var_name, ft_strlen(var_name)))
         {
             if(!prev)
                 (*envl) = env->next;
@@ -268,6 +268,7 @@ void unset(t_list **envl, char *var_name)
         env = env->next;
     }
 }
+
 //Add some function
 char **convert_to_array(t_list *envl)
 {

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/21 12:34:11 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:12:13 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,12 +54,12 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         }
         export(exp_list,envl,var_name, var_value);
     }
-    else if(ft_strnstr(head->args[0], "unset", 4))
+    else if(ft_strnstr(head->args[0], "unset", 6))
     {
         unset(envl, head->args[1]);
         unset(exp_list, head->args[1]); 
     }
-    else if(ft_strnstr(head->args[0], "env", 2))
+    else if(ft_strnstr(head->args[0], "env", 4))
         print_env(*envl);
     else
     {
@@ -106,33 +106,33 @@ void sighandler(int signum)
 {
     if(signum == SIGINT)
     {
-        //rl_replace_line("", 0);
+        write(1, "\n", 1);
+        rl_replace_line("", 0);
+        rl_on_new_line();
         rl_redisplay();
-        //write(STDOUT_FILENO, "\n", 1);
-        //printf("Minishell$ ");
     }
 }
 
 void signal_setup()
 {
     signal(SIGINT, sighandler);
-    signal(SIGQUIT, sighandler);
+    signal(SIGQUIT, SIG_IGN);
     //signal(EOF, sighandler);
 }
 //
 int main(int argc, char **argv, char **env)
 { 
     char    *line;
-    char    **paths;
+    //char    **paths;
     t_list  *envl ;
     t_list  *exp_list;
 
     (void)argc;
     (void)argv;
-    (void)paths;
+    //(void)paths;
     signal_setup();
-    paths = split_paths(get_PATH(env));
     envl= setup_env(env);
+    //paths = split_paths(get_PATH(envl));
     exp_list = setup_exp(envl);
     while (1)
     {
@@ -171,7 +171,7 @@ int main(int argc, char **argv, char **env)
         // }
 
         //DONE: add the function that run the command in while with the paths splited 
-        run_cmd(head, &envl, &exp_list,split_paths(get_PATH(env)));
+        run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
         // while (head)
         // {
         //     printf("#########################\n");

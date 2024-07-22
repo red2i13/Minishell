@@ -6,29 +6,45 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/20 21:38:58 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/22 17:20:26 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_PATH(char **env)
+// char *get_PATH(char **env)
+// {
+// 	char	*path;
+// 	int		i;
+
+// 	i = 0;
+// 	path = NULL;
+// 	while (env[i])
+// 	{
+// 		path = ft_strnstr(env[i], "PATH=", 5);
+// 		if (path)
+// 			break ;
+// 		i++;
+// 	}
+// 	return path;
+// }
+//2nd version
+char *get_PATH(t_list *envl)
 {
 	char	*path;
 	int		i;
 
 	i = 0;
 	path = NULL;
-	while (env[i])
+	while (envl)
 	{
-		path = ft_strnstr(env[i], "PATH=", 5);
+		path = ft_strnstr((char*)envl->content, "PATH=", 5);
 		if (path)
 			break ;
-		i++;
+		envl = envl->next;
 	}
 	return path;
 }
-
 char	**split_paths(char *paths)
 {
 	int		i;
@@ -80,6 +96,8 @@ char *check_cmd(char *cmd, char **paths)
     char *tmp;
     i= 0;
     num = -1;
+	if(!paths)
+		return(NULL);
     while(paths[i])
     {
 		tmp = ft_strjoin( "/", cmd);
