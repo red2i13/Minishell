@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/22 15:48:23 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:09:59 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,21 @@ int find_var(t_list **list, char *var_name, char *var_value)
     }
     return(flag);
 }
+int check_var(char *var_name)
+{
+    int i ;
+    
+    i = 0;
+    while(var_name[i])
+    {
+        if(!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_')))
+        {
+            return (1);  
+        }
+        i++;
+    }
+    return(0);
+}
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     char    *tmp;
@@ -198,6 +213,18 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 
     flag = 0;
     tmpl = *envl;
+    //check for var_name
+    // if(var_name && (!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_')))
+    // {
+    //     write(2, "export: not a valid identifier\n",32);
+    //     return ;
+    // }
+    if(var_name && check_var(var_name + 1))
+    {
+        write(2, "export: not a valid identifier\n",32);
+        return ;  
+    }
+    //
     while(tmpl)
     {
         str = (char*)tmpl->content;
@@ -252,6 +279,7 @@ void unset(t_list **envl, char *var_name)
 
     env = *envl;
     prev = NULL;
+    var_name = ft_strjoin(var_name, "=");
     while(env)
     {
         if(!ft_strncmp((char*)env->content, var_name, ft_strlen(var_name)))
@@ -267,6 +295,7 @@ void unset(t_list **envl, char *var_name)
         prev = env;
         env = env->next;
     }
+    free(var_name);
 }
 
 //Add some function

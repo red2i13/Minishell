@@ -6,13 +6,13 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/22 17:12:13 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/23 19:12:26 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../includes/minishell.h"
-
+//fix the command if is it in the path
 void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int pid;
