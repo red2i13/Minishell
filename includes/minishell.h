@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/24 12:50:12 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:31:02 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,8 @@ typedef struct s_token
 /*parsing_utils.c*/
 char    **split_paths(char *paths);
 char    *check_cmd(char *cmd, char **paths);
-// char    *get_PATH(char **env);
-//2nd version of get_path
 char *get_PATH(t_list *envl);
-void    split_args(t_token *head);
+void    split_args(t_token *head, t_list *envl);
 
 /*error.c*/
 void    error_func(int errnum, int exit_num);
@@ -78,5 +76,6 @@ void    ft_exit(char *val);
 
 /*checker.c*/
 void    check_syntax(char *line);
-
+/*expander.c*/
+void ft_expand(char **cmd, t_list *envl);
 #endif

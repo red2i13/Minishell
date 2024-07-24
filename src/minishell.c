@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/24 12:50:00 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 21:31:34 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,16 +123,13 @@ void signal_setup()
 int main(int argc, char **argv, char **env)
 { 
     char    *line;
-    //char    **paths;
     t_list  *envl ;
     t_list  *exp_list;
 
     (void)argc;
     (void)argv;
-    //(void)paths;
     signal_setup();
     envl= setup_env(env);
-    //paths = split_paths(get_PATH(envl));
     exp_list = setup_exp(envl);
     while (1)
     {
@@ -159,36 +156,11 @@ int main(int argc, char **argv, char **env)
         t_token *head = init_tokens(ft_strtrim(line, " "));
         head = init_tokens(join_tokens(head));
         add_t_type(head);
-        split_args(head);
+        split_args(head, envl);
         
-
-        // if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
-        // {
-        //     if (head->args[1] != NULL)
-        //         exit(ft_atoi(head->args[1]) % 256);
-        //     else
-        //         exit(0);
-        // }
-
         //DONE: add the function that run the command in while with the paths splited 
         run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
-        // while (head)
-        // {
-        //     printf("#########################\n");
-        //     printf("%i: Token => %s\n", i, head->value);
-        //     if (head->args != NULL)
-        //     {
-        //         for (int i = 0; head->args[i]; i++)
-        //         {
-        //             printf("arg[%i] => %s\n", i, head->args[i]);
-        //         }
-        //     }
-        //     else
-        //         printf("args => %s\n", "NULL");
-        //     printf("Type => %s\n", head->type);
-        //     i++;
-        //     head = head->next;
-        // }
+        //p_cmd(head);
         add_history(line);
     }
     return (0);
