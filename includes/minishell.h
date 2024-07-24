@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/23 16:23:44 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:50:12 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void    print_env(t_list *envl);
 int     cd(char **args, t_list **envl, t_list **exp_list);
 char*   pwd(int i);
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value);
-void    unset(t_list **envl, char *var_name);
+void    unset(t_list **envl, char *var_name, int flag);
 t_list  *setup_env(char **env);
 t_list  *setup_exp(t_list   *envl);
 char    *fenv(t_list    *envl, char *str);

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/23 19:12:26 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:50:00 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     }
     else if(ft_strnstr(head->args[0], "unset", 6))
     {
-        unset(envl, head->args[1]);
-        unset(exp_list, head->args[1]); 
+        unset(envl, head->args[1], 0);
+        unset(exp_list, head->args[1], 1); 
     }
     else if(ft_strnstr(head->args[0], "env", 4))
         print_env(*envl);

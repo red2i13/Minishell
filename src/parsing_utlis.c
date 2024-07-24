@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/23 19:14:03 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:38:15 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ char *check_cmd(char *cmd, char **paths)
     {
 		tmp = ft_strjoin( "/", cmd);
         tmp = ft_strjoin(paths[i], tmp);
-        //printf("%s\n", tmp);
         num = access(tmp, F_OK | X_OK);
 		if(!num)
 			return(tmp);

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/23 19:09:59 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:52:02 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,9 +194,9 @@ int check_var(char *var_name)
     int i ;
     
     i = 0;
-    while(var_name[i])
+    while(var_name[i+1])
     {
-        if(!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_')))
+        if(!ft_isalnum(var_name[i]) && var_name[i] != '_')
         {
             return (1);  
         }
@@ -204,62 +204,39 @@ int check_var(char *var_name)
     }
     return(0);
 }
-void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
+int search_var_replace(t_list **list, char *var_name, char *var_value)
 {
     char    *tmp;
     char    *str;
-    int     flag;
     t_list *tmpl;
 
-    flag = 0;
-    tmpl = *envl;
-    //check for var_name
-    // if(var_name && (!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_')))
-    // {
-    //     write(2, "export: not a valid identifier\n",32);
-    //     return ;
-    // }
-    if(var_name && check_var(var_name + 1))
-    {
-        write(2, "export: not a valid identifier\n",32);
-        return ;  
-    }
-    //
+    tmpl = *list;
     while(tmpl)
     {
         str = (char*)tmpl->content;
-        //debug
-        //printf("debug str %s\n", str);
         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
         {
-            flag = 1;
             tmp = str;
             tmpl->content = ft_strjoin(var_name, var_value);
             free(tmp);
+            return(1);
         }
         tmpl = tmpl->next;
     }
-    //search for export list
-    t_list *tmpl2;
-    int flag2;
-    
-    flag2 = 0;
-    tmpl2 = *exp_list;
-    //printf("******check %lu\n", ft_strlen(var_name) - (!ft_strchr(var_name, '=')) * 1);
-    while(tmpl2)
-    {
-        // printf("str (%s)\n", str);
-        str = (char*)tmpl2->content;
+    return(0);
+}
+void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
+{
+    int     flag;
+    int     flag2;
 
-        if(var_name && ft_strnstr(str, var_name,  ft_strlen(var_name)))
-        {
-            flag2 = 1;
-            tmp = str;
-            tmpl2->content = ft_strjoin(var_name, var_value);
-            free(tmp);
-        }
-        tmpl2 = tmpl2->next;
+    if(var_name && (!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_') || (check_var(var_name + 1))))
+    {
+        write(2, "export: not a valid identifier\n",32);
+        return ;
     }
+    flag = search_var_replace(envl, var_name, var_value);
+    flag2 = search_var_replace(exp_list, var_name, var_value);
     if(!var_value && var_name)
         ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
     if(!flag && var_name && var_value)
@@ -272,7 +249,7 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 }
 
 //unset command
-void unset(t_list **envl, char *var_name)
+void unset(t_list **envl, char *var_name, int flag)
 {
     t_list  *env;
     t_list  *prev;
@@ -280,6 +257,18 @@ void unset(t_list **envl, char *var_name)
     env = *envl;
     prev = NULL;
     var_name = ft_strjoin(var_name, "=");
+    if(!var_name)
+    {
+        if(!flag)
+            write(2, "unset: not enough arguments\n", 29);
+        return ;
+    }
+    else if(check_var(var_name) && !flag)
+    {
+        if(!flag)
+            write(2, "unset: invalid parameter name\n", 31);
+        return ;
+    }
     while(env)
     {
         if(!ft_strncmp((char*)env->content, var_name, ft_strlen(var_name)))
