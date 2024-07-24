@@ -6,13 +6,19 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:56:16 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/24 12:56:57 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:53:17 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void ft_expand(char *str)
+void ft_expand(char **cmd)
 {
-    
+    int i;
+
+    i = 0;
+    while(cmd[i])
+    {
+        if()
+    }   
 }
