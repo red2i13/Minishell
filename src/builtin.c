@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/24 12:52:02 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/24 12:55:49 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,6 +225,7 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
     }
     return(0);
 }
+//add the case of a =3 b=4 and c=7
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     int     flag;
