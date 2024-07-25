@@ -27,6 +27,8 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <signal.h>
+# include "get_next_line.h"
+
 /*linkd list*/
 typedef struct s_token
 {
