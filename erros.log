@@ -1,0 +1,8 @@
+//case1 problem in parssing 
+when excuting the command export "" it should give export -> empty string -> NULL
+//case2 problem in parssing
+when excuting the commnad echo "dffsdf""fsdfsdf" it should join the two string it print it
+//case3 problem with export when given two prams or greater it should each one as one var
+//case4 check the var_name in export command and unset command
+//case5 discover segfault command(echo "fdfdsfsd" "fdfds")
+//case6 the command > "ls " should not excute there is an error in the parsing the arge should contain "ls " -> "NULL"

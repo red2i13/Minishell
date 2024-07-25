@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/18 13:04:43 by younesssahr      ###   ########.fr       */
+/*   Updated: 2024/07/24 12:55:49 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,22 +22,26 @@ int check_nl(char *s)
     }
     return(0);
 }
+//fix the new line opriotn
 void echo(char **cmd)
 {
     int i ;
     int flag;
     int flag2;
+    //fixed new line 
     i = 1;
     flag = 0;
     flag2 = 0;
     while(cmd[i])
     {
-        if(cmd[i][0] == '-' && !check_nl(&cmd[i][1]) && !flag2)
+        if(!flag2 && cmd[i][0] == '-' && !check_nl(&cmd[i][1]))
         {
             flag = 1;
         }
         else
         {
+            if(i > 1 && flag2)
+                printf(" ");
             flag2 = 1;
             printf("%s", cmd[i]);
         }
@@ -65,28 +69,36 @@ char    *fenv(t_list    *envl, char *str)
     return(NULL);
 }
 
-int    cd(char **args, t_list **envl)
+int    cd(char **args, t_list **envl, t_list **exp_list)
 {
     char *path;
-
+    
     path =NULL;
+    if(args[2])
+        return(write(2, "cd: string not is pwd\n", 23), 1);
     if (!args[1] || args[1][0] == '~')
     {
         path = fenv(*envl, "HOME=");
-        export(envl, "OLDPWD=", pwd(0));
+        if(!path)
+            return(write(2, "cd: HOME not set", 17), 1);
+        export(exp_list, envl, "OLDPWD=", pwd(0));
         chdir(path + 5);
     }
     else if(args[1][0] == '-')
     {
         path = fenv(*envl, "OLDPWD=");
-        export(envl, "OLDPWD=", pwd(0));
+        export(exp_list, envl, "OLDPWD=", pwd(0));
         chdir(path + 7);
         pwd(1);
     }
     else
     {
-        export(envl, "OLDPWD=", pwd(0));
-        chdir(args[1]);
+        export(exp_list, envl, "OLDPWD=", pwd(0));
+        if(chdir(args[1]))
+        {
+            printf("cd: %s ", args[1]);
+            error_func(errno, 1);
+        }
     }
     free(path);
     return(0);
@@ -112,6 +124,19 @@ t_list    *setup_env(char **env)
         i++;
     } 
     return(envl);
+}
+t_list  *setup_exp(t_list   *envl)
+{
+    t_list  *exp_list;
+    char    *str;
+    exp_list = NULL;
+    while(envl)
+    {
+        str = (char*)envl->content;
+        ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
+        envl = envl->next;
+    }
+    return(exp_list);
 }
 void print_export(t_list *exp_list)
 {
@@ -141,47 +166,113 @@ void print_export(t_list *exp_list)
         head = head->next;
     }
 }
-
-void export(t_list **envl, char *var_name, char *var_value)
+int find_var(t_list **list, char *var_name, char *var_value)
 {
     char    *tmp;
     char    *str;
     int     flag;
-    t_list  *exp_list;
-    t_list  *env;
+    t_list *tmpl;
 
-    env = *envl;
     flag = 0;
-    exp_list = NULL;
-    while(env)
+    tmpl = *list;
+    while(tmpl)
     {
-        str = (char*)env->content;
-        ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str))));
+        str = (char*)tmpl->content;
         if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
         {
             flag = 1;
             tmp = str;
-            env->content = ft_strjoin(var_name, var_value);
+            tmpl->content = ft_strjoin(var_name, var_value);
             free(tmp);
         }
-        env = env->next;
+        tmpl = tmpl->next;
     }
-    if(!flag && var_name)
-        ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
-    if(!var_name)
-        print_export(exp_list);
+    return(flag);
 }
+int check_var(char *var_name)
+{
+    int i ;
+    
+    i = 0;
+    while(var_name[i+1])
+    {
+        if(!ft_isalnum(var_name[i]) && var_name[i] != '_')
+        {
+            return (1);  
+        }
+        i++;
+    }
+    return(0);
+}
+int search_var_replace(t_list **list, char *var_name, char *var_value)
+{
+    char    *tmp;
+    char    *str;
+    t_list *tmpl;
+
+    tmpl = *list;
+    while(tmpl)
+    {
+        str = (char*)tmpl->content;
+        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
+        {
+            tmp = str;
+            tmpl->content = ft_strjoin(var_name, var_value);
+            free(tmp);
+            return(1);
+        }
+        tmpl = tmpl->next;
+    }
+    return(0);
+}
+//add the case of a =3 b=4 and c=7
+void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
+{
+    int     flag;
+    int     flag2;
+
+    if(var_name && (!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_') || (check_var(var_name + 1))))
+    {
+        write(2, "export: not a valid identifier\n",32);
+        return ;
+    }
+    flag = search_var_replace(envl, var_name, var_value);
+    flag2 = search_var_replace(exp_list, var_name, var_value);
+    if(!var_value && var_name)
+        ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
+    if(!flag && var_name && var_value)
+        ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
+    if(!flag2 && var_name && var_value)
+        ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, var_value)));
+    if(!var_name)
+        print_export(*exp_list);
+    //free var_name and var_value
+}
+
 //unset command
-void unset(t_list **envl, char *var_name)
+void unset(t_list **envl, char *var_name, int flag)
 {
     t_list  *env;
     t_list  *prev;
-    
+
     env = *envl;
     prev = NULL;
+    var_name = ft_strjoin(var_name, "=");
+    if(!var_name)
+    {
+        if(!flag)
+            write(2, "unset: not enough arguments\n", 29);
+        return ;
+    }
+    else if(check_var(var_name) && !flag)
+    {
+        if(!flag)
+            write(2, "unset: invalid parameter name\n", 31);
+        return ;
+    }
     while(env)
     {
-        if(ft_strnstr((char*)env->content, var_name, ft_strlen(var_name)))
+        if(!ft_strncmp((char*)env->content, var_name, ft_strlen(var_name)))
         {
             if(!prev)
                 (*envl) = env->next;
@@ -194,5 +285,39 @@ void unset(t_list **envl, char *var_name)
         prev = env;
         env = env->next;
     }
+    free(var_name);
 }
 
+//Add some function
+char **convert_to_array(t_list *envl)
+{
+    int i;
+    char **cenv;
+    t_list *tmp;
+    
+    i  = 0;
+    tmp = envl;
+    while(tmp)
+    {
+        i++;
+        tmp = tmp->next;
+    }
+    cenv = (char **)malloc(sizeof(char *) * i + 1);
+    if(!cenv)
+        return(0);
+    i = 0;
+    while (envl)
+    {
+        cenv[i++] = (char *)envl->content;
+        envl = envl->next;
+    }
+    cenv[i] = 0;
+    return(cenv);
+}
+void    ft_exit(char *val)
+{
+    if (val != NULL)
+        exit(ft_atoi(val) % 256);
+    else
+        exit(0);
+}

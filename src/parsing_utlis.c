@@ -3,32 +3,48 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utlis.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/28 18:30:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/14 12:00:47 by ysahraou         ###   ########.fr       */
+/*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
+/*   Updated: 2024/07/24 21:31:54 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char *get_PATH(char **env)
+// char *get_PATH(char **env)
+// {
+// 	char	*path;
+// 	int		i;
+
+// 	i = 0;
+// 	path = NULL;
+// 	while (env[i])
+// 	{
+// 		path = ft_strnstr(env[i], "PATH=", 5);
+// 		if (path)
+// 			break ;
+// 		i++;
+// 	}
+// 	return path;
+// }
+//2nd version
+char *get_PATH(t_list *envl)
 {
 	char	*path;
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	path = NULL;
-	while (env[i])
+	while (envl)
 	{
-		path = ft_strnstr(env[i], "PATH", 4);
+		path = ft_strnstr((char*)envl->content, "PATH=", 5);
 		if (path)
 			break ;
-		i++;
+		envl = envl->next;
 	}
 	return path;
 }
-
 char	**split_paths(char *paths)
 {
 	int		i;
@@ -46,37 +62,72 @@ char	**split_paths(char *paths)
 	free(first_part);
 	return (the_paths);
 }
+int	check_builtin(char *cmd)
+{
+	char *str;
 
+	str = "cd";
+	if(!ft_strncmp(cmd, str, 3))
+		return(0);
+	str = "pwd";
+	if(!ft_strncmp(cmd, str, 4))
+		return(0);
+	str = "export";
+	if(!ft_strncmp(cmd, str, 7))
+		return(0);
+	str = "unset";
+	if(!ft_strncmp(cmd, str, 6))
+		return(0);
+	str = "env";
+	if(!ft_strncmp(cmd, str, 4))
+		return(0);
+	str = "echo";
+	if(!ft_strncmp(cmd, str, 5))
+		return(0);
+	str = "exit";
+	if(!ft_strncmp(cmd, str, 5))
+		return(0);
+	return(1);
+}
 char *check_cmd(char *cmd, char **paths)
 {
     int num; 
     int i ;
     char *tmp;
-    i= 0;
+    
+	i = 0;
     num = -1;
+	if(!paths)
+		return(NULL);
+	else if(!access(cmd,F_OK | X_OK))
+		return(cmd);
     while(paths[i])
     {
 		tmp = ft_strjoin( "/", cmd);
         tmp = ft_strjoin(paths[i], tmp);
-        //printf("%s\n", tmp);
         num = access(tmp, F_OK | X_OK);
 		if(!num)
 			return(tmp);
 		free(tmp);
         i++;
     }
-    if(num == -1)
-        error_func(errno, 2);
-		return(0);
+	//if the command not found return 127 as exit code
+    if(num == -1 && check_builtin(cmd))
+	{
+        //this function should store the exit code if the command is not found
+		printf("$: command not found: %s\n", cmd);
+		//error_func(errno, 127);
+	}
+	return(0);
 }
-void	split_args(t_token *head)
+void	split_args(t_token *head, t_list *envl)
 {
 	while (head)
 	{
-		printf("%i\n", head->q);
 		if (ft_strnstr(head->type, "CMD", 3) && head->q == 0)
 		{
 				head->args = ft_split(head->value, ' ');
+				ft_expand(head->args, envl);
 		}
 		else
 			head->args = NULL;

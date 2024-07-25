@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/29 10:19:25 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/13 09:45:02 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/07/21 11:23:03 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ void error_func(int errnum, int exit_num)
     
     str_err = strerror(errnum);
     printf("%s\n", str_err);
-    exit(exit_num);
+    (void)exit_num;
+    //fix: if i run cd in the main process the shell exit
+    //exit(exit_num);
 }
 
 void error_exit(char *str, int exit_num)

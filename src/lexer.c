@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: younesssahraoui <younesssahraoui@studen    +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 11:12:48 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/19 17:22:44 by younesssahr      ###   ########.fr       */
+/*   Updated: 2024/07/24 19:37:02 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void init_v2(t_token **head, int *size, int *i, int *j, char *line)
         init_v1(head, size, i, j, line, "<");
     else 
     {
-            *size += 1;
+        *size += 1;
         *i += 1;
     }
 }
