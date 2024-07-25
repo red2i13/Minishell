@@ -32,9 +32,9 @@
 char *get_PATH(t_list *envl)
 {
 	char	*path;
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	path = NULL;
 	while (envl)
 	{

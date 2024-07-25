@@ -24,14 +24,19 @@ void ft_expand(char **cmd, t_list *envl)
     while(cmd[i])
     {
         if(cmd[i][0] != '$' || (cmd[i][0] == '$' && cmd[i][1] == '\0'))
+        {
+            i++;
             continue;
+        }
         else if(cmd[i][0] == '$' && cmd[i][1] == '!')
             printf("handle this dumbass\n");
         else if(cmd[i][0] == '$' && ft_isalpha(cmd[i][1]))
         {
-            env = fenv(envl, &cmd[i][1]);
             tmp = cmd[i];
-            cmd[i] = env;
+            env = fenv(envl, &cmd[i][1]);
+            if(!env)
+                cmd[i] = NULL;
+            cmd[i] = ft_strchr(env, '=') + 1;
             free(tmp);
         }
         i++;
