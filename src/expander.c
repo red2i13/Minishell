@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:56:16 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/07/24 21:33:16 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/07/25 11:17:12 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,10 @@ void ft_expand(char **cmd, t_list *envl)
             tmp = cmd[i];
             env = fenv(envl, &cmd[i][1]);
             if(!env)
+            {
                 cmd[i] = NULL;
+                return ;
+            }
             cmd[i] = ft_strchr(env, '=') + 1;
             free(tmp);
         }
