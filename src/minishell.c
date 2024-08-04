@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/30 11:03:16 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/02 17:05:01 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,14 +20,11 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char **env ;
     (void)pid;
     
-    env= convert_to_array(*envl);
-    //make exit function with 2n states run in child and in the main process
+    env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
-    // if(!cmd)
-    //     return;
     if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
             ft_exit(head->args[1]);
-    if(ft_strnstr(head->args[0], "cd", 3))
+    else if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
     else if(ft_strnstr(head->args[0], "echo", 5))
         echo(head->args);
@@ -48,7 +45,7 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             var_name = NULL;
             var_value = NULL;
             if(!f && head->args[i])
-            {
+            { 
                 var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
                 //var_value = ft_strdup("");
             }
@@ -169,6 +166,7 @@ int main(int argc, char **argv, char **env)
         //DONE: add the function that run the command in while with the paths splited 
         run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
         //p_cmd(head);
+        //UPDATE PWD : get the current path
         add_history(line);
     }
     return (0);
