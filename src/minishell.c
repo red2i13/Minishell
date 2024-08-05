@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/02 17:05:01 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:36:43 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,16 @@ void signal_setup()
     signal(SIGQUIT, SIG_IGN);
     //signal(EOF, sighandler);
 }
+int check_pipe(t_token *list)
+{
+    while(list)
+    {
+        if(list->value[0] == '|')
+            return(1);
+        list = list->next;
+    }
+    return(0);
+}
 //
 int main(int argc, char **argv, char **env)
 { 
@@ -164,7 +174,11 @@ int main(int argc, char **argv, char **env)
         split_args(head, envl);
         
         //DONE: add the function that run the command in while with the paths splited 
-        run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+        //check if normal command or pipe
+        if(check_pipe(head))
+            exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
+        else
+            run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
         //p_cmd(head);
         //UPDATE PWD : get the current path
         add_history(line);

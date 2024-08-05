@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/04 22:28:11 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:44:39 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,28 +25,40 @@ int calc_pipes(t_token *list)
     }
     return(p);
 }
-int *init_pipes(int p)
+int **init_pipes(int p)
 {
-    int *fdt;
+    int **fdt;
     int i;
 
     i = 0;
-    fdt = (int*)malloc(sizeof(int) * p * 2);
+    fdt = (int**)malloc(sizeof(int*) * p);
     if(!fdt)
         return(0);
-    while(p)
+    while(i < p)
     {
-        pipe(fdt + i++ * 2);
-        p -= 1;
+        fdt[i] = malloc(sizeof(int) * 2);
+        if(pipe(fdt[i]) == -1)
+        {
+            //exit if the pipes are note created 
+            (void)fdt;
+        }
+        i++;
     }
-    //
-    // for(int k = 0; k < i * 2; k++)
-    // {
-    //     printf("eee %i\n", fdt[k]);
-    //     close(fdt[k]);
-    // }
+ 
     return(fdt);
 }
+// int main()
+// {
+//     int p = 6;   
+//     int **fdt = init_pipes(p);
+//     for(int k = 0; k < p; k++)
+//     {
+//         printf("eee %i\n", fdt[k][0]);
+//         printf("bbb %i\n", fdt[k][1]);
+//         close(fdt[k][0]);
+//         close(fdt[k][1]);
+//     }
+// }
 void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int pid;
@@ -108,39 +120,51 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         exit(127);
     }
 }
-int exec_pipes(int p, int *fdt, t_token *head, t_list **envl, t_list **exp_list ,char **paths)
+int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int i;
     int pid;
-    char *cmd;
-    char **env ;
+    int pid1;
     
-    env = convert_to_array(*envl);
-    cmd = check_cmd(head->args[0], paths);
+    int p = calc_pipes(head);
+    int **fdt = init_pipes(p);
     i = 0;
     
-    int k = 1;
     while(i < p)
     {
-        pid = fork();
-        if(!pid)
+        if(!(pid = fork()))
         {
-            //1 3 5 7 9 
-            //change the output to the pipe
-            dup2(fdt[k], 1);
-            close(fdt[k]);
-            close(fdt[k -1]);
+            if(i != p -1)
+            {
+                dup2(fdt[i][1], STDOUT_FILENO);
+                close(fdt[i][1]);
+            }
+            if(i > 0)
+            {
+                dup2(fdt[i-1][0], STDIN_FILENO);
+                close(fdt[i -1][0]);
+            }
             run(head, envl, exp_list, paths);
-            head = head->next->next;
         }
-        else
+        head = head->next->next;
+        if(!(pid1 = fork()))   
         {
-            wait(0);
-            dup2(fdt[k -1], 0);
-            close(fdt[k]);
-            close(fdt[i -1]);
+            if(i != p -1)
+            {
+                dup2(fdt[i][1], STDOUT_FILENO);
+                close(fdt[i][1]);
+            }
+            dup2(fdt[i -1][0], STDIN_FILENO);
+            close(fdt[i -1][0]);
+            run(head, envl, exp_list, paths);
         }
-        k += 2;
+        //close unused file descriptor 
+        
+        int status;
+        waitpid(pid, &status, 0);
+        waitpid(pid1, &status, 0);
+
         i++;
     }
+    return(1);
 }

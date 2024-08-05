@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/24 21:31:02 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:35:28 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,6 @@ void    ft_exit(char *val);
 void    check_syntax(char *line);
 /*expander.c*/
 void ft_expand(char **cmd, t_list *envl);
+/*pipes.c*/
+int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
 #endif
