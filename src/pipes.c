@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/05 22:44:39 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/06 18:40:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,19 +124,19 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int i;
     int pid;
-    int pid1;
-    
+    //int status;    
     int p = calc_pipes(head);
     int **fdt = init_pipes(p);
-    i = 0;
-    
-    while(i < p)
+   
+    i = 0; 
+    while(i <= p)
     {
         if(!(pid = fork()))
         {
-            if(i != p -1)
+            if(i != p)
             {
                 dup2(fdt[i][1], STDOUT_FILENO);
+                close(fdt[i][0]);
                 close(fdt[i][1]);
             }
             if(i > 0)
@@ -145,26 +145,22 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
                 close(fdt[i -1][0]);
             }
             run(head, envl, exp_list, paths);
+            exit(0);
         }
-        head = head->next->next;
-        if(!(pid1 = fork()))   
+        else
         {
-            if(i != p -1)
-            {
-                dup2(fdt[i][1], STDOUT_FILENO);
-                close(fdt[i][1]);
-            }
-            dup2(fdt[i -1][0], STDIN_FILENO);
-            close(fdt[i -1][0]);
-            run(head, envl, exp_list, paths);
+            if (i > 0)
+                close(fdt[i - 1][0]);
+            if(i < p)
+                close(fdt[i][1]);  
         }
-        //close unused file descriptor 
-        
-        int status;
-        waitpid(pid, &status, 0);
-        waitpid(pid1, &status, 0);
-
+        if(head->next)
+            head = head->next->next;
         i++;
     }
-    return(1);
+    while(wait(0) == 0)
+    {   
+    }
+    return(0);
 }
+
