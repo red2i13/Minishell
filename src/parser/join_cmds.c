@@ -6,11 +6,11 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 08:10:13 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/06 14:40:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:33:52 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 int count_cmd(char **arr)
 {
