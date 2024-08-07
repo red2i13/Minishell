@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 12:40:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:29:32 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,12 @@ t_token *last_t(t_token *head)
 	return head;
 }
 
-t_token *create_token(char *value)
+t_token *create_token(char **args)
 {
     t_token *token;
     
     token = malloc(sizeof(t_token));
-    token->value = value;
+    token->args = args;
     token->next = NULL;
     token->prev	= NULL;
     return (token);
