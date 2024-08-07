@@ -6,11 +6,11 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 06:30:10 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/06 16:41:20 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/07 12:33:40 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../../includes/minishell.h"
 
 char **cmds_trim(char *line, int *i, char **arr)
 {
