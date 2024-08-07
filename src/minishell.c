@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/07/24 21:31:34 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/05 22:36:43 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,39 +20,43 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char **env ;
     (void)pid;
     
-    env= convert_to_array(*envl);
-    //make exit function with 2n states run in child and in the main process
+    env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
-    // if(!cmd)
-    //     return;
     if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
             ft_exit(head->args[1]);
-    if(ft_strnstr(head->args[0], "cd", 3))
+    else if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
     else if(ft_strnstr(head->args[0], "echo", 5))
         echo(head->args);
     else if(ft_strnstr(head->args[0], "export", 7))
     {
-        char *f ;
-        f = NULL;
-        if(head->args[1])
-            f= ft_strchr(head->args[1], '=');
-        char *var_value;
-        char *var_name;
-        
-        var_name = NULL;
-        var_value = NULL;
-        if(!f && head->args[1])
+        int i = 1;
+        if(!head->args[1])
+            export(exp_list, envl, NULL, NULL);
+        while (head->args[i])
         {
-            var_name = ft_substr(head->args[1], 0, ft_strlen(head->args[1]));
-            //var_value = ft_strdup("");
+            char *f ;
+            f = NULL;
+            if(head->args[i])
+                f= ft_strchr(head->args[i], '=');
+            char *var_value;
+            char *var_name;
+            
+            var_name = NULL;
+            var_value = NULL;
+            if(!f && head->args[i])
+            { 
+                var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
+                //var_value = ft_strdup("");
+            }
+            else if(f && head->args[i])
+            {
+                var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );
+                var_value = ft_strdup(ft_strchr(head->args[i], '=') + 1);
+            }
+            export(exp_list,envl,var_name, var_value);
+            i++;
         }
-        else if(f && head->args[1])
-        {
-            var_name =  ft_substr(head->args[1], 0, f - head->args[1] + 1 );
-            var_value = ft_strdup(ft_strchr(head->args[1], '=') + 1);
-        }
-        export(exp_list,envl,var_name, var_value);
     }
     else if(ft_strnstr(head->args[0], "unset", 6))
     {
@@ -119,6 +123,16 @@ void signal_setup()
     signal(SIGQUIT, SIG_IGN);
     //signal(EOF, sighandler);
 }
+int check_pipe(t_token *list)
+{
+    while(list)
+    {
+        if(list->value[0] == '|')
+            return(1);
+        list = list->next;
+    }
+    return(0);
+}
 //
 int main(int argc, char **argv, char **env)
 { 
@@ -131,6 +145,7 @@ int main(int argc, char **argv, char **env)
     signal_setup();
     envl= setup_env(env);
     exp_list = setup_exp(envl);
+    //export(exp_list, envl, "SHLVL=", +1)
     while (1)
     {
         line = readline("Minishell$ ");
@@ -159,8 +174,13 @@ int main(int argc, char **argv, char **env)
         split_args(head, envl);
         
         //DONE: add the function that run the command in while with the paths splited 
-        run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+        //check if normal command or pipe
+        if(check_pipe(head))
+            exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
+        else
+            run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
         //p_cmd(head);
+        //UPDATE PWD : get the current path
         add_history(line);
     }
     return (0);
