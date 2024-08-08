@@ -1,7 +1,7 @@
 #Dont forget to delet the -g flag
 CFLAGS = -Wall -Wextra -Werror -g
 FLAGS = -lreadline
-PARSER =   check_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c token_list_functions.c
+PARSER =   check_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c token_list_functions.c init_tokens.c
 SOURCES = src/minishell.c
 SOURCES += $(addprefix $(SRC_DIR_P)/, $(PARSER))
 OBJECTS = $(SOURCES:.c=.o)
