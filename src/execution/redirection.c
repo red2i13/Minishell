@@ -6,13 +6,13 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/06 18:41:17 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:52:56 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+// #include "../../includes/minishell.h"
 
-int redirection(char *filename)
-{
+// int redirection(char *filename)
+// {
 	
-}
+// }

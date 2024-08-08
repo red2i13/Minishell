@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 19:27:27 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:51:10 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,12 @@ void    ft_exit(char *val);
 
 /*pipes.c*/
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
-
+/*exec.c*/
+int check_pipe(t_token *list);
+void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
+char *get_PATH(t_list *envl);
+char	**split_paths(char *paths);
+int	check_builtin(char *cmd);
+void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
+char *check_cmd(char *cmd, char **paths);
 #endif

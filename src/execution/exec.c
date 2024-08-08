@@ -3,16 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 12:38:59 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/08 20:52:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//fix the command if is it in the path
+char *check_cmd(char *cmd, char **paths)
+{
+    int num; 
+    int i ;
+    char *tmp;
+    
+	i = 0;
+    num = -1;
+	if(!paths)
+		return(NULL);
+	else if(!access(cmd,F_OK | X_OK))
+		return(cmd);
+    while(paths[i])
+    {
+		tmp = ft_strjoin( "/", cmd);
+        tmp = ft_strjoin(paths[i], tmp);
+        num = access(tmp, F_OK | X_OK);
+		if(!num)
+			return(tmp);
+		free(tmp);
+        i++;
+    }
+	//if the command not found return 127 as exit code
+    if(num == -1 && check_builtin(cmd))
+	{
+        //this function should store the exit code if the command is not found
+		printf("$: command not found: %s\n", cmd);
+		//error_func(errno, 127);
+	}
+	return(0);
+}
 void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int pid;
@@ -22,7 +52,7 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
-    if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
+    if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
             ft_exit(head->args[1]);
     else if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
@@ -84,27 +114,6 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     }
 }
 
-void p_cmd(t_token *head)
-{
-    int i = 0;
-    while (head)
-    {
-        printf("#########################\n");
-        printf("%i: Token => %s\n", i, head->value);
-        if (head->args != NULL)
-        {
-            for (int i = 0; head->args[i]; i++)
-            {
-                printf("arg[%i] => (%s)\n", i, head->args[i]);
-            }
-        }
-        else
-            printf("args => (%s)\n", "NULL");
-        printf("Type => %s\n", head->type);
-        i++;
-        head = head->next;
-    }
-}
 //funcitons for signals
 void sighandler(int signum) 
 {
@@ -127,7 +136,7 @@ int check_pipe(t_token *list)
 {
     while(list)
     {
-        if(list->args[0] == '|')
+        if(list->args[0][0] == '|')
             return(1);
         list = list->next;
     }

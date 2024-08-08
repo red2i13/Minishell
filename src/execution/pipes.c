@@ -6,11 +6,11 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/06 18:40:05 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/08 22:29:01 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int calc_pipes(t_token *list)
 {
@@ -19,7 +19,7 @@ int calc_pipes(t_token *list)
     p = 0;
     while (list)
     {
-        if(list->value[0] == '|')
+        if(list->args[0][0] == '|')
             p++;
         list = list->next; 
     }
@@ -47,18 +47,7 @@ int **init_pipes(int p)
  
     return(fdt);
 }
-// int main()
-// {
-//     int p = 6;   
-//     int **fdt = init_pipes(p);
-//     for(int k = 0; k < p; k++)
-//     {
-//         printf("eee %i\n", fdt[k][0]);
-//         printf("bbb %i\n", fdt[k][1]);
-//         close(fdt[k][0]);
-//         close(fdt[k][1]);
-//     }
-// }
+
 void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int pid;
@@ -68,7 +57,7 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
-    if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
+    if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
             ft_exit(head->args[1]);
     else if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
