@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_cmds.c                                       :+:      :+:    :+:   */
+/*   get_cmds.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 06:30:10 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 19:48:54 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:36:07 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 char **cmds_trim(char *line, int *i, char **arr)
 {
     int nwords;
-    nwords = count_words(line, "    ", i);
+    i[0] = 0;
+    i[1] = 0;
+    nwords = count_words(line, "     ", i);
     if (nwords == -1)
         printf("q err\n");
     arr = malloc(sizeof(char *) * nwords);
@@ -27,26 +29,18 @@ char **cmds_trim(char *line, int *i, char **arr)
 }
 
 
-char **check_cmds(char *line)
+char **get_cmds(char *line)
 {
     char **arr;
     int i[3];
 
     arr = NULL;
-    if (!line)
-    {
-        printf("exit\n");
-        return (NULL);
-    }
-    if(line[0] != '\0')
-        add_history(line);
+    add_history(line);
     arr = cmds_trim(line, i, arr);
-    for (int i = 0; arr[i]; i++)
-            printf("<%s>\n", arr[i]);
     int j = 0;
     int len = 0;
     char **mini;
-    while (arr[j])
+    while (arr && arr[j])
     {
         len = 0;
         len = count_words_2(arr[j], "<|>", i);
