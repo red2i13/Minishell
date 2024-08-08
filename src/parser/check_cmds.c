@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 06:30:10 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 12:33:40 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:48:54 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char **check_cmds(char *line)
 {
     char **arr;
     int i[3];
+
+    arr = NULL;
     if (!line)
     {
         printf("exit\n");
@@ -38,30 +40,19 @@ char **check_cmds(char *line)
     }
     if(line[0] != '\0')
         add_history(line);
-    i[0] = 0;
-    i[1] = 0;
     arr = cmds_trim(line, i, arr);
     for (int i = 0; arr[i]; i++)
             printf("<%s>\n", arr[i]);
-    i[0] = 0;
-    i[1] = 0;
     int j = 0;
     int len = 0;
     char **mini;
     while (arr[j])
     {
         len = 0;
-        i[0] = 0;
-        i[1] = 0;
         len = count_words_2(arr[j], "<|>", i);
         mini = malloc(sizeof(char *) * len);
         mini = fill_arr_2(mini, arr[j], i, "<|>");
         arr = join_cmds(arr, mini, j);
-        for (int i = 0; arr[i]; i++)
-        {
-            printf("[%s]\n", arr[i]);
-        }
-        printf("##########\n");
         j++;
     }
     return arr;

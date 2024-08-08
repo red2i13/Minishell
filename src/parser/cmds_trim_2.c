@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:32:57 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 12:33:45 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:29:05 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,12 @@ int count_words_2(char *line, char *set,int *i)
 
 char **fill_arr_2(char **arr, char *line, int *i, char *set)
 {
-    int len_line;
     int q[2];
 
     i[0] = 0;
     i[2] = 0;
     q[0] = 0;
     q[1] = 0;
-    len_line = ft_strlen(line);
     while (line[i[0]])
     {
         i[1] = i[0];

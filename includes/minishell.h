@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 12:36:36 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/07 19:27:27 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,6 @@
 # include <sys/wait.h>
 # include <stdbool.h>
 # include <signal.h>
-
-/*linkd list*/
-typedef struct s_token
-{
-    char    **args;
-    char    *type;
-    int    q;
-    struct s_token  *next;
-    struct s_token  *prev;
-}       t_token;
 
 /*error.c*/
 void    error_func(int errnum, int exit_num);
