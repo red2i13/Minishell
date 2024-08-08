@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/08 09:53:33 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/08 18:30:43 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,46 @@ char **ft_realloc(char *arg, char **old_arr)
 
 t_token *init_tokens(char **args)
 {
-    int i[2];
+    int i;
     t_token *head;
+    char **new_args;
 
     head = NULL;
-    i[0] = 0;
-    i[1] = 0;
-    char **new_args = NULL;
-    while (args[i[0]])
+    i = 0;
+    new_args = NULL;
+    while (args && args[i])
     {
-        new_args = ft_realloc(args[i[0]], new_args);
-        i[0]++;
+        if (ft_strchr("<>", args[i][0]))
+        {
+            if (new_args)
+                add_back_t(&head, create_token(new_args));
+            new_args = NULL;
+            while (args[i] && ft_strchr("<>", args[i][0]))
+            {
+                new_args = ft_realloc(args[i], new_args);
+                i++;
+            }
+            add_back_t(&head, create_token(new_args));
+            new_args = NULL;
+        }
+        else if (args[i] && args[i][0] == '|')
+        {
+            if (new_args)
+                add_back_t(&head, create_token(new_args));
+            new_args = malloc(sizeof(char *) * 2);
+            new_args[0] = args[i];
+            new_args[1] = NULL;
+            add_back_t(&head, create_token(new_args));
+            new_args = NULL;
+            i++;
+        }
+        else
+        {
+            new_args = ft_realloc(args[i], new_args);
+            i++;
+        }
     }
-    for (int i = 0; new_args[i]; i++)
-        printf("[]===%s===]\n", new_args[i]);
+    if (new_args)
+        add_back_t(&head, create_token(new_args));
     return head;
 }
