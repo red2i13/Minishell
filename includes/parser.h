@@ -47,4 +47,6 @@ t_token *last_t(t_token *head);
 t_token *init_tokens(char **args);
 void set_size(t_token *head);
 void set_type(t_token *head);
+
+int check_err(t_token *head);
 #endif

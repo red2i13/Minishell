@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/09 15:51:09 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/09 16:00:54 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,21 +38,22 @@ int main(int argc, char **argv, char **env)
         head = init_tokens(args);
         if (!head)
             printf("stfu\n");
-        // if (check_err() == -1)
-        //     printf("err");
         set_size(head);
         set_type(head);
-        while (head)
-        {
-            for (int i = 0; head->args[i]; i++)
+        if (check_err(head) == -1)
+            printf("err\n");
+        else
+            while (head)
             {
-                printf("[%s]\n", head->args[i]);
+                for (int i = 0; head->args[i]; i++)
+                {
+                    printf("[%s]\n", head->args[i]);
+                }
+                printf("%i\n", head->arg_size);
+                printf("%i\n", head->type);
+                printf("==========================\n");
+                head = head->next;
             }
-            printf("%i\n", head->arg_size);
-            printf("%i\n", head->type);
-            printf("==========================\n");
-            head = head->next;
-        }
         free(head);
     }
     return (0);
