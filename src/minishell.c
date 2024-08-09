@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/08 22:27:44 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/09 01:58:49 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,12 +42,24 @@ int main(int argc, char **argv, char **env)
         // while (head)
         // {
         //     for (int i = 0; head->args[i]; i++)
-        //         printf("[%s]\n", head->args[i]);
+        //         printf("[%s] %i\n", head->args[i], i);
         //     printf("==========================\n");
         //     head = head->next;
         // }
+        // exit(22);
         if(check_pipe(head))
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
+        else if(check_redir(head))
+        {
+            int pid;
+            if(!(pid = fork()))
+            {
+                run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+                exit(0);
+            }
+            else
+                wait(0);
+        }
         else
             run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
 

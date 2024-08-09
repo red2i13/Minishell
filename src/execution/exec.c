@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/08 20:52:05 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/09 03:10:37 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,21 @@ char *check_cmd(char *cmd, char **paths)
 		//error_func(errno, 127);
 	}
 	return(0);
+}
+int check_redir(t_token *head)
+{
+    while(head)
+    {
+        if(head->args[0][0] == '>')
+        {
+            if(head->args[0][1] == '\0')
+                return(1);
+            else
+                return(2);
+        }
+        head = head->next;
+    }
+    return(0);
 }
 void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
@@ -113,7 +128,6 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             wait(0);  
     }
 }
-
 //funcitons for signals
 void sighandler(int signum) 
 {

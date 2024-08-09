@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/08 22:29:01 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/09 03:10:42 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,11 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char **env ;
     (void)pid;
     
+    int r;
+    if((r = check_redir(head)))
+    {
+        redirection(*head->next->next->args, r);
+    }
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
