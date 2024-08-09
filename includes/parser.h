@@ -11,12 +11,19 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 
+/*enum for the type of the tokens*/
+typedef enum e_type{
+    PIPE,
+    RED,
+    CMD
+}t_type;
+
 /*linkd list*/
 typedef struct s_token
 {
     char    **args;
-    char    *type;
-    int    q;
+    t_type  type;
+    int     arg_size;
     struct s_token  *next;
     struct s_token  *prev;
 }       t_token;
@@ -38,5 +45,6 @@ void    list_clear(t_token *head);
 t_token *last_t(t_token *head);
 
 t_token *init_tokens(char **args);
-
+void set_size(t_token *head);
+void set_type(t_token *head);
 #endif

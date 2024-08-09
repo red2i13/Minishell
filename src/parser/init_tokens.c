@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/08 18:30:43 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:17:29 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,34 @@ char **ft_realloc(char *arg, char **old_arr)
     new_arr[i] = NULL;
     free(old_arr);
     return new_arr;
+}
+
+void set_size(t_token *head)
+{
+    int count;
+
+    while(head)
+    {
+        count = 0;
+        while (head->args[count])
+            count++;
+        head->arg_size = count;
+        head = head->next;
+    }
+}
+
+void set_type(t_token *head)
+{
+    while(head)
+    {
+        if (head->args[0][0] == '|')
+            head->type = PIPE;
+        else if (head->args[0][0] == '>' || head->args[0][0] == '<')
+            head->type = RED;
+        else
+            head->type = CMD;
+        head = head->next;
+    }
 }
 
 
