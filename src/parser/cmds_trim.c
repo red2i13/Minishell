@@ -6,19 +6,21 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:32:57 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/07 12:33:49 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/10 12:38:42 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int count_words(char *line, char *set,int *i)
+int    count_words(char *line, char *set,int *i)
 {
     int type_q;
     int open_q;
 
     type_q = 0;
     open_q = 0;
+    i[0] = 0;
+    i[1] = 0;
     while (line[i[0]])
     {
         if (!ft_strchr(set, line[i[0]]))
@@ -35,8 +37,17 @@ int count_words(char *line, char *set,int *i)
             if (open_q)
                 return (-1);
         }
-        else 
+        else
+        {
+            if (ft_strchr("<>", line[i[0]-1]))
+            {
+                while (ft_strchr(" \t", line[i[0]]))
+                    i[0]++;
+                if (ft_strchr("<>", line[i[0]]))
+                    return (-2);
+            }
             i[0]++;
+        }
         
     }
     return (i[1]);

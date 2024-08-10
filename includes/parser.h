@@ -13,10 +13,17 @@
 
 /*enum for the type of the tokens*/
 typedef enum e_type{
-    PIPE,
+    PIPE = 1,
     RED,
     CMD
 }t_type;
+
+/*enum for the err*/
+typedef enum e_err{
+    PIPE_E = -3,
+    RED_E,
+    QUOTE_E,
+}t_err;
 
 /*linkd list*/
 typedef struct s_token
@@ -49,4 +56,6 @@ void set_size(t_token *head);
 void set_type(t_token *head);
 
 int check_err(t_token *head);
+void p_err(t_err n);
+t_token *cmds_parse(char *line);
 #endif
