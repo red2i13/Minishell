@@ -6,7 +6,8 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 06:30:10 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/08 18:36:07 by ysahraou         ###   ########.fr       */
+
+/*   Updated: 2024/08/10 12:39:58 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +19,8 @@ char **cmds_trim(char *line, int *i, char **arr)
     i[0] = 0;
     i[1] = 0;
     nwords = count_words(line, "     ", i);
-    if (nwords == -1)
-        printf("q err\n");
+    if (nwords < 0)
+        return (p_err(nwords), NULL);
     arr = malloc(sizeof(char *) * nwords);
     if (arr == NULL)
         return (NULL);
