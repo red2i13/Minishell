@@ -15,8 +15,10 @@
 typedef enum e_type{
     PIPE = 1,
     RED,
-    CMD
-}t_type;
+    CMD,
+    HEREDOC,
+    FILE_N
+}           t_type;
 
 /*enum for the err*/
 typedef enum e_err{
@@ -58,4 +60,7 @@ void set_type(t_token *head);
 int check_err(t_token *head);
 void p_err(t_err n);
 t_token *cmds_parse(char *line);
+
+void heredoc(t_token *head);
+void free_arr(char **arr);
 #endif
