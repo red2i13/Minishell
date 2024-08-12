@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/10 15:45:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/11 11:33:37 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,25 @@ int main(int argc, char **argv, char **env)
         head = cmds_parse(line);
         if (!head)
             continue;
+        heredoc(head);
         while (head)
         {
+            printf("==========================\n");
             for (int i = 0; head->args[i]; i++)
             {
-                printf("[%s]\n", head->args[i]);
+                printf("{%i}[%s]\n", i, head->args[i]);
             }
             printf("%i\n", head->arg_size);
-            printf("%i\n", head->type);
+            if (head->type == HEREDOC)
+                printf("HEREDOC\n");
+            if (head->type == RED)
+                printf("RED\n");
+            if (head->type == PIPE)
+                printf("PIPE\n");
+            if (head->type == CMD)
+                printf("CMD\n");
+            if (head->type == FILE_N)
+                printf("FILE_N\n");
             printf("==========================\n");
             head = head->next;
         }
