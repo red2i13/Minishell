@@ -152,8 +152,12 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             head = head->next->next;
         i++;
     }
-    while(wait(0) == 0)
-    {   
+    // while(wait(0) == 0)
+    // {   
+    // }
+    //second ver of wait
+    for (i = 0; i <= p; i++) {
+        wait(0); // Wait for any child
     }
     return(0);
 }
