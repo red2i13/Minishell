@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/12 11:12:51 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:45:09 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void read_put(char *file_name, char *del)
     int fd;
 
     fd = open(file_name, O_CREAT | O_RDWR , 0777);
-    printf("%i\n", fd);
+    // the under line use to print the file desc
+    // printf("%i\n", fd);
     all = ft_strdup("");
     while(1)
     {
@@ -67,7 +68,8 @@ void heredoc(t_token *head)
     (void)head;
     
     file_name = ran_file();
-    printf("%s\n", file_name);
+    // the under line use to print the file name 
+    // printf("%s\n", file_name);
     while (head)
     {
         if (head->type == HEREDOC)
