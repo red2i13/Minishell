@@ -49,7 +49,7 @@ int check_redir(t_token *head)
     {
         if(head->args[0][0] == '>')
         {
-            if(head->args[0][1] == '\0')
+            if(head->args[1] == NULL)
                 return(1);
             else
                 return(2);

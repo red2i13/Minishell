@@ -1,13 +1,13 @@
 #Dont forget to delet the -g flag
 CFLAGS = -Wall -Wextra -Werror -g
 FLAGS = -lreadline
-PARSER = get_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c token_list_functions.c init_tokens.c parsing_utlis.c
+PARSER =   get_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c token_list_functions.c init_tokens.c cmds_parse.c parsing_utlis.c
 EXEC = builtin.c exec.c pipes.c redirection.c 
-SOURCES = src/minishell.c src/handle_err/error.c
-
+HANDLE_ERR = check_err.c error.c
+SOURCES = src/minishell.c
 SOURCES += $(addprefix $(SRC_DIR_P)/, $(PARSER))
 SOURCES += $(addprefix $(SRC_DIR_E)/, $(EXEC))
-
+SOURCES += $(addprefix src/handle_err/, $(HANDLE_ERR))
 OBJECTS = $(SOURCES:.c=.o)
 NAME = minishell
 

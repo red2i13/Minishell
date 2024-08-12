@@ -13,27 +13,35 @@
 
 #include "../includes/minishell.h"
 
+int g_status;
+
 int main(int argc, char **argv, char **env)
 { 
     char    *line;
-    char **args;
+    int i[3];
     t_token *head;
     t_list  *envl ;
     t_list  *exp_list;
     (void)argc;
     (void)argv;
-    
+    char **args  ;
     envl= setup_env(env);
     exp_list = setup_exp(envl);
     while (1)
     {
-        line = readline("Minishell$ ");
+        if (!g_status)
+            line = readline("\033[0;32mminishell →\033[0m ");
+        else
+            line = readline("\033[0;32mminishell\033[0;31m →\033[0m ");
         if (!line)
         {
             printf("exit\n");
             return (0);
         }
-        if (line[0] == '\0')
+        if (line[0] == '\0' || count_words(line, "     ", i) == 0)
+            continue;
+        head = cmds_parse(line);
+        if (!head)
             continue;
         args = get_cmds(line);
         if (!args)
