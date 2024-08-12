@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/11 11:38:55 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:12:51 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ void heredoc(t_token *head)
             head->args[0] = ft_strdup("<");
             head->args[1] = NULL;
             head->type = RED;
+            head->arg_size = 1;
             free_arr(head->next->args);
             head->next->args = malloc(sizeof(char *) * 2);
             head->next->args[0] = file_name;

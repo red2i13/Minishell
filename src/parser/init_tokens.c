@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/11 10:31:23 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:16:08 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void set_type(t_token *head)
     {
         if (head->args[0][0] == '|')
             head->type = PIPE;
+        else if (head->prev && (head->prev->type == RED || head->prev->type == HEREDOC))
+            head->type = FILE_N;
         else if (head->arg_size == 2)
         {
             if (head->args[0][0] == '<' && head->args[1][0] == '<')

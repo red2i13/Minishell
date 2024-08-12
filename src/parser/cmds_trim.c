@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:32:57 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/11 10:12:27 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:23:27 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int    count_words(char *line, char *set,int *i)
                 if (ft_strchr("<>", line[i[0]]))
                     return (-2);
             }
-            i[0]++;
+            else
+                i[0]++;
         }
         
     }

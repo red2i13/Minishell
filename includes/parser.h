@@ -25,7 +25,7 @@ typedef enum e_err{
     PIPE_E = -3,
     RED_E,
     QUOTE_E,
-}t_err;
+}           t_err;
 
 /*linkd list*/
 typedef struct s_token
