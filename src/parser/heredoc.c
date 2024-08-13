@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/12 11:45:09 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/13 11:21:30 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,22 +43,22 @@ char *ran_file(void)
 void read_put(char *file_name, char *del)
 {
     char *str;
-    char *all;
+    char *tmp;
     int fd;
 
     fd = open(file_name, O_CREAT | O_RDWR , 0777);
     // the under line use to print the file desc
     // printf("%i\n", fd);
-    all = ft_strdup("");
     while(1)
     {
         str = readline(">");
         if (!ft_strncmp(str, del, ft_strlen(str)) && ft_strlen(str) != 0)
             break;
-        all = ft_strjoin(all, str);
-        all = ft_strjoin(all, "\n");
+        tmp = str;
+        str = ft_strjoin(str, "\n");
+        write(fd, str, ft_strlen(str));
+       free(tmp);
     }
-    write(fd, all, ft_strlen(all));
     close(fd);
 }
 
