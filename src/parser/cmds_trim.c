@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:32:57 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/12 11:23:27 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/12 16:34:34 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char **fill_arr(char **arr, char *line, int *i)
         else
             arr[i[2]++] = ft_substr(line, i[1], i[0] - i[1]);
     }
-    return (arr[i[2]] = NULL, arr);
+    return (arr);
 }
 
     
