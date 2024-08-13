@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/08 10:19:09 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/12 11:32:54 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,4 @@ void list_clear(t_token *head)
 		free(head);
 		head = tmp;
 	}
-	
 }
