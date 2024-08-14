@@ -37,7 +37,7 @@ void    error_exit(char *str, int exit_num);
 void    echo(char **cmd);
 void    print_env(t_list *envl);
 int     cd(char **args, t_list **envl, t_list **exp_list);
-char*   pwd(int i);
+char*   pwd(int i, t_list *envl);
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value);
 void    unset(t_list **envl, char *var_name, int flag);
 t_list  *setup_env(char **env);

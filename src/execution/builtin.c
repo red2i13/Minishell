@@ -50,10 +50,12 @@ void echo(char **cmd)
     if(!flag)
         printf("\n");
 }
-char*    pwd(int i)
+char*    pwd(int i, t_list *envl)
 {
     char *pwd ;
     pwd = getcwd(0, 0);
+    if(!pwd)
+        pwd = fenv(envl, "PWD");
     if (i == 1)
         printf("%s\n", pwd);
     return(pwd);
@@ -73,7 +75,7 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
 {
     char *path;
     
-    path =NULL;
+    path = NULL;
     if(args[2])
         return(write(2, "cd: string not is pwd\n", 23), 1);
     if (!args[1] || args[1][0] == '~')
@@ -81,25 +83,29 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
         path = fenv(*envl, "HOME=");
         if(!path)
             return(write(2, "cd: HOME not set", 17), 1);
-        export(exp_list, envl, "OLDPWD=", pwd(0));
+        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
         chdir(path + 5);
     }
     else if(args[1][0] == '-')
     {
         path = fenv(*envl, "OLDPWD=");
-        export(exp_list, envl, "OLDPWD=", pwd(0));
+        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
         chdir(path + 7);
-        pwd(1);
+        pwd(1, *envl);
     }
     else
     {
-        export(exp_list, envl, "OLDPWD=", pwd(0));
+        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
         if(chdir(args[1]))
         {
             printf("cd: %s ", args[1]);
             error_func(errno, 1);
         }
     }
+    export(exp_list, envl, "PWD=", pwd(0, *envl));
+    //debug
+    printf("debug %s\n", fenv(*envl, "PWD"));
+    //
     free(path);
     return(0);
 }
