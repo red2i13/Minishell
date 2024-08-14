@@ -55,7 +55,7 @@ char*    pwd(int i, t_list *envl)
     char *pwd ;
     pwd = getcwd(0, 0);
     if(!pwd)
-        pwd = fenv(envl, "PWD");
+        pwd = fenv(envl, "PWD") + 4;
     if (i == 1)
         printf("%s\n", pwd);
     return(pwd);
@@ -96,6 +96,8 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
     else
     {
         export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
+        if(!getcwd(0, 0))
+            printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
         if(chdir(args[1]))
         {
             printf("cd: %s ", args[1]);
@@ -104,7 +106,7 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
     }
     export(exp_list, envl, "PWD=", pwd(0, *envl));
     //debug
-    printf("debug %s\n", fenv(*envl, "PWD"));
+    //printf("debug %s\n", fenv(*envl, "PWD"));
     //
     free(path);
     return(0);

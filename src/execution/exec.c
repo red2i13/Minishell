@@ -110,6 +110,8 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     }
     else if(ft_strnstr(head->args[0], "env", 4))
         print_env(*envl);
+    else if(ft_strnstr(head->args[0], "pwd", 4))
+        pwd(1, *envl);
     else
     {
         pid = fork();
