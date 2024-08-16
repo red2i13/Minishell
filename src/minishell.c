@@ -58,7 +58,7 @@ int main(int argc, char **argv, char **env)
         // exit(22);
         if(check_pipe(head))
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
-        else if(check_redir(head))
+        else if(check_redir(head) == 2 || check_redir(head) == 1)
         {
             int pid;
             if(!(pid = fork()))
@@ -68,6 +68,18 @@ int main(int argc, char **argv, char **env)
             }
             else
                 wait(0);
+        }
+        else if(check_redir(head) == 3)
+        {
+            int pid1;
+            if(!(pid1 = fork()))
+            {
+                redir_input(head->next->next->args[0]);
+                run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+                exit(0);
+            }
+            else
+                wait(0);        
         }
         else
             run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));

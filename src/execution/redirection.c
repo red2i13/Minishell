@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-int redirection(char *filename, int flag)
+int redir_output(char *filename, int flag)
 {
 	int fd;
 	
@@ -26,6 +26,21 @@ int redirection(char *filename, int flag)
         close(fd);
         return -1;
     }
+	close (fd);
+	return(0);
+}
+
+int redir_input(char *filename)
+{
+	int fd;
+	
+	fd = open(filename, O_RDONLY);
+	if(!fd)
+	{
+		perror("open");
+		return(1);	
+	}
+	dup2(fd, STDIN_FILENO);
 	close (fd);
 	return(0);
 }

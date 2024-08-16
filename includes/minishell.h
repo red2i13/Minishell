@@ -57,6 +57,7 @@ int	check_builtin(char *cmd);
 void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
 char *check_cmd(char *cmd, char **paths);
 /*redirection.c*/
-int redirection(char *filename, int flag);
+int redir_output(char *filename, int flag);
+int redir_input(char *filename);
 int check_redir(t_token *head);
 #endif

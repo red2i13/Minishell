@@ -54,6 +54,13 @@ int check_redir(t_token *head)
             else
                 return(2);
         }
+        if(head->args[0][0] == '<')
+        {
+            if(head->args[1] == NULL)
+                return(3);
+            else
+                return(4);
+        }
         head = head->next;
     }
     return(0);
