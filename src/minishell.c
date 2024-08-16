@@ -47,7 +47,7 @@ int main(int argc, char **argv, char **env)
         args = get_cmds(line);
         if (!args)
             return (0);
-        head = init_tokens(args);
+       // head = init_tokens(args);
         // while (head)
         // {
         //     for (int i = 0; head->args[i]; i++)
@@ -69,7 +69,7 @@ int main(int argc, char **argv, char **env)
             else
                 wait(0);
         }
-        else if(check_redir(head) == 3)
+        else if(check_redir(head) > 2)
         {
             int pid1;
             if(!(pid1 = fork()))
