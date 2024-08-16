@@ -63,4 +63,8 @@ t_token *cmds_parse(char *line);
 
 void heredoc(t_token *head);
 void free_arr(char **arr);
+
+char *expand(char *str);
+char *vars_sub(char *str, int i);
+void start_ex(t_token *head);
 #endif
