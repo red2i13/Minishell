@@ -56,7 +56,7 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     (void)pid;
     
     int r;
-    if((r = check_redir(head)) && r < 2)
+    if((r = check_redir(head)) && r <= 2)
     {
         redir_output(*head->next->next->args, r);
     }
@@ -114,6 +114,8 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         exit(127);
     }
 }
+
+
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int i;
@@ -122,43 +124,49 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     int p = calc_pipes(head);
     int **fdt = init_pipes(p);
    
-    i = 0; 
-    while(i <= p)
+    i = p;
+    while(head->next)
+    {
+        head = head->next;
+    }
+    while(i >= 0)
     {
         if(!(pid = fork()))
         {
             if(i != p)
             {
                 dup2(fdt[i][1], STDOUT_FILENO);
-                close(fdt[i][0]);
-                close(fdt[i][1]);
             }
             if(i > 0)
             {
-                dup2(fdt[i-1][0], STDIN_FILENO);
-                close(fdt[i -1][0]);
+                dup2(fdt[i - 1][0], STDIN_FILENO);
+            }
+            //function that kill all the unused file descriptor
+            for(int k = 0; k < p; k++)
+            {
+                close(fdt[k][0]);
+                close(fdt[k][1]);
             }
             run(head, envl, exp_list, paths);
             exit(0);
         }
-        else
-        {
-            if (i > 0)
-                close(fdt[i - 1][0]);
-            if(i < p)
-                close(fdt[i][1]);  
-        }
-        if(head->next)
-            head = head->next->next;
-        i++;
+        if(head->prev)
+            head = head->prev->prev;
+        i--;
     }
-    // while(wait(0) == 0)
-    // {   
-    // }
-    //second ver of wait
-    for (i = 0; i <= p; i++) {
-        wait(0); // Wait for any child
+    for (i = 0; i < p; i++) 
+    {
+        close(fdt[i][0]);
+        close(fdt[i][1]);
     }
+    while(wait(NULL) > 0)
+    {   
+    }
+    for (i = 0; i < p; i++) 
+    {
+        free(fdt[i]);
+    }
+    free(fdt);
+
     return(0);
 }
-
