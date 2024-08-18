@@ -20,10 +20,11 @@ int main(int argc, char **argv, char **env)
     char    *line;
     int i[3];
     t_token *head;
+    t_list  *envl;
 
     (void)argc;
     (void)argv;
-    (void)env;
+    envl= setup_env(env);
     while (1)
     {
         if (!g_status)
@@ -41,7 +42,7 @@ int main(int argc, char **argv, char **env)
         if (!head)
             continue;
         heredoc(head);
-        start_ex(head);
+        start_ex(head, envl);
         while (head)
         {
             printf("==========================\n");

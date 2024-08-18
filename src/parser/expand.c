@@ -14,6 +14,18 @@
 
 extern int g_status;
 
+char *get_var(char *str, t_list  *env)
+{
+    printf("%s\n", str);
+    while (env)
+    {
+        if (ft_strncmp(str, env->content, ft_strlen(str)) == 0)
+            return ft_substr(env->content, ft_strlen(str)+1, ft_strlen(env->content));
+        env = env->next;
+    }
+    return NULL;
+}
+
 int get_pos(char *str)
 {
     int i;
@@ -28,7 +40,7 @@ int get_pos(char *str)
     return -1;
 }
 
-char *vars_sub(char *str, int i)
+char *vars_sub(char *str, int i, t_list  *env)
 {
     char *brev;
     char *var;
@@ -40,7 +52,7 @@ char *vars_sub(char *str, int i)
     if (pos == -1)
         pos = ft_strlen(str);
     brev = ft_substr(str, 0, i - 1);
-    var = "get_p";
+    var = get_var(ft_substr(str, i, pos), env);
     if (!var && str[i] == '?')
 		var = ft_itoa(g_status);
     path = ft_strjoin(brev, var);
@@ -49,7 +61,7 @@ char *vars_sub(char *str, int i)
 }
 
 
-char *expand(char *str)
+char *expand(char *str, t_list  *env)
 {
     int q[2];
     int i = 0;
@@ -61,14 +73,14 @@ char *expand(char *str)
         q[0] = (q[0] + (!q[1] && str[i] == '\'')) % 2;
         q[1] = (q[1] + (!q[0] && str[i] == '\"')) % 2;
         if (!q[0] && str[i] == '$' && str[i+1])
-            return expand(vars_sub(str, ++i));
+            return expand(vars_sub(str, ++i, env), env);
         i++;
     }
     return (str);
 }
 
 
-void start_ex(t_token *head)
+void start_ex(t_token *head, t_list  *env)
 {
     int i;
 
@@ -78,7 +90,7 @@ void start_ex(t_token *head)
         i = 0;
         while (head->args[i])
         {
-            head->args[i] = expand(head->args[i]);
+            head->args[i] = expand(head->args[i], env);
             i++;
         }
         head = head->next;
