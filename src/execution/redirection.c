@@ -12,6 +12,21 @@
 
 #include "../../includes/minishell.h"
 
+char  *last_io(t_token * head, int type)
+{
+	char *file;
+
+	file = NULL;
+	while(head)
+	{
+		if(head->args[0][0] == '<' && type)
+			file = head->next->args[0];
+		else if(head->args[0][0] == '>' && !type)
+			file = head->next->args[0];
+		head = head->next;
+	}
+	return(file);
+}
 int redir_output(char *filename, int flag)
 {
 	int fd;

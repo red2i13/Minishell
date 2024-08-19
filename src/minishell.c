@@ -55,7 +55,8 @@ int main(int argc, char **argv, char **env)
         //     printf("==========================\n");
         //     head = head->next;
         // }
-        // exit(22);
+        // printf("check %s\n", last_io(head, 0));
+        //  exit(22);
         if(check_pipe(head))
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
         else if(check_redir(head) == 2 || check_redir(head) == 1)
@@ -74,7 +75,8 @@ int main(int argc, char **argv, char **env)
             int pid1;
             if(!(pid1 = fork()))
             {
-                redir_input(head->next->next->args[0]);
+                //pick tha last input
+                redir_input(last_io(head, 1));
                 run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
                 exit(0);
             }

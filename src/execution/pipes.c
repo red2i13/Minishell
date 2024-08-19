@@ -58,7 +58,7 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     int r;
     if((r = check_redir(head)) && r <= 2)
     {
-        redir_output(*head->next->next->args, r);
+        redir_output(last_io(head, 0), r);
     }
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);

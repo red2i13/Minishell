@@ -60,4 +60,5 @@ char *check_cmd(char *cmd, char **paths);
 int redir_output(char *filename, int flag);
 int redir_input(char *filename);
 int check_redir(t_token *head);
+char  *last_io(t_token * head, int type);
 #endif
