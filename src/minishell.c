@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: codespace <codespace@student.42.fr>        +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/16 20:21:31 by codespace        ###   ########.fr       */
+/*   Updated: 2024/08/21 11:28:34 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,9 @@ int main(int argc, char **argv, char **env)
         head = cmds_parse(line);
         if (!head)
             continue;
-        heredoc(head);
+        heredoc(head, envl);
         start_ex(head, envl);
+        start_rm_q(head);
         while (head)
         {
             printf("==========================\n");
