@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/21 11:36:10 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/21 12:17:20 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ extern int g_status;
 
 char *get_var(char *str, t_list  *env)
 {
-    printf("%s\n", str);
+    // printf("%s\n", str);
     while (env)
     {
         if (ft_strncmp(str, env->content, ft_strlen(str)) == 0)
@@ -48,7 +48,7 @@ char *vars_sub(char *str, int i, t_list  *env)
     int pos;
 
     pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
-    printf("%i\n", pos);
+    //printf("%i\n", pos);
     if (pos == -1)
         pos = ft_strlen(str);
     brev = ft_substr(str, 0, i - 1);
