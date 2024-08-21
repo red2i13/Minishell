@@ -98,6 +98,7 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             else if(f && head->args[i])
             {
                 var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );
+                //remove the quotes here
                 var_value = ft_strdup(ft_strchr(head->args[i], '=') + 1);
             }
             export(exp_list,envl,var_name, var_value);

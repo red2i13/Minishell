@@ -9,3 +9,6 @@ FIXcase6 the command > "ls " should not excute there is an error in the parsing 
 //case7: commannd "cat << del > file" cause a crash in the program (problem in realloc)
 //case8 add to variablae in export for ex export var+=fdfds
 //case9
+handle in export :
+if the var contains quotes remove them 
+add to an existing variable ex var+="value"
