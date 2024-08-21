@@ -67,4 +67,6 @@ void free_arr(char **arr);
 char *expand(char *str, t_list  *env);
 char *vars_sub(char *str, int i, t_list  *env);
 void start_ex(t_token *head, t_list  *env);
+
+void start_rm_q(t_token *head);
 #endif
