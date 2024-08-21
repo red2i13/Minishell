@@ -41,7 +41,9 @@ int main(int argc, char **argv, char **env)
         if (line[0] == '\0' || count_words(line, "     ", i) == 0)
             continue;
         head = cmds_parse(line);
-        heredoc(head);
+        heredoc(head, envl);
+        start_ex(head, envl);
+        start_rm_q(head);
         if (!head)
             continue;
         args = get_cmds(line);

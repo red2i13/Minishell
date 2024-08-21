@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/13 11:21:30 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:39:44 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char *ran_file(void)
     close(fd);
     return(s);
 }
-void read_put(char *file_name, char *del)
+void read_put(char *file_name, char *del, int q, t_list *env)
 {
     char *str;
     char *tmp;
@@ -55,14 +55,30 @@ void read_put(char *file_name, char *del)
         if (!ft_strncmp(str, del, ft_strlen(str)) && ft_strlen(str) != 0)
             break;
         tmp = str;
+        if (q == 0)
+            str = expand(str, env);
         str = ft_strjoin(str, "\n");
         write(fd, str, ft_strlen(str));
-       free(tmp);
+        free(tmp);
     }
     close(fd);
 }
 
-void heredoc(t_token *head)
+int is_q(char *str)
+{
+    int i;
+
+    i = 0;
+    while (str && str[i])
+    {
+        if (str[i] == '\'' || str[i] == '\"')
+            return (1);
+        i++;
+    }
+    return (0);
+}
+
+void heredoc(t_token *head, t_list *env)
 {
     char *file_name;
     (void)head;
@@ -74,7 +90,13 @@ void heredoc(t_token *head)
     {
         if (head->type == HEREDOC)
         {
-            read_put(file_name, head->next->args[0]);
+            if (is_q(head->next->args[0]))
+            {
+                head->next->args[0] = rm_quote(head->next->args[0]);
+                read_put(file_name, head->next->args[0], 1, env);
+            }
+            else
+                read_put(file_name, head->next->args[0], 0, env);
             free_arr(head->args);
             head->args = malloc(sizeof(char *) * 2);
             head->args[0] = ft_strdup("<");
