@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 10:04:01 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/21 10:54:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/22 10:24:49 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,38 @@ char *rm_quote(char *str)
     {
         q[0] = (q[0] + (!q[1]) && str[i] == '\'') % 2;
         q[1] = (q[1] + (!q[0]) && str[i] == '\"') % 2;
-        if ((q[1] && str[i] == '\"') || (q[0] && str[i] == '\''))
+        if (q[1] && str[i] == '\"')
         {
-            i++;
-            while (q[1] || q[0])
+            while (q[1])
             {
-                new = ff_realloc(new, str[i]);
                 i++;
-                q[0] = (q[0] + (!q[1]) && str[i] == '\'') % 2;
-                q[1] = (q[1] + (!q[0]) && str[i] == '\"') % 2;
+                q[1] = (q[1] + (!q[0] && str[i] == '\"')) % 2;
+                if (!q[1]);
+                else 
+                    new = ff_realloc(new, str[i]);
             }
+            i++;
         }
-        new = ff_realloc(new, str[i]);
-        i++;
+        else if (q[0] && str[i] == '\'')
+        {
+            while (q[0])
+            {
+                i++;
+                q[0] = (q[0] + (!q[1] && str[i] == '\'')) % 2;
+                if (!q[0]);
+                else 
+                    new = ff_realloc(new, str[i]);
+            }
+            i++;
+        }
+        else
+        {
+            new = ff_realloc(new, str[i]);
+            i++;
+        }
     }
+    if (!new)
+        new = ft_strdup("");
     free(str);
     return (new);
 }
@@ -73,7 +91,8 @@ void start_rm_q(t_token *head)
         i = 0;
         while (head->args[i])
         {
-            head->args[i] = rm_quote(head->args[i]);
+            if (is_q(head->args[i]))
+                head->args[i] = rm_quote(head->args[i]);
             i++;
         }
         head = head->next;
