@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:29:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/11 11:01:08 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/21 16:00:41 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,22 +17,26 @@ extern int g_status;
 int check_err(t_token *head)
 {
     if (head->type == PIPE || last_t(head)->type == PIPE)
-        return (-3);
+        return (PIPE_E);
     if (last_t(head)->type == RED || last_t(head)->type == HEREDOC)
-        return (-2);
+        return (RED_E);
     while (head)
     {
         if (head->type == RED && head->arg_size > 2)
-            return (-2);
+            return (RED_E);
         else if (head->type == RED && head->arg_size == 2)
         {
             if (ft_strncmp(head->args[0], head->args[1], 1))
-                return (-2);
+                return (RED_E);
         }
         else if (head->next)
         {
             if (head->type == head->next->type && head->type == PIPE)
-                return (-3);
+                return (PIPE_E);
+            else if (RED == head->next->type && head->type == PIPE)
+                return (RED_E);
+            else if (PIPE == head->next->type && head->type == RED)
+                return (PIPE_E);
         }
         head = head->next;
     }
