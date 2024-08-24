@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/09 01:50:01 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/24 13:30:56 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,8 @@ t_list  *setup_env(char **env);
 t_list  *setup_exp(t_list   *envl);
 char    *fenv(t_list    *envl, char *str);
 char **convert_to_array(t_list *envl);
-void    ft_exit(char *val);
-
+void    ft_exit(t_token *head);
+void init_export(t_token *head , t_list **envl, t_list **exp_list);
 /*pipes.c*/
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
 /*exec.c*/

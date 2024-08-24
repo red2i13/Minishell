@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/08 20:49:31 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/24 13:30:25 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,12 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     int     flag;
     int     flag2;
-
+    
+    if(var_name && var_name[0] == '-')
+    {
+        write(2, "export: bad option: -s\n", 24);
+        return ;
+    }
     if(var_name && (!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_') || (check_var(var_name + 1))))
     {
         write(2, "export: not a valid identifier\n",32);
@@ -322,10 +327,56 @@ char **convert_to_array(t_list *envl)
     cenv[i] = 0;
     return(cenv);
 }
-void    ft_exit(char *val)
+void    ft_exit(t_token *head)
 {
-    if (val != NULL)
-        exit(ft_atoi(val) % 256);
+    int val;
+
+    val = ft_atoi(head->args[1]);
+    if((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-'))
+    {
+        write(2, "bash: exit: numeric argument required\n", 39);
+        exit(2);
+    }
+    else if (head->args[2])
+    {
+        write(2, "exit\nMinishell: exit: too many arguments\n", 42);
+        return ;
+    }
+    if (val != 0)
+        exit(val % 256);
     else
         exit(0);
+}
+
+void init_export(t_token *head , t_list **envl, t_list **exp_list)
+{
+    int i;
+
+    i = 1;
+    while (head->args[i])
+        {
+            char *f ;
+            f = NULL;
+            if(head->args[i])
+                f= ft_strchr(head->args[i], '=');
+            char *var_value;
+            char *var_name;
+            
+            var_name = NULL;
+            var_value = NULL;
+            if(!f && head->args[i])
+            { 
+                var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
+                //var_value = ft_strdup("");
+            }
+            else if(f && head->args[i])
+            {
+                var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );
+                //remove the quotes here
+                var_value = ft_strdup(ft_strchr(head->args[i], '=') + 1);
+            }
+            export(exp_list,envl,var_name, var_value);
+            i++;
+        }
+    return ;
 }

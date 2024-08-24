@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/09 03:10:37 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:28:06 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
-            ft_exit(head->args[1]);
+            ft_exit(head);
     else if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
     else if(ft_strnstr(head->args[0], "echo", 5))

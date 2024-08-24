@@ -10,5 +10,5 @@ FIXcase6 the command > "ls " should not excute there is an error in the parsing 
 //case8 add to variablae in export for ex export var+=fdfds
 //case9
 handle in export :
-if the var contains quotes remove them 
-add to an existing variable ex var+="value"
+FIX: if the var contains quotes remove them 
+CURRENT : add to an existing variable ex var+="value"
