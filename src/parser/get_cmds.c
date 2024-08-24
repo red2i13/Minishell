@@ -21,7 +21,7 @@ char **cmds_trim(char *line, int *i, char **arr)
     nwords = count_words(line, "     ", i);
     if (nwords < 0)
         return (p_err(nwords), NULL);
-    arr = malloc(sizeof(char *) * nwords);
+    arr = malloc(sizeof(char *) * (nwords+1));
     if (arr == NULL)
         return (NULL);
     arr = fill_arr(arr, line, i);
@@ -45,12 +45,13 @@ char **get_cmds(char *line)
     {
         len = 0;
         len = count_words_2(arr[j], "<|>", i);
-        mini = malloc(sizeof(char *) * len);
+        mini = malloc(sizeof(char *) * (len+1));
         mini = fill_arr_2(mini, arr[j], i, "<|>");
         arr = join_cmds(arr, mini, j);
         j++;
     }
     return arr;
 }
+    
     
     

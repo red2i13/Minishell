@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/12 11:32:54 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/24 12:13:17 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,8 @@ void list_clear(t_token *head)
 	while (head)
 	{
 		tmp = head->next;
+		free_arr(head->args);
+		head->args = NULL;
 		free(head);
 		head = tmp;
 	}
