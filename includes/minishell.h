@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 13:30:56 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/24 21:24:39 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@
 # include <stdbool.h>
 # include <signal.h>
 
+/*global variable*/
+extern int g_status;
 /*error.c*/
 void    error_func(int errnum, int exit_num);
 void    error_exit(char *str, int exit_num);

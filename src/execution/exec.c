@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 12:28:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/24 21:27:44 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char *cmd;
     char **env ;
     (void)pid;
+    int exit_st;
     
+    exit_st = 0;
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
@@ -82,33 +84,10 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         echo(head->args);
     else if(ft_strnstr(head->args[0], "export", 7))
     {
-        int i = 1;
         if(!head->args[1])
             export(exp_list, envl, NULL, NULL);
-        while (head->args[i])
-        {
-            char *f ;
-            f = NULL;
-            if(head->args[i])
-                f= ft_strchr(head->args[i], '=');
-            char *var_value;
-            char *var_name;
-            
-            var_name = NULL;
-            var_value = NULL;
-            if(!f && head->args[i])
-            { 
-                var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
-                //var_value = ft_strdup("");
-            }
-            else if(f && head->args[i])
-            {
-                var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );
-                var_value = ft_strdup(ft_strchr(head->args[i], '=') + 1);
-            }
-            export(exp_list,envl,var_name, var_value);
-            i++;
-        }
+        init_export(head, envl, exp_list);
+
     }
     else if(ft_strnstr(head->args[0], "unset", 6))
     {
@@ -134,8 +113,10 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             }
         }
         else
-            wait(0);  
+            wait(&exit_st); 
+        printf("the number %i\n", exit_st);
     }
+    // g_status = (exit_st != NULL) * (*exit_st) + 0;
 }
 //funcitons for signals
 void sighandler(int signum) 

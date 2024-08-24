@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/24 14:36:41 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/24 20:23:22 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,8 @@ int **init_pipes(int p)
 
 void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
-    int pid;
     char *cmd;
     char **env ;
-    (void)pid;
     
     int r;
     if((r = check_redir(head)) && r <= 2)
@@ -78,7 +76,6 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         pwd(1, *envl);
     else if(ft_strnstr(head->args[0], "export", 7))
     {
-        //int i = 1;
         if(!head->args[1])
             export(exp_list, envl, NULL, NULL);
         init_export(head, envl, exp_list);

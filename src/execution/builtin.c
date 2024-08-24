@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/24 13:30:25 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/24 20:26:43 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -233,7 +233,7 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
     }
     return(0);
 }
-//done: add the case of a =3 b=4 and c=7
+
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     int     flag;
@@ -351,6 +351,8 @@ void    ft_exit(t_token *head)
 void init_export(t_token *head , t_list **envl, t_list **exp_list)
 {
     int i;
+    char *var_value;
+    char *var_name;
 
     i = 1;
     while (head->args[i])
@@ -358,10 +360,7 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
             char *f ;
             f = NULL;
             if(head->args[i])
-                f= ft_strchr(head->args[i], '=');
-            char *var_value;
-            char *var_name;
-            
+                f= ft_strchr(head->args[i], '=');       
             var_name = NULL;
             var_value = NULL;
             if(!f && head->args[i])
@@ -372,7 +371,6 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
             else if(f && head->args[i])
             {
                 var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );
-                //remove the quotes here
                 var_value = ft_strdup(ft_strchr(head->args[i], '=') + 1);
             }
             export(exp_list,envl,var_name, var_value);
