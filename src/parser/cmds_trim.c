@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:32:57 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/12 16:34:34 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/24 11:20:59 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,19 +67,20 @@ char **fill_arr(char **arr, char *line, int *i)
     len_line = ft_strlen(line);
     while (line[i[0]])
     {
-        while (ft_strchr("   ", line[i[0]]))
+        while (ft_strchr(" \t", line[i[0]]) && line[i[0]])
             i[0]++;
         i[1] = i[0];
-        while ((!ft_strchr("   ", line[i[0]]) || q[1] || q[0]) && line[i[0]])
+        while ((!ft_strchr(" \t", line[i[0]]) || q[1] || q[0]) && line[i[0]])
         {
             q[0] = (q[0] + (!q[1] && line[i[0]] == '\'')) % 2;
             q[1] = (q[1] + (!q[0] && line[i[0]] == '\"')) % 2;
             i[0]++;
         }
-        if (i[1] >= len_line)
-            arr[i[2]++] = ft_strdup("\0");
-        else
+        if (i[1] < len_line)
+        {
+            printf("g");
             arr[i[2]++] = ft_substr(line, i[1], i[0] - i[1]);
+        }
     }
     return (arr);
 }
