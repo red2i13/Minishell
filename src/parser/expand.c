@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/21 12:17:20 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/24 13:37:21 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,13 +48,15 @@ char *vars_sub(char *str, int i, t_list  *env)
     int pos;
 
     pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
-    //printf("%i\n", pos);
+    // printf("%i  %i\n", pos, i);
     if (pos == -1)
         pos = ft_strlen(str);
     brev = ft_substr(str, 0, i - 1);
     var = get_var(ft_substr(str, i, pos), env);
     if (!var && str[i] == '?')
 		var = ft_itoa(g_status);
+    if (!var) 
+        var = ft_strdup("");
     path = ft_strjoin(brev, var);
     path = ft_strjoin(path, &str[i + pos]);
     return path;
@@ -72,7 +74,7 @@ char *expand(char *str, t_list  *env)
     {
         q[0] = (q[0] + (!q[1] && str[i] == '\'')) % 2;
         q[1] = (q[1] + (!q[0] && str[i] == '\"')) % 2;
-        if (!q[0] && str[i] == '$' && str[i+1])
+        if (!q[0] && str[i] == '$' && str[i+1] && !ft_strchr("\"", str[i+1]))
             return expand(vars_sub(str, ++i, env), env);
         i++;
     }
