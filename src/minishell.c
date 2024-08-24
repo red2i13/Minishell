@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 13:26:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:06:39 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int main(int argc, char **argv, char **env)
             printf("==========================\n");
             head = head->next;
         }
+        g_status = 0;
         // list_clear(head);
     }
     return (0);

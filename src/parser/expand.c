@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/24 13:37:21 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/24 18:03:31 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,32 @@
 
 extern int g_status;
 
+int	ft_ncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
+	{
+		if (s1[i] != s2[i])
+			break ;
+		i++;
+	}
+	if ((i == n || (s1[i] == '\0' && s2[i] == '\0')) && s2[i] == '=')
+		return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
 char *get_var(char *str, t_list  *env)
 {
-    // printf("%s\n", str);
+    if (str && str[0] == '\0')
+        return NULL;
     while (env)
     {
-        if (ft_strncmp(str, env->content, ft_strlen(str)) == 0)
+        if (ft_ncmp(str, env->content, ft_strlen(str)) == 0)
+        {
             return ft_substr(env->content, ft_strlen(str)+1, ft_strlen(env->content));
+        }
         env = env->next;
     }
     return NULL;
@@ -48,7 +67,6 @@ char *vars_sub(char *str, int i, t_list  *env)
     int pos;
 
     pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
-    // printf("%i  %i\n", pos, i);
     if (pos == -1)
         pos = ft_strlen(str);
     brev = ft_substr(str, 0, i - 1);
@@ -74,7 +92,7 @@ char *expand(char *str, t_list  *env)
     {
         q[0] = (q[0] + (!q[1] && str[i] == '\'')) % 2;
         q[1] = (q[1] + (!q[0] && str[i] == '\"')) % 2;
-        if (!q[0] && str[i] == '$' && str[i+1] && !ft_strchr("\"", str[i+1]))
+        if (!q[0] && str[i] == '$' && str[i+1] && !ft_strchr("=:", str[i+1]))
             return expand(vars_sub(str, ++i, env), env);
         i++;
     }
