@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/09 01:13:00 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 15:48:58 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int redir_input(char *filename)
 	int fd;
 	
 	fd = open(filename, O_RDONLY);
-	if(!fd)
+	if(fd == -1)
 	{
 		perror("open");
-		return(1);	
+		exit(1);	
 	}
 	dup2(fd, STDIN_FILENO);
 	close (fd);

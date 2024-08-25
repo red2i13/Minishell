@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 13:29:29 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 16:45:04 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,9 @@ char *check_cmd(char *cmd, char **paths)
 	{
         //this function should store the exit code if the command is not found
 		printf("$: command not found: %s\n", cmd);
-		g_status = 127;
+		cmd = NULL ;
+        g_status = 127;
         //error_func(errno, 127);
-        return(0);
 	}
 	return(cmd);
 }

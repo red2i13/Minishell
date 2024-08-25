@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 13:27:32 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 15:52:16 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ int main(int argc, char **argv, char **env)
         else if(check_redir(head, 0) || check_redir(head, 1))
         {
             int pid;
+            int exit_st;
             if(!(pid = fork()))
             {
                 //pick tha last input
@@ -73,7 +74,8 @@ int main(int argc, char **argv, char **env)
                 exit(0);
             }
             else
-                wait(0);
+                wait(&exit_st);
+            g_status = exit_st / 256;
         }
         else
             run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));

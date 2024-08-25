@@ -10,8 +10,17 @@ FIXcase6 the command > "ls " should not excute there is an error in the parsing 
 //case8 add to variablae in export for ex export var+=fdfds
 //case9
 handle in export :
-FIX: if the var contains quotes remove them 
 CURRENT : add to an existing variable ex var+="value"
-case10: fix the redirection input if the file is not found
+case10: FIX: fix the redirection input if the file is not found
 case11:
 handle the case where the redirection begin before the command
+CASE11 problem in expand
+"
+\minishell → echo $H
+��
+minishell → echo $D
+��
+minishell → echo $DD
+�
+minishell → echo $DDDDD"
+case12: i have to check the command before redirecting

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/25 13:29:56 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 19:32:27 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char *cmd;
     char **env ;
     
+    cmd = check_cmd(head->args[0], paths);
+    if(!cmd)
+        exit(127);
     int r;
     if((r = check_redir(head, 0)))
     {
@@ -65,9 +68,6 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         }
     }
     env = convert_to_array(*envl);
-    cmd = check_cmd(head->args[0], paths);
-    if(!cmd)
-        return ;
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
             ft_exit(head);
     else if(ft_strnstr(head->args[0], "cd", 3))
@@ -101,7 +101,7 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int i;
     int pid;
-    //int status;    
+    int exit_st;    
     int p = calc_pipes(head);
     int **fdt = init_pipes(p);
    
@@ -140,7 +140,7 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         close(fdt[i][0]);
         close(fdt[i][1]);
     }
-    while(wait(NULL) > 0)
+    while(wait(&exit_st) > 0)
     {   
     }
     for (i = 0; i < p; i++) 
@@ -148,6 +148,7 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         free(fdt[i]);
     }
     free(fdt);
+    g_status = exit_st / 256;
 
     return(0);
 }
