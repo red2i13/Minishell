@@ -8,8 +8,7 @@ FIX//case5 discover segfault command(echo "fdfdsfsd" "fdfds")
 FIXcase6 the command > "ls " should not excute there is an error in the parsing the arge should contain "ls " -> "NULL"
 //case7: commannd "cat << del > file" cause a crash in the program (problem in realloc)
 //case8 add to variablae in export for ex export var+=fdfds
-//case9
-handle in export :
+//case9 handle in export :
 CURRENT : add to an existing variable ex var+="value"
 case10: FIX: fix the redirection input if the file is not found
 case11:
@@ -23,4 +22,5 @@ minishell → echo $D
 minishell → echo $DD
 �
 minishell → echo $DDDDD"
-case12: i have to check the command before redirecting
+case12: FIX:i have to check the command before redirecting
+case13: open a new file if the file is not found >>
