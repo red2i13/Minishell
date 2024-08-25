@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/21 11:39:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/25 12:24:40 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,13 +83,14 @@ void heredoc(t_token *head, t_list *env)
     char *file_name;
     (void)head;
     
-    file_name = ran_file();
+
     // the under line use to print the file name 
     // printf("%s\n", file_name);
     while (head)
     {
         if (head->type == HEREDOC)
         {
+            file_name = ran_file();
             if (is_q(head->next->args[0]))
             {
                 head->next->args[0] = rm_quote(head->next->args[0]);

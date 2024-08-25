@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 08:10:13 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 13:25:51 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/25 12:13:37 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ char **join_cmds(char **big, char **mini, int pos)
             i[1] = 0;
             while (mini[i[1]])
                 ret_arr[i[2]++] = mini[i[1]++];
+            free(big[i[0]]);
         }
         i[0]++;
     }
     ret_arr[i[2]] = NULL;
+    free(big);
+    free(mini);
     return ret_arr;
 }

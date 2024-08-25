@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 18:06:39 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/25 12:25:31 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int main(int argc, char **argv, char **env)
         heredoc(head, envl);
         start_ex(head, envl);
         start_rm_q(head);
+        list_clear(head);
+        head = NULL;
         while (head)
         {
             printf("==========================\n");
@@ -67,7 +69,6 @@ int main(int argc, char **argv, char **env)
             head = head->next;
         }
         g_status = 0;
-        // list_clear(head);
     }
     return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:16:11 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/11 11:19:57 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/25 10:01:49 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,5 @@ void free_arr(char **arr)
         i++;
     }
     free(arr);
+    arr = NULL;
 }
