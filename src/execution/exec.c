@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 21:27:44 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 11:47:37 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,9 +39,11 @@ char *check_cmd(char *cmd, char **paths)
 	{
         //this function should store the exit code if the command is not found
 		printf("$: command not found: %s\n", cmd);
-		//error_func(errno, 127);
+		g_status = 127;
+        //error_func(errno, 127);
+        return(0);
 	}
-	return(0);
+	return(cmd);
 }
 int check_redir(t_token *head)
 {
@@ -76,6 +78,8 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     exit_st = 0;
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
+    if(!cmd)
+        return ;
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
             ft_exit(head);
     else if(ft_strnstr(head->args[0], "cd", 3))
@@ -103,20 +107,16 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         pid = fork();
         if(!pid)
         {
-            if(execve(cmd, head->args, env) == -1)
+            if(execve(cmd, head->args, env) != 0)
             {
-                //use perror of strerror function
-                //perror("Error ");
-                // char *error = strerror(errno);
-                // printf("debug %s\n", error);
-                exit(127);
+                perror("execve");
+                exit(EXIT_FAILURE);
             }
         }
         else
             wait(&exit_st); 
-        printf("the number %i\n", exit_st);
     }
-    // g_status = (exit_st != NULL) * (*exit_st) + 0;
+    g_status = exit_st / 256;
 }
 //funcitons for signals
 void sighandler(int signum) 

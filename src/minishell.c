@@ -6,10 +6,9 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 21:24:24 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 11:49:33 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
@@ -58,8 +57,7 @@ int main(int argc, char **argv, char **env)
         //     printf("==========================\n");
         //     head = head->next;
         // }
-        // printf("check %s\n", last_io(head, 0));
-        //  exit(22);
+   
         if(check_pipe(head))
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
         else if(check_redir(head) == 2 || check_redir(head) == 1)

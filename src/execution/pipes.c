@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/24 20:23:22 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 11:47:28 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     }
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
+    if(!cmd)
+        return ;
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
             ft_exit(head);
     else if(ft_strnstr(head->args[0], "cd", 3))
@@ -89,11 +91,8 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         print_env(*envl);
     else if(execve(cmd, head->args, env) == -1)
     {
-        //use perror of strerror function
-        //perror("Error ");
-        // char *error = strerror(errno);
-        // printf("debug %s\n", error);
-        exit(127);
+        perror("execve");
+        exit(EXIT_FAILURE);
     }
 }
 

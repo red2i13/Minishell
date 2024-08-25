@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/24 20:26:43 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 10:52:17 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,6 +331,8 @@ void    ft_exit(t_token *head)
 {
     int val;
 
+    if(!head->args[1])
+        exit(0);
     val = ft_atoi(head->args[1]);
     if((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-'))
     {
@@ -342,10 +344,9 @@ void    ft_exit(t_token *head)
         write(2, "exit\nMinishell: exit: too many arguments\n", 42);
         return ;
     }
-    if (val != 0)
+    else if (val != 0)
         exit(val % 256);
-    else
-        exit(0);
+
 }
 
 void init_export(t_token *head , t_list **envl, t_list **exp_list)
