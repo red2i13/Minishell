@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 11:47:37 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 13:29:29 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,23 +45,20 @@ char *check_cmd(char *cmd, char **paths)
 	}
 	return(cmd);
 }
-int check_redir(t_token *head)
+int check_redir(t_token *head, int f)
 {
     while(head)
     {
-        if(head->args[0][0] == '>')
+        if(head->args[0][0] == '>' && !f)
         {
             if(head->args[1] == NULL)
                 return(1);
             else
                 return(2);
         }
-        if(head->args[0][0] == '<')
+        if(head->args[0][0] == '<' && f)
         {
-            if(head->args[1] == NULL)
-                return(3);
-            else
-                return(4);
+            return(1);
         }
         head = head->next;
     }

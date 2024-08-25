@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 11:49:33 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 13:27:32 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,29 +60,20 @@ int main(int argc, char **argv, char **env)
    
         if(check_pipe(head))
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
-        else if(check_redir(head) == 2 || check_redir(head) == 1)
+        else if(check_redir(head, 0) || check_redir(head, 1))
         {
             int pid;
             if(!(pid = fork()))
             {
+                //pick tha last input
+                char *input = last_io(head, 1);
+                if(input)
+                    redir_input(input);
                 run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
                 exit(0);
             }
             else
                 wait(0);
-        }
-        else if(check_redir(head) > 2)
-        {
-            int pid1;
-            if(!(pid1 = fork()))
-            {
-                //pick tha last input
-                redir_input(last_io(head, 1));
-                run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
-                exit(0);
-            }
-            else
-                wait(0);        
         }
         else
             run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));

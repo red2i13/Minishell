@@ -12,3 +12,6 @@ FIXcase6 the command > "ls " should not excute there is an error in the parsing 
 handle in export :
 FIX: if the var contains quotes remove them 
 CURRENT : add to an existing variable ex var+="value"
+case10: fix the redirection input if the file is not found
+case11:
+handle the case where the redirection begin before the command

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/25 11:47:28 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 13:29:56 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char **env ;
     
     int r;
-    if((r = check_redir(head)) && r <= 2)
+    if((r = check_redir(head, 0)))
     {
         t_token *tmp = head;
         while(tmp)

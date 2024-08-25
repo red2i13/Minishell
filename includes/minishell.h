@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 21:24:39 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/25 13:26:46 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,6 @@ char *check_cmd(char *cmd, char **paths);
 /*redirection.c*/
 int redir_output(char *filename, int flag);
 int redir_input(char *filename);
-int check_redir(t_token *head);
+int check_redir(t_token *head, int f);
 char  *last_io(t_token * head, int type);
 #endif
