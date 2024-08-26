@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/25 15:48:58 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:56:21 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int redir_output(char *filename, int flag)
 	if(flag == 1)
 		fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else
-		fd = open(filename, O_APPEND | O_RDWR, 0644);
+		fd = open(filename, O_CREAT | O_APPEND | O_RDWR, 0644);
    if (dup2(fd, 1) == -1) 
    {
         perror("dup2");

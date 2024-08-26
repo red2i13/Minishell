@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/25 19:32:27 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:57:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char **env ;
     
     cmd = check_cmd(head->args[0], paths);
-    if(!cmd)
-        exit(127);
     int r;
     if((r = check_redir(head, 0)))
     {
@@ -67,6 +65,8 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             tmp = tmp->next;
         }
     }
+    if(!cmd)
+        exit(127);
     env = convert_to_array(*envl);
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
             ft_exit(head);
