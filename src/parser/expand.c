@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/24 18:03:31 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/26 18:45:02 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int get_pos(char *str)
     i = 0;
     while (str[i])
     {
-        if (ft_strchr("\"\'$?", str[i]))
+        if (ft_strchr("\"\'$?#=[]!;\*~&{}%()", str[i]))
             return i;
         i++;
     }
@@ -66,7 +66,7 @@ char *vars_sub(char *str, int i, t_list  *env)
     char *path;
     int pos;
 
-    pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
+    pos = get_pos(&str[i]) + (ft_strchr("?", str[i]) != 0);
     if (pos == -1)
         pos = ft_strlen(str);
     brev = ft_substr(str, 0, i - 1);
@@ -92,7 +92,7 @@ char *expand(char *str, t_list  *env)
     {
         q[0] = (q[0] + (!q[1] && str[i] == '\'')) % 2;
         q[1] = (q[1] + (!q[0] && str[i] == '\"')) % 2;
-        if (!q[0] && str[i] == '$' && str[i+1] && !ft_strchr("=:", str[i+1]))
+        if (!q[0] && str[i] == '$' && str[i+1] && !ft_strchr("\$#=[]!;*%~&{}()", str[i+1]))
             return expand(vars_sub(str, ++i, env), env);
         i++;
     }
