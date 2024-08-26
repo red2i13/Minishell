@@ -33,6 +33,7 @@ typedef struct s_token
     char    **args;
     t_type  type;
     int     arg_size;
+    int index;
     struct s_token  *next;
     struct s_token  *prev;
 }       t_token;
@@ -71,4 +72,8 @@ void start_ex(t_token *head, t_list  *env);
 int is_q(char *str);
 void start_rm_q(t_token *head);
 char *rm_quote(char *str);
+
+void cmd_mk(t_token *head);
+void set_index(t_token *head);
+char **ft_realloc(char *arg, char **old_arr);
 #endif

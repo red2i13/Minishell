@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 12:25:31 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/26 10:13:09 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,32 @@
 #include "../includes/minishell.h"
 
 int g_status;
+
+void p_list(t_token *head)
+{
+    while (head)
+    {
+        printf("==========================\n");
+        for (int i = 0; head->args[i]; i++)
+        {
+            printf("{%i}[%s]\n", i, head->args[i]);
+        }
+        printf("%i\n", head->arg_size);
+        if (head->type == HEREDOC)
+            printf("HEREDOC\n");
+        if (head->type == RED)
+            printf("RED\n");
+        if (head->type == PIPE)
+            printf("PIPE\n");
+        if (head->type == CMD)
+            printf("CMD\n");
+        if (head->type == FILE_N)
+            printf("FILE_N\n");
+        printf("index = %i\n", head->index);
+        printf("==========================\n");
+        head = head->next;
+    }
+}
 
 int main(int argc, char **argv, char **env)
 { 
@@ -45,29 +71,10 @@ int main(int argc, char **argv, char **env)
         heredoc(head, envl);
         start_ex(head, envl);
         start_rm_q(head);
+        cmd_mk(head);
+        p_list(head);
         list_clear(head);
         head = NULL;
-        while (head)
-        {
-            printf("==========================\n");
-            for (int i = 0; head->args[i]; i++)
-            {
-                printf("{%i}[%s]\n", i, head->args[i]);
-            }
-            printf("%i\n", head->arg_size);
-            if (head->type == HEREDOC)
-                printf("HEREDOC\n");
-            if (head->type == RED)
-                printf("RED\n");
-            if (head->type == PIPE)
-                printf("PIPE\n");
-            if (head->type == CMD)
-                printf("CMD\n");
-            if (head->type == FILE_N)
-                printf("FILE_N\n");
-            printf("==========================\n");
-            head = head->next;
-        }
         g_status = 0;
     }
     return (0);

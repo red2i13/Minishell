@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 12:24:40 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/26 11:20:14 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,23 @@ char *ran_file(void)
     close(fd);
     return(s);
 }
+
+int	ff_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
+	{
+		if (s1[i] != s2[i])
+			break ;
+		i++;
+	}
+	if (s1[i] == '\0' && s2[i] == '\0')
+		return (1);
+	return (0);
+}
+
 void read_put(char *file_name, char *del, int q, t_list *env)
 {
     char *str;
@@ -52,7 +69,7 @@ void read_put(char *file_name, char *del, int q, t_list *env)
     while(1)
     {
         str = readline(">");
-        if (!ft_strncmp(str, del, ft_strlen(str)) && ft_strlen(str) != 0)
+        if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
             break;
         tmp = str;
         if (q == 0)
@@ -104,10 +121,8 @@ void heredoc(t_token *head, t_list *env)
             head->args[1] = NULL;
             head->type = RED;
             head->arg_size = 1;
-            free_arr(head->next->args);
-            head->next->args = malloc(sizeof(char *) * 2);
+            free(head->next->args[0]);
             head->next->args[0] = file_name;
-            head->next->args[1] = NULL;
             head->next->type = FILE_N;
         }
         head = head->next;   
