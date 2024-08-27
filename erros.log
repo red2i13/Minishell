@@ -23,6 +23,12 @@ minishell → echo $DD
 �
 minishell → echo $DDDDD"
 case12: FIX:i have to check the command before redirecting
-case13: open a new file if the file is not found >>
+case13: FIX:open a new file if the file is not found >>
 case14 echo $SHELL=$USER 
 result : /bin/zsh=rbenmakh! 
+case15: protect the redirection when a file is "\0" ex:
+			10:55:17 rbenmakh@c4r8p8 Minishell ±|rediv2 ✗|→ ls > $fdsfsdf
+			bash: $fdsfsdf: ambiguous redirect
+			10:55:23 rbenmakh@c4r8p8 Minishell ±|rediv2 ✗|→ ls > $""
+			bash: : No such file or directory
+case16

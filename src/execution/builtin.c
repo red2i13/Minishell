@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/26 10:18:44 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/27 22:04:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -364,6 +364,10 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
             f = ft_strchr(head->args[i], '=');       
         var_name = NULL;
         var_value = NULL;
+        if(ft_strnstr(head->args[i], "+=", ft_strlen(head->args[i])) && head->args[i][0] != '+')
+        {
+            
+        }
         if(!f && head->args[i])
         {
             var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
