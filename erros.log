@@ -24,3 +24,5 @@ minishell → echo $DD
 minishell → echo $DDDDD"
 case12: FIX:i have to check the command before redirecting
 case13: open a new file if the file is not found >>
+case14 echo $SHELL=$USER 
+result : /bin/zsh=rbenmakh! 

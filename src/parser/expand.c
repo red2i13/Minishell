@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/24 18:03:31 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/27 10:19:40 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int get_pos(char *str)
     i = 0;
     while (str[i])
     {
-        if (ft_strchr("\"\'$?", str[i]))
+        if (ft_strchr("\"\'$?=", str[i]))
             return i;
         i++;
     }
