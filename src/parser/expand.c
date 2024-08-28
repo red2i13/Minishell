@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/26 18:45:02 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 12:53:35 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int get_pos(char *str)
     i = 0;
     while (str[i])
     {
-        if (ft_strchr("\"\'$?#=[]!;\*~&{}%()", str[i]))
+        if (ft_strchr("\"\'$?#=[]!;\\*~&{}%()   ", str[i]))
             return i;
         i++;
     }
@@ -66,36 +66,49 @@ char *vars_sub(char *str, int i, t_list  *env)
     char *path;
     int pos;
 
-    pos = get_pos(&str[i]) + (ft_strchr("?", str[i]) != 0);
+    pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
     if (pos == -1)
         pos = ft_strlen(str);
     brev = ft_substr(str, 0, i - 1);
     var = get_var(ft_substr(str, i, pos), env);
     if (!var && str[i] == '?')
 		var = ft_itoa(g_status);
+    else if (!var && str[i] == '$')
+        var = ft_itoa(getpid());
     if (!var) 
         var = ft_strdup("");
     path = ft_strjoin(brev, var);
     path = ft_strjoin(path, &str[i + pos]);
-    return path;
+    return (path);
 }
 
 
-char *expand(char *str, t_list  *env)
+char *expand(char *str, t_list  *env, int *q, char ***temp)
 {
-    int q[2];
-    int i = 0;
+    char *t;
 
-    q[0] = 0;
-    q[1] = 0;
-    while (str && str[i])
+    while (str && str[q[2]])
     {
-        q[0] = (q[0] + (!q[1] && str[i] == '\'')) % 2;
-        q[1] = (q[1] + (!q[0] && str[i] == '\"')) % 2;
-        if (!q[0] && str[i] == '$' && str[i+1] && !ft_strchr("\$#=[]!;*%~&{}()", str[i+1]))
-            return expand(vars_sub(str, ++i, env), env);
-        i++;
+        q[0] = (q[0] + (!q[1] && str[q[2]] == '\'')) % 2;
+        q[1] = (q[1] + (!q[0] && str[q[2]] == '\"')) % 2;
+        if (!q[0] && str[q[2]] == '$' && str[q[2]+1] && !ft_strchr("\\#=[]!;*%~&{}()   ", str[q[2]+1]) && !(ft_strchr("\"", str[q[2]+1]) && q[1]))
+        {   
+            q[2]++;
+            if (!q[0] && !q[1] && temp)
+            {
+                t = vars_sub(str, q[2], env);
+                *temp = ft_split(t, ' ');
+                return (t);
+            }
+            else
+            {
+                return expand(vars_sub(str, q[2], env), env, q, temp);
+            }
+        }
+        q[2]++;
     }
+    if (temp)
+        *temp = NULL;
     return (str);
 }
 
@@ -103,16 +116,27 @@ char *expand(char *str, t_list  *env)
 void start_ex(t_token *head, t_list  *env)
 {
     int i;
+    int q[3];
+    char ***temp;
 
+    temp = malloc(sizeof(char **));
     i = 0;
     while (head)
     {
         i = 0;
         while (head->args[i])
         {
-            head->args[i] = expand(head->args[i], env);
-            i++;
+            *temp = NULL;
+            q[0] = 0;
+            q[1] = 0;
+            q[2] = 0;
+            head->args[i] = expand(head->args[i], env, q, temp);
+            if (*temp)
+                head->args = join_cmds(head->args, *temp, i);
+            else
+                i++;
         }
         head = head->next;
     }
+    free(temp);
 }

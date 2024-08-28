@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/26 11:20:14 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:23:15 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ff_strncmp(const char *s1, const char *s2, size_t n)
 void read_put(char *file_name, char *del, int q, t_list *env)
 {
     char *str;
+    int i[3];
     char *tmp;
     int fd;
 
@@ -72,8 +73,11 @@ void read_put(char *file_name, char *del, int q, t_list *env)
         if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
             break;
         tmp = str;
+        i[0] = 0;
+        i[1] = 0;
+        i[2] = 0;
         if (q == 0)
-            str = expand(str, env);
+            str = expand(str, env, i, NULL);
         str = ft_strjoin(str, "\n");
         write(fd, str, ft_strlen(str));
         free(tmp);

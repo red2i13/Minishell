@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 11:20:33 by rbenmakh          #+#    #+#             */
-/*   Updated: 2023/11/24 10:06:42 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/28 10:53:52 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	**ft_split(char const *s, char c)
 	char	**ptr;
 	int		wordslen;
 
-	if (!s)
+	if (!s || !*s)
 		return (NULL);
 	wordslen = ft_words(s, c);
 	ptr = ft_fill(s, c, wordslen, -1);
