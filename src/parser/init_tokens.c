@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/26 10:15:02 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:07:15 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,6 @@ t_token *init_tokens(char **args)
     }
     if (new_args)
         add_back_t(&head, create_token(new_args));
+    free(args);
     return head;
 }

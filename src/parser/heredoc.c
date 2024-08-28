@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/28 14:23:15 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:31:11 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,22 +65,21 @@ void read_put(char *file_name, char *del, int q, t_list *env)
     int fd;
 
     fd = open(file_name, O_CREAT | O_RDWR , 0777);
-    // the under line use to print the file desc
-    // printf("%i\n", fd);
     while(1)
     {
         str = readline(">");
         if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
             break;
-        tmp = str;
         i[0] = 0;
         i[1] = 0;
         i[2] = 0;
         if (q == 0)
             str = expand(str, env, i, NULL);
+        tmp = str;
         str = ft_strjoin(str, "\n");
-        write(fd, str, ft_strlen(str));
         free(tmp);
+        write(fd, str, ft_strlen(str));
+        free(str);
     }
     close(fd);
 }

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/27 19:31:48 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:34:25 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int main(int argc, char **argv, char **env)
         if (!line)
         {
             printf("exit\n");
+            ft_lstclear(&envl, &del);
             free(line);
             return (0);
         }

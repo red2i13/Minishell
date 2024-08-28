@@ -76,4 +76,5 @@ char *rm_quote(char *str);
 void cmd_mk(t_token *head);
 void set_index(t_token *head);
 char **ft_realloc(char *arg, char **old_arr);
+void del(void *c);
 #endif

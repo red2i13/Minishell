@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/28 12:53:35 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:30:06 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,16 @@ char *vars_sub(char *str, int i, t_list  *env)
     char *brev;
     char *var;
     char *path;
+    char *fr;
     int pos;
 
     pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
     if (pos == -1)
         pos = ft_strlen(str);
     brev = ft_substr(str, 0, i - 1);
-    var = get_var(ft_substr(str, i, pos), env);
+    fr = ft_substr(str, i, pos);
+    var = get_var(fr, env);
+    free(fr);
     if (!var && str[i] == '?')
 		var = ft_itoa(g_status);
     else if (!var && str[i] == '$')
@@ -78,7 +81,12 @@ char *vars_sub(char *str, int i, t_list  *env)
     if (!var) 
         var = ft_strdup("");
     path = ft_strjoin(brev, var);
+    fr = path;
     path = ft_strjoin(path, &str[i + pos]);
+    free(fr);
+    free(brev);
+    free(var);
+    free(str);
     return (path);
 }
 
@@ -132,7 +140,10 @@ void start_ex(t_token *head, t_list  *env)
             q[2] = 0;
             head->args[i] = expand(head->args[i], env, q, temp);
             if (*temp)
+            {
+                
                 head->args = join_cmds(head->args, *temp, i);
+            }
             else
                 i++;
         }

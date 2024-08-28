@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:16:11 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/26 18:28:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:34:54 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@ void free_arr(char **arr)
     int i;
 
     i = 0;
-    if (arr == NULL)
-        return;
-    while (arr[i])
+    while (arr && arr[i])
     {
         free(arr[i]);
         i++;
@@ -62,4 +60,9 @@ void cmd_mk(t_token *head)
         }
         head = head->next;
     }
+}
+
+void del(void *c)
+{
+    free(c);
 }
