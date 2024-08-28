@@ -1,8 +1,34 @@
 //case1 problem in parssing 
-when excuting the command export "" it should give export -> empty string -> NULL
-//case2 problem in parssing
-when excuting the commnad echo "dffsdf""fsdfsdf" it should join the two string it print it
-//case3 problem with export when given two prams or greater it should each one as one var
-//case4 check the var_name in export command and unset command
-//case5 discover segfault command(echo "fdfdsfsd" "fdfds")
-//case6 the command > "ls " should not excute there is an error in the parsing the arge should contain "ls " -> "NULL"
+FIXwhen excuting the command export "" it should give export -> empty string -> NULL
+FIX//case2 problem in parssing
+FIXwhen excuting the commnad echo "dffsdf""fsdfsdf" it should join the two string it print it
+FIX//case3 problem with export when given two prams or greater it should each one as one var
+FIX//case4 check the var_name in export command and unset command
+FIX//case5 discover segfault command(echo "fdfdsfsd" "fdfds")
+FIXcase6 the command > "ls " should not excute there is an error in the parsing the arge should contain "ls " -> "NULL"
+//case7: commannd "cat << del > file" cause a crash in the program (problem in realloc)
+//case8 add to variablae in export for ex export var+=fdfds
+//case9 handle in export :
+CURRENT : add to an existing variable ex var+="value"
+case10: FIX: fix the redirection input if the file is not found
+case11:
+handle the case where the redirection begin before the command
+CASE11 problem in expand
+"
+\minishell → echo $H
+��
+minishell → echo $D
+��
+minishell → echo $DD
+�
+minishell → echo $DDDDD"
+case12: FIX:i have to check the command before redirecting
+case13: FIX:open a new file if the file is not found >>
+case14 echo $SHELL=$USER 
+result : /bin/zsh=rbenmakh! 
+case15: protect the redirection when a file is "\0" ex:
+			10:55:17 rbenmakh@c4r8p8 Minishell ±|rediv2 ✗|→ ls > $fdsfsdf
+			bash: $fdsfsdf: ambiguous redirect
+			10:55:23 rbenmakh@c4r8p8 Minishell ±|rediv2 ✗|→ ls > $""
+			bash: : No such file or directory
+case16

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/01 18:59:34 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:25:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,12 @@ void echo(char **cmd)
     if(!flag)
         printf("\n");
 }
-char*    pwd(int i)
+char*    pwd(int i, t_list *envl)
 {
     char *pwd ;
     pwd = getcwd(0, 0);
+    if(!pwd)
+        pwd = fenv(envl, "PWD") + 4;
     if (i == 1)
         printf("%s\n", pwd);
     return(pwd);
@@ -73,7 +75,7 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
 {
     char *path;
     
-    path =NULL;
+    path = NULL;
     if(args[2])
         return(write(2, "cd: string not is pwd\n", 23), 1);
     if (!args[1] || args[1][0] == '~')
@@ -81,25 +83,31 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
         path = fenv(*envl, "HOME=");
         if(!path)
             return(write(2, "cd: HOME not set", 17), 1);
-        export(exp_list, envl, "OLDPWD=", pwd(0));
+        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
         chdir(path + 5);
     }
     else if(args[1][0] == '-')
     {
         path = fenv(*envl, "OLDPWD=");
-        export(exp_list, envl, "OLDPWD=", pwd(0));
+        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
         chdir(path + 7);
-        pwd(1);
+        pwd(1, *envl);
     }
     else
     {
-        export(exp_list, envl, "OLDPWD=", pwd(0));
+        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
+        if(!getcwd(0, 0))
+            printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
         if(chdir(args[1]))
         {
             printf("cd: %s ", args[1]);
             error_func(errno, 1);
         }
     }
+    export(exp_list, envl, "PWD=", pwd(0, *envl));
+    //debug
+    //printf("debug %s\n", fenv(*envl, "PWD"));
+    //
     free(path);
     return(0);
 }
@@ -194,8 +202,13 @@ int check_var(char *var_name)
     int i ;
     
     i = 0;
+
     while(var_name[i+1])
     {
+        if(var_name[i + 1] == '=' && var_name [i + 2] == '\0' && var_name[i] == '+')
+        {
+            return(0);
+        }
         if(!ft_isalnum(var_name[i]) && var_name[i] != '_')
         {
             return (1);  
@@ -207,14 +220,34 @@ int check_var(char *var_name)
 int search_var_replace(t_list **list, char *var_name, char *var_value)
 {
     char    *tmp;
+    char    *tmp1;
     char    *str;
-    t_list *tmpl;
-
+    t_list  *tmpl;
+    int     flag;
+// add second tmp for var_value when +=
+    flag = 0;
     tmpl = *list;
+    if(var_name && ft_strchr(var_name, '+'))
+    {
+        tmp = var_name;
+        var_name = ft_strtrim(var_name, "+=");
+        var_name = ft_strjoin(var_name, "=");
+        flag = 1;
+    }
     while(tmpl)
     {
         str = (char*)tmpl->content;
-        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
+        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)) && flag)
+        {
+            tmp = str;
+            tmp1 = var_value;
+            var_value = ft_strjoin(ft_strchr(str, '=') + 1, var_value);
+            tmpl->content = ft_strjoin(var_name, var_value);
+            free(tmp);
+            free(var_value);
+            return(1);
+        }
+        else if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)) && !flag)
         {
             tmp = str;
             tmpl->content = ft_strjoin(var_name, var_value);
@@ -225,12 +258,17 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
     }
     return(0);
 }
-//done: add the case of a =3 b=4 and c=7
+
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     int     flag;
     int     flag2;
-
+    
+    if(var_name && var_name[0] == '-')
+    {
+        write(2, "export: bad option: -s\n", 24);
+        return ;
+    }
     if(var_name && (!var_name[0] || ft_isdigit(var_name[0]) || (!ft_isalpha(var_name[0]) && var_name[0] != '_') || (check_var(var_name + 1))))
     {
         write(2, "export: not a valid identifier\n",32);
@@ -238,6 +276,13 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     }
     flag = search_var_replace(envl, var_name, var_value);
     flag2 = search_var_replace(exp_list, var_name, var_value);
+    if(var_name && ft_strchr(var_name, '+'))
+    {
+        char *tmp = var_name;
+        var_name = ft_strtrim(var_name, "+=");
+        var_name = ft_strjoin(var_name, "=");
+        free(tmp);
+    }
     if(!var_value && var_name)
         ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
     if(!flag && var_name && var_value)
@@ -314,10 +359,59 @@ char **convert_to_array(t_list *envl)
     cenv[i] = 0;
     return(cenv);
 }
-void    ft_exit(char *val)
+void    ft_exit(t_token *head)
 {
-    if (val != NULL)
-        exit(ft_atoi(val) % 256);
-    else
+    int val;
+
+    if(!head->args[1])
         exit(0);
+    val = ft_atoi(head->args[1]);
+    if((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-'))
+    {
+        write(2, "bash: exit: numeric argument required\n", 39);
+        exit(2);
+    }
+    else if (head->args[2])
+    {
+        write(2, "exit\nMinishell: exit: too many arguments\n", 42);
+        return ;
+    }
+    else if (val != 0)
+        exit(val % 256);
+
+}
+
+void init_export(t_token *head , t_list **envl, t_list **exp_list)
+{
+    int i;
+    char *var_value;
+    char *var_name;
+
+    i = 1;
+    while (head->args[i])
+    {
+        char *f ;
+        f = NULL;
+        if(head->args[i])
+            f = ft_strchr(head->args[i], '=');       
+        var_name = NULL;
+        var_value = NULL;
+        // if(ft_strnstr(head->args[i], "+=", ft_strlen(head->args[i])) && head->args[i][0] != '+')
+        // {
+            
+        // }
+        if(!f && head->args[i])
+        {
+            var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
+            //var_value = ft_strdup("");
+        }
+        else if(f && head->args[i])
+        {
+            var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );
+            var_value = ft_strdup(ft_strchr(head->args[i], '=') + 1);
+        }
+        export(exp_list,envl,var_name, var_value);
+        i++;
+    }
+    return ;
 }

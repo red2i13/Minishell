@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
 /*   Updated: 2024/08/28 16:34:25 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../includes/minishell.h"
 
@@ -46,11 +45,13 @@ int main(int argc, char **argv, char **env)
     char    *line;
     int i[3];
     t_token *head;
-    t_list  *envl;
-
+    t_list  *envl ;
+    t_list  *exp_list;
     (void)argc;
     (void)argv;
+    char **args  ;
     envl= setup_env(env);
+    exp_list = setup_exp(envl);
     while (1)
     {
         if (!g_status)
@@ -67,16 +68,37 @@ int main(int argc, char **argv, char **env)
         if (line[0] == '\0' || count_words(line, "     ", i) == 0)
             continue;
         head = cmds_parse(line);
-        if (!head)
-            continue;
         heredoc(head, envl);
         start_ex(head, envl);
         start_rm_q(head);
         cmd_mk(head);
         p_list(head);
+        ///////////////////////////////////////////////
+        if (!head)
+            continue;
+        if(check_pipe(head))
+            exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
+        else if(check_redir(head, 0) || check_redir(head, 1))
+        {
+            int pid;
+            int exit_st;
+            if(!(pid = fork()))
+            {
+                //pick tha last input
+                char *input = last_io(head, 1);
+                if(input)
+                    redir_input(input);
+                run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+                exit(0);
+            }
+            else
+                wait(&exit_st);
+            g_status = exit_st / 256;
+        }
+        else
+            run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
         list_clear(head);
         head = NULL;
-        g_status = 0;
     }
     return (0);
 }

@@ -6,11 +6,11 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/06 18:40:05 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/26 09:57:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int calc_pipes(t_token *list)
 {
@@ -19,7 +19,7 @@ int calc_pipes(t_token *list)
     p = 0;
     while (list)
     {
-        if(list->value[0] == '|')
+        if(list->args[0][0] == '|')
             p++;
         list = list->next; 
     }
@@ -47,62 +47,40 @@ int **init_pipes(int p)
  
     return(fdt);
 }
-// int main()
-// {
-//     int p = 6;   
-//     int **fdt = init_pipes(p);
-//     for(int k = 0; k < p; k++)
-//     {
-//         printf("eee %i\n", fdt[k][0]);
-//         printf("bbb %i\n", fdt[k][1]);
-//         close(fdt[k][0]);
-//         close(fdt[k][1]);
-//     }
-// }
+
 void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
-    int pid;
     char *cmd;
     char **env ;
-    (void)pid;
     
-    env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
-    if (ft_strnstr(head->value, "exit", ft_strlen("exit")))
-            ft_exit(head->args[1]);
+    int r;
+    if((r = check_redir(head, 0)))
+    {
+        t_token *tmp = head;
+        while(tmp)
+        {
+            if(tmp->args[0][0] == '>')
+                redir_output(tmp->next->args[0], r);
+            tmp = tmp->next;
+        }
+    }
+    if(!cmd)
+        exit(127);
+    env = convert_to_array(*envl);
+    if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
+            ft_exit(head);
     else if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
     else if(ft_strnstr(head->args[0], "echo", 5))
         echo(head->args);
+    else if(ft_strnstr(head->args[0], "pwd", 4))
+        pwd(1, *envl);
     else if(ft_strnstr(head->args[0], "export", 7))
     {
-        int i = 1;
         if(!head->args[1])
             export(exp_list, envl, NULL, NULL);
-        while (head->args[i])
-        {
-            char *f ;
-            f = NULL;
-            if(head->args[i])
-                f= ft_strchr(head->args[i], '=');
-            char *var_value;
-            char *var_name;
-            
-            var_name = NULL;
-            var_value = NULL;
-            if(!f && head->args[i])
-            { 
-                var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
-                //var_value = ft_strdup("");
-            }
-            else if(f && head->args[i])
-            {
-                var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );
-                var_value = ft_strdup(ft_strchr(head->args[i], '=') + 1);
-            }
-            export(exp_list,envl,var_name, var_value);
-            i++;
-        }
+        init_export(head, envl, exp_list);
     }
     else if(ft_strnstr(head->args[0], "unset", 6))
     {
@@ -113,54 +91,64 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         print_env(*envl);
     else if(execve(cmd, head->args, env) == -1)
     {
-        //use perror of strerror function
-        //perror("Error ");
-        // char *error = strerror(errno);
-        // printf("debug %s\n", error);
-        exit(127);
+        perror("execve");
+        exit(EXIT_FAILURE);
     }
 }
+
+
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int i;
     int pid;
-    //int status;    
+    int exit_st;    
     int p = calc_pipes(head);
     int **fdt = init_pipes(p);
    
-    i = 0; 
-    while(i <= p)
+    i = p;
+    while(head->next)
+    {
+        head = head->next;
+    }
+    while(i >= 0)
     {
         if(!(pid = fork()))
         {
             if(i != p)
             {
                 dup2(fdt[i][1], STDOUT_FILENO);
-                close(fdt[i][0]);
-                close(fdt[i][1]);
             }
             if(i > 0)
             {
-                dup2(fdt[i-1][0], STDIN_FILENO);
-                close(fdt[i -1][0]);
+                dup2(fdt[i - 1][0], STDIN_FILENO);
+            }
+            //function that kill all the unused file descriptor
+            for(int k = 0; k < p; k++)
+            {
+                close(fdt[k][0]);
+                close(fdt[k][1]);
             }
             run(head, envl, exp_list, paths);
             exit(0);
         }
-        else
-        {
-            if (i > 0)
-                close(fdt[i - 1][0]);
-            if(i < p)
-                close(fdt[i][1]);  
-        }
-        if(head->next)
-            head = head->next->next;
-        i++;
+        if(head->prev)
+            head = head->prev->prev;
+        i--;
     }
-    while(wait(0) == 0)
+    for (i = 0; i < p; i++) 
+    {
+        close(fdt[i][0]);
+        close(fdt[i][1]);
+    }
+    while(wait(&exit_st) > 0)
     {   
     }
+    for (i = 0; i < p; i++) 
+    {
+        free(fdt[i]);
+    }
+    free(fdt);
+    g_status = exit_st / 256;
+
     return(0);
 }
-
