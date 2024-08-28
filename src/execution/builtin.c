@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/27 22:04:05 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:25:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -202,8 +202,13 @@ int check_var(char *var_name)
     int i ;
     
     i = 0;
+
     while(var_name[i+1])
     {
+        if(var_name[i + 1] == '=' && var_name [i + 2] == '\0' && var_name[i] == '+')
+        {
+            return(0);
+        }
         if(!ft_isalnum(var_name[i]) && var_name[i] != '_')
         {
             return (1);  
@@ -215,14 +220,34 @@ int check_var(char *var_name)
 int search_var_replace(t_list **list, char *var_name, char *var_value)
 {
     char    *tmp;
+    char    *tmp1;
     char    *str;
-    t_list *tmpl;
-
+    t_list  *tmpl;
+    int     flag;
+// add second tmp for var_value when +=
+    flag = 0;
     tmpl = *list;
+    if(var_name && ft_strchr(var_name, '+'))
+    {
+        tmp = var_name;
+        var_name = ft_strtrim(var_name, "+=");
+        var_name = ft_strjoin(var_name, "=");
+        flag = 1;
+    }
     while(tmpl)
     {
         str = (char*)tmpl->content;
-        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)))
+        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)) && flag)
+        {
+            tmp = str;
+            tmp1 = var_value;
+            var_value = ft_strjoin(ft_strchr(str, '=') + 1, var_value);
+            tmpl->content = ft_strjoin(var_name, var_value);
+            free(tmp);
+            free(var_value);
+            return(1);
+        }
+        else if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)) && !flag)
         {
             tmp = str;
             tmpl->content = ft_strjoin(var_name, var_value);
@@ -251,6 +276,13 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     }
     flag = search_var_replace(envl, var_name, var_value);
     flag2 = search_var_replace(exp_list, var_name, var_value);
+    if(var_name && ft_strchr(var_name, '+'))
+    {
+        char *tmp = var_name;
+        var_name = ft_strtrim(var_name, "+=");
+        var_name = ft_strjoin(var_name, "=");
+        free(tmp);
+    }
     if(!var_value && var_name)
         ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
     if(!flag && var_name && var_value)
@@ -364,10 +396,10 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
             f = ft_strchr(head->args[i], '=');       
         var_name = NULL;
         var_value = NULL;
-        if(ft_strnstr(head->args[i], "+=", ft_strlen(head->args[i])) && head->args[i][0] != '+')
-        {
+        // if(ft_strnstr(head->args[i], "+=", ft_strlen(head->args[i])) && head->args[i][0] != '+')
+        // {
             
-        }
+        // }
         if(!f && head->args[i])
         {
             var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
