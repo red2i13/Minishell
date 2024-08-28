@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/28 16:34:25 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 18:48:06 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int main(int argc, char **argv, char **env)
     t_list  *exp_list;
     (void)argc;
     (void)argv;
-    char **args  ;
     envl= setup_env(env);
     exp_list = setup_exp(envl);
     while (1)
@@ -72,7 +71,7 @@ int main(int argc, char **argv, char **env)
         start_ex(head, envl);
         start_rm_q(head);
         cmd_mk(head);
-        p_list(head);
+        //p_list(head);
         ///////////////////////////////////////////////
         if (!head)
             continue;
