@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 14:43:15 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:31:11 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,26 +40,46 @@ char *ran_file(void)
     close(fd);
     return(s);
 }
+
+int	ff_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n && (s1[i] || s2[i]))
+	{
+		if (s1[i] != s2[i])
+			break ;
+		i++;
+	}
+	if (s1[i] == '\0' && s2[i] == '\0')
+		return (1);
+	return (0);
+}
+
 void read_put(char *file_name, char *del, int q, t_list *env)
 {
     char *str;
+    int i[3];
     char *tmp;
     int fd;
 
     fd = open(file_name, O_CREAT | O_RDWR , 0777);
-    // the under line use to print the file desc
-    // printf("%i\n", fd);
     while(1)
     {
         str = readline(">");
-        if (!ft_strncmp(str, del, ft_strlen(str)) && ft_strlen(str) != 0)
+        if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
             break;
-        tmp = str;
+        i[0] = 0;
+        i[1] = 0;
+        i[2] = 0;
         if (q == 0)
-            str = expand(str, env);
+            str = expand(str, env, i, NULL);
+        tmp = str;
         str = ft_strjoin(str, "\n");
-        write(fd, str, ft_strlen(str));
         free(tmp);
+        write(fd, str, ft_strlen(str));
+        free(str);
     }
     close(fd);
 }
@@ -82,14 +102,12 @@ void heredoc(t_token *head, t_list *env)
 {
     char *file_name;
     (void)head;
-    
-    file_name = ran_file();
-    // the under line use to print the file name 
-    // printf("%s\n", file_name);
+
     while (head)
     {
         if (head->type == HEREDOC)
         {
+            file_name = ran_file();
             if (is_q(head->next->args[0]))
             {
                 head->next->args[0] = rm_quote(head->next->args[0]);
@@ -103,10 +121,8 @@ void heredoc(t_token *head, t_list *env)
             head->args[1] = NULL;
             head->type = RED;
             head->arg_size = 1;
-            free_arr(head->next->args);
-            head->next->args = malloc(sizeof(char *) * 2);
+            free(head->next->args[0]);
             head->next->args[0] = file_name;
-            head->next->args[1] = NULL;
             head->next->type = FILE_N;
         }
         head = head->next;   

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 15:40:47 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/10 19:11:07 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 14:55:57 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_token *cmds_parse(char *line)
         return NULL;
     head = init_tokens(args);
     if (!head)
-        printf("stfu\n");
+        return (NULL);
     set_size(head);
     set_type(head);
     if (check_err(head) < 0)

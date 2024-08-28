@@ -6,13 +6,39 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 15:52:16 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:34:25 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
 int g_status;
+
+void p_list(t_token *head)
+{
+    while (head)
+    {
+        printf("==========================\n");
+        for (int i = 0; head->args[i]; i++)
+        {
+            printf("{%i}[%s]\n", i, head->args[i]);
+        }
+        printf("%i\n", head->arg_size);
+        if (head->type == HEREDOC)
+            printf("HEREDOC\n");
+        if (head->type == RED)
+            printf("RED\n");
+        if (head->type == PIPE)
+            printf("PIPE\n");
+        if (head->type == CMD)
+            printf("CMD\n");
+        if (head->type == FILE_N)
+            printf("FILE_N\n");
+        printf("index = %i\n", head->index);
+        printf("==========================\n");
+        head = head->next;
+    }
+}
 
 int main(int argc, char **argv, char **env)
 { 
@@ -35,6 +61,7 @@ int main(int argc, char **argv, char **env)
         if (!line)
         {
             printf("exit\n");
+            ft_lstclear(&envl, &del);
             free(line);
             return (0);
         }
@@ -44,20 +71,11 @@ int main(int argc, char **argv, char **env)
         heredoc(head, envl);
         start_ex(head, envl);
         start_rm_q(head);
+        cmd_mk(head);
+        p_list(head);
+        ///////////////////////////////////////////////
         if (!head)
             continue;
-        args = get_cmds(line);
-        if (!args)
-            return (0);
-       // head = init_tokens(args);
-        // while (head)
-        // {
-        //     for (int i = 0; head->args[i]; i++)
-        //         printf("[%s] %i\n", head->args[i], i);
-        //     printf("==========================\n");
-        //     head = head->next;
-        // }
-   
         if(check_pipe(head))
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
         else if(check_redir(head, 0) || check_redir(head, 1))
@@ -79,7 +97,8 @@ int main(int argc, char **argv, char **env)
         }
         else
             run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
-
+        list_clear(head);
+        head = NULL;
     }
     return (0);
 }

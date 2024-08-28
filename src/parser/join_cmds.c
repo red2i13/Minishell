@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 08:10:13 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 13:25:51 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:03:42 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int count_cmd(char **arr)
     int count;
 
     count = 0;
-    while (arr[count])
+    while (arr && arr[count])
         count++;
     return (count);
 }
@@ -40,11 +40,14 @@ char **join_cmds(char **big, char **mini, int pos)
         else
         {
             i[1] = 0;
-            while (mini[i[1]])
+            while (mini && mini[i[1]])
                 ret_arr[i[2]++] = mini[i[1]++];
+            free(big[i[0]]);
         }
         i[0]++;
     }
     ret_arr[i[2]] = NULL;
+    free(big);
+    free(mini);
     return ret_arr;
 }
