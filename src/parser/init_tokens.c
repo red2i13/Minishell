@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/12 11:16:08 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 15:07:15 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,8 @@ void set_type(t_token *head)
                 head->type = HEREDOC;
             else if (head->args[0][0] == '>' || head->args[1][0] == '>')
                 head->type = RED;
+            else
+                head->type = CMD;
         }
         else if (head->args[0][0] == '>' || head->args[0][0] == '<')
             head->type = RED;
@@ -125,5 +127,6 @@ t_token *init_tokens(char **args)
     }
     if (new_args)
         add_back_t(&head, create_token(new_args));
+    free(args);
     return head;
 }

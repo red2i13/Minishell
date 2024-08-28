@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 18:06:39 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/28 16:34:25 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,32 @@
 #include "../includes/minishell.h"
 
 int g_status;
+
+void p_list(t_token *head)
+{
+    while (head)
+    {
+        printf("==========================\n");
+        for (int i = 0; head->args[i]; i++)
+        {
+            printf("{%i}[%s]\n", i, head->args[i]);
+        }
+        printf("%i\n", head->arg_size);
+        if (head->type == HEREDOC)
+            printf("HEREDOC\n");
+        if (head->type == RED)
+            printf("RED\n");
+        if (head->type == PIPE)
+            printf("PIPE\n");
+        if (head->type == CMD)
+            printf("CMD\n");
+        if (head->type == FILE_N)
+            printf("FILE_N\n");
+        printf("index = %i\n", head->index);
+        printf("==========================\n");
+        head = head->next;
+    }
+}
 
 int main(int argc, char **argv, char **env)
 { 
@@ -34,6 +60,7 @@ int main(int argc, char **argv, char **env)
         if (!line)
         {
             printf("exit\n");
+            ft_lstclear(&envl, &del);
             free(line);
             return (0);
         }
@@ -45,29 +72,11 @@ int main(int argc, char **argv, char **env)
         heredoc(head, envl);
         start_ex(head, envl);
         start_rm_q(head);
-        while (head)
-        {
-            printf("==========================\n");
-            for (int i = 0; head->args[i]; i++)
-            {
-                printf("{%i}[%s]\n", i, head->args[i]);
-            }
-            printf("%i\n", head->arg_size);
-            if (head->type == HEREDOC)
-                printf("HEREDOC\n");
-            if (head->type == RED)
-                printf("RED\n");
-            if (head->type == PIPE)
-                printf("PIPE\n");
-            if (head->type == CMD)
-                printf("CMD\n");
-            if (head->type == FILE_N)
-                printf("FILE_N\n");
-            printf("==========================\n");
-            head = head->next;
-        }
+        cmd_mk(head);
+        p_list(head);
+        list_clear(head);
+        head = NULL;
         g_status = 0;
-        // list_clear(head);
     }
     return (0);
 }
