@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/08/27 10:19:40 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:50:48 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int get_pos(char *str)
     i = 0;
     while (str[i])
     {
-        if (ft_strchr("\"\'$?#=[]!;\\*~&{}%()   ", str[i]))
+        if (ft_strchr("\"\'$?#@!=[]!;\\*~&{}%() \t", str[i]))
             return i;
         i++;
     }
@@ -99,7 +99,7 @@ char *expand(char *str, t_list  *env, int *q, char ***temp)
     {
         q[0] = (q[0] + (!q[1] && str[q[2]] == '\'')) % 2;
         q[1] = (q[1] + (!q[0] && str[q[2]] == '\"')) % 2;
-        if (!q[0] && str[q[2]] == '$' && str[q[2]+1] && !ft_strchr("\\#=[]!;*%~&{}()   ", str[q[2]+1]) && !(ft_strchr("\"", str[q[2]+1]) && q[1]))
+        if (!q[0] && str[q[2]] == '$' && str[q[2]+1] && !ft_strchr("\\#=[]!@;*%~&{}() \t", str[q[2]+1]) && !(ft_strchr("\"", str[q[2]+1]) && q[1]))
         {   
             q[2]++;
             if (!q[0] && !q[1] && temp)
