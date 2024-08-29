@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/26 09:57:19 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/29 15:20:54 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,11 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         print_env(*envl);
     else if(execve(cmd, head->args, env) == -1)
     {
-        perror("execve");
+        perror("minishell: ");
         exit(EXIT_FAILURE);
     }
+    free_arr(paths);
+    free_arr(env);
 }
 
 

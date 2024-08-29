@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/28 18:48:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:10:36 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ int main(int argc, char **argv, char **env)
         if (!line)
         {
             printf("exit\n");
-            ft_lstclear(&envl, &del);
+            if(envl)
+                ft_lstclear(&envl, &del);
+            if(exp_list)
+                ft_lstclear(&exp_list, &del);
             free(line);
             return (0);
         }
@@ -71,6 +74,7 @@ int main(int argc, char **argv, char **env)
         start_ex(head, envl);
         start_rm_q(head);
         cmd_mk(head);
+        ///////////////////////////////////////////////
         //p_list(head);
         ///////////////////////////////////////////////
         if (!head)

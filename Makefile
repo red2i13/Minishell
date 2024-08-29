@@ -1,5 +1,5 @@
 #Dont forget to delet the -g flag
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 FLAGS = -lreadline
 PARSER =   get_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c token_list_functions.c init_tokens.c cmds_parse.c parsing_utlis.c heredoc.c utiles.c expand.c rm_quote.c
 EXEC = builtin.c exec.c pipes.c redirection.c 

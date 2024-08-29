@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/28 18:25:19 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:00:51 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,7 +237,10 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
     while(tmpl)
     {
         str = (char*)tmpl->content;
-        if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)) && flag)
+        // printf("*******************************(%s)\n", str);
+        if(var_name && !var_value && ft_strnstr(str, var_name, ft_strlen(var_name)))
+            return(1);
+        else if(var_name && var_value && ft_strnstr(str, var_name, ft_strlen(var_name)) && flag)
         {
             tmp = str;
             tmp1 = var_value;
@@ -247,7 +250,7 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
             free(var_value);
             return(1);
         }
-        else if(var_name && ft_strnstr(str, var_name, ft_strlen(var_name)) && !flag)
+        else if(var_name && var_value && ft_strnstr(str, var_name, ft_strlen(var_name)) && !flag)
         {
             tmp = str;
             tmpl->content = ft_strjoin(var_name, var_value);
@@ -283,7 +286,7 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
         var_name = ft_strjoin(var_name, "=");
         free(tmp);
     }
-    if(!var_value && var_name)
+    if(!flag2 && !var_value && var_name)
         ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
     if(!flag && var_name && var_value)
         ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
@@ -347,7 +350,7 @@ char **convert_to_array(t_list *envl)
         i++;
         tmp = tmp->next;
     }
-    cenv = (char **)malloc(sizeof(char *) * i + 1);
+    cenv = (char **)malloc(sizeof(char *) * (i + 1));
     if(!cenv)
         return(0);
     i = 0;

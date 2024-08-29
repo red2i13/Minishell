@@ -31,4 +31,23 @@ case15: protect the redirection when a file is "\0" ex:
 			bash: $fdsfsdf: ambiguous redirect
 			10:55:23 rbenmakh@c4r8p8 Minishell ±|rediv2 ✗|→ ls > $""
 			bash: : No such file or directory
-case16
+case16:
+///////////////////////////////////////
+minishell → $a@
+==========================
+{0}[]
+1
+CMD
+index = 0
+==========================
+minishell: : Permission denied
+//////////////////////////////////////
+case17:
+check if the command is a directory and display the message "bash: /home/vietdu91: Is a directory" test : $HOME
+case18:
+check pwd option it should not run
+case19:
+fix cd when too many args
+case20:
+problem in "ls <> file"
+case21: LEAk free strjoin 
