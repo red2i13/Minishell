@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/29 16:16:19 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/29 23:18:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int pid;
     char *cmd;
-    char **env ;
+    char **env;
     (void)pid;
     int exit_st;
     
@@ -79,11 +79,17 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     env = convert_to_array(*envl);
     cmd = check_cmd(head->args[0], paths);
     if(!cmd)
+    {
+        free_arr(paths);
+        free(env);
+        env = NULL;
         return ;
+    }
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
     {
         free_arr(paths);
         free_arr(env);
+        env = NULL;
         //free envl and exp list
         ft_exit(head);
     }
@@ -123,7 +129,10 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     }
     g_status = exit_st / 256;
     free_arr(paths);
-    free_arr(env);
+    if(cmd != head->args[0])
+        free(cmd);
+    free(env);
+    env = NULL;
 }
 //funcitons for signals
 void sighandler(int signum) 
