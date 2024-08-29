@@ -6,53 +6,61 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/03 10:32:57 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/24 15:02:48 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/29 11:47:24 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int    count_words(char *line, char *set,int *i)
+int process_quotes(char *line, char *set, int *i, int *q)
 {
-    int type_q;
-    int open_q;
-
-    type_q = 0;
-    open_q = 0;
+    while ((!ft_strchr(set, line[i[0]]) || q[0]) && line[i[0]])
+    {
+        if (!(q[1]) && (line[i[0]] == '\"' || line[i[0]] == '\''))
+            q[1] = line[i[0]];
+        q[0] = (q[0] + (line[i[0]] == q[1])) % 2;
+        q[1] *= q[0] != 0;
+        i[0]++;
+    }
+    if (q[0])
+        return (-1);
+    return 0;
+}
+void set_a(int *i, int *q)
+{
+    q[0] = 0;
+    q[1] = 0;
     i[0] = 0;
     i[1] = 0;
+}
+int count_words(char *line, char *set, int *i)
+{
+    int q[2];
+
+    set_a(i, q);
     while (line[i[0]])
     {
         if (!ft_strchr(set, line[i[0]]))
         {
             i[1]++;
-            while ((!ft_strchr(set, line[i[0]]) || open_q) && line[i[0]])
-            {
-                if (!type_q && (line[i[0]] == '\"' || line[i[0]] == '\''))
-                    type_q = line[i[0]];
-                open_q = (open_q + (line[i[0]] == type_q)) % 2;
-                type_q *= open_q != 0;
-                i[0]++;
-            }
-            if (open_q)
+            if (process_quotes(line, set, i, q) == -1)
                 return (-1);
         }
         else
         {
-            if (ft_strchr("<>", line[i[0]-1]))
+            if (i[0] > 1 && ft_strchr("<>", line[i[0]-1]))
             {
-                while (ft_strchr(" \t", line[i[0]]))
-                    i[0]++;
+                while (ft_strchr(" \t", line[i[0]++]));
                 if (ft_strchr("<>", line[i[0]]))
                     return (-2);
             }
             else
                 i[0]++;
         }
-        
     }
     return (i[1]);
 }
+
 
 
 char **fill_arr(char **arr, char *line, int *i)

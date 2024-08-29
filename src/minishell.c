@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/29 16:10:36 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/29 18:15:25 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int main(int argc, char **argv, char **env)
             free(line);
             return (0);
         }
-        if (line[0] == '\0' || count_words(line, "     ", i) == 0)
+        if (line[0] == '\0' || count_words(line, " \t", i) == 0)
             continue;
         head = cmds_parse(line);
         heredoc(head, envl);
