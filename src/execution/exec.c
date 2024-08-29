@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 16:45:04 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/29 16:16:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ char *check_cmd(char *cmd, char **paths)
     int num; 
     int i ;
     char *tmp;
+    char *tmp1;
     
 	i = 0;
     num = -1;
@@ -27,7 +28,9 @@ char *check_cmd(char *cmd, char **paths)
     while(paths[i])
     {
 		tmp = ft_strjoin( "/", cmd);
+        tmp1 = tmp;
         tmp = ft_strjoin(paths[i], tmp);
+        free(tmp1);
         num = access(tmp, F_OK | X_OK);
 		if(!num)
 			return(tmp);
@@ -78,7 +81,12 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     if(!cmd)
         return ;
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
-            ft_exit(head);
+    {
+        free_arr(paths);
+        free_arr(env);
+        //free envl and exp list
+        ft_exit(head);
+    }
     else if(ft_strnstr(head->args[0], "cd", 3))
         cd(head->args, envl, exp_list);
     else if(ft_strnstr(head->args[0], "echo", 5))
@@ -106,7 +114,7 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         {
             if(execve(cmd, head->args, env) != 0)
             {
-                perror("execve");
+                perror("minishell: ");
                 exit(EXIT_FAILURE);
             }
         }
@@ -114,6 +122,8 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             wait(&exit_st); 
     }
     g_status = exit_st / 256;
+    free_arr(paths);
+    free_arr(env);
 }
 //funcitons for signals
 void sighandler(int signum) 
