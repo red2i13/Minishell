@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/30 11:47:46 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/30 12:42:12 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,31 @@ int check_redir(t_token *head, int f)
     }
     return(0);
 }
+int builtin(t_token *head, t_list **envl, t_list **exp_list)
+{
+    if(ft_strnstr(head->args[0], "cd", 3))
+        return(cd(head->args, envl, exp_list), 0);
+    else if(ft_strnstr(head->args[0], "echo", 5))
+        return(echo(head->args), 0);
+    else if(ft_strnstr(head->args[0], "export", 7))
+    {
+        if(!head->args[1])
+            export(exp_list, envl, NULL, NULL);
+        init_export(head, envl, exp_list);
+        return(0);
+    }
+    else if(ft_strnstr(head->args[0], "unset", 6))
+    {
+        unset(envl, head->args[1], 0);
+        unset(exp_list, head->args[1], 1); 
+        return(0);
+    }
+    else if(ft_strnstr(head->args[0], "env", 4))
+        return(print_env(*envl), 0);
+    else if(ft_strnstr(head->args[0], "pwd", 4))
+        return(pwd(1, *envl), 0);
+    return(1);
+}
 void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int pid;
@@ -90,26 +115,13 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         //free envl and exp list
         ft_exit(head);
     }
-    else if(ft_strnstr(head->args[0], "cd", 3))
-        cd(head->args, envl, exp_list);
-    else if(ft_strnstr(head->args[0], "echo", 5))
-        echo(head->args);
-    else if(ft_strnstr(head->args[0], "export", 7))
+    if(!builtin(head, envl, exp_list))
     {
-        if(!head->args[1])
-            export(exp_list, envl, NULL, NULL);
-        init_export(head, envl, exp_list);
-
+        free_arr(paths);
+        free_arr(env);
+        env = NULL;
+        return ;
     }
-    else if(ft_strnstr(head->args[0], "unset", 6))
-    {
-        unset(envl, head->args[1], 0);
-        unset(exp_list, head->args[1], 1); 
-    }
-    else if(ft_strnstr(head->args[0], "env", 4))
-        print_env(*envl);
-    else if(ft_strnstr(head->args[0], "pwd", 4))
-        pwd(1, *envl);
     cmd = check_cmd(head->args[0], paths);
     if(!cmd)
     {
@@ -127,7 +139,7 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             {
                 if(access(cmd, F_OK) == 0)
                     write(2, "minishell: is a directory\n", 27);
-                perror("minishell: ");
+                //perror("minishell: ");
                 exit(EXIT_FAILURE);
             }
         }
