@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/30 12:42:12 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/30 16:03:59 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,10 +115,10 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         //free envl and exp list
         ft_exit(head);
     }
-    if(!builtin(head, envl, exp_list))
+    else if(!builtin(head, envl, exp_list))
     {
         free_arr(paths);
-        free_arr(env);
+        free(env);
         env = NULL;
         return ;
     }

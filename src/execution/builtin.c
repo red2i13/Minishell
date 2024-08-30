@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/30 10:52:07 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/30 16:52:08 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,10 @@ char*    pwd(int i, t_list *envl)
     if(!pwd)
         pwd = fenv(envl, "PWD") + 4;
     if (i == 1)
+    {
         printf("%s\n", pwd);
+        free(pwd);
+    }
     return(pwd);
 }
 char    *fenv(t_list    *envl, char *str)
@@ -76,7 +79,7 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
     char *path;
     
     path = NULL;
-    if(args[2])
+    if(args[1] && args[2])
         return(write(2, "cd: string not is pwd\n", 23), 1);
     if (!args[1] || args[1][0] == '~')
     {
@@ -85,7 +88,7 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
             return(write(2, "cd: HOME not set", 17), 1);
         export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
         chdir(path + 5);
-    }
+    }   
     else if(args[1][0] == '-')
     {
         path = fenv(*envl, "OLDPWD=");
@@ -96,8 +99,10 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
     else
     {
         export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
-        if(!getcwd(0, 0))
+        char *tmp;
+        if((tmp = getcwd(NULL, 0)) == NULL) 
             printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
+        free(tmp);
         if(chdir(args[1]))
         {
             printf("cd: %s ", args[1]);
@@ -303,6 +308,8 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     if (free_var_name)
         free(var_name); // free var_name if it contains '+'
     // free var_value if necessary
+    if (var_value)
+        free(var_value);
 }
 
 //unset command
