@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/29 22:52:37 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/30 09:45:33 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ int main(int argc, char **argv, char **env)
         if (!line)
         {
             printf("exit\n");
-            printf("envl %p\n", envl);
             if(envl)
                 ft_lstclear(&envl, &del);
             if(exp_list)

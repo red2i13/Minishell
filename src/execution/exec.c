@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/29 23:18:05 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/30 11:47:46 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,12 @@ char *check_cmd(char *cmd, char **paths)
 	i = 0;
     num = -1;
 	if(!paths)
+    {
+        write(2, "minishell: : No such file or directory\n", 40);
+        return(NULL);
+    }
+    else if(cmd[0] == '\0')
 		return(NULL);
-	else if(!access(cmd,F_OK | X_OK))
-		return(cmd);
     while(paths[i])
     {
 		tmp = ft_strjoin( "/", cmd);
@@ -37,6 +40,8 @@ char *check_cmd(char *cmd, char **paths)
 		free(tmp);
         i++;
     }
+	if(!access(cmd,F_OK | X_OK))
+		return(cmd);
 	//if the command not found return 127 as exit code
     if(num == -1 && check_builtin(cmd))
 	{
@@ -77,14 +82,6 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     
     exit_st = 0;
     env = convert_to_array(*envl);
-    cmd = check_cmd(head->args[0], paths);
-    if(!cmd)
-    {
-        free_arr(paths);
-        free(env);
-        env = NULL;
-        return ;
-    }
     if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
     {
         free_arr(paths);
@@ -113,6 +110,14 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         print_env(*envl);
     else if(ft_strnstr(head->args[0], "pwd", 4))
         pwd(1, *envl);
+    cmd = check_cmd(head->args[0], paths);
+    if(!cmd)
+    {
+        free_arr(paths);
+        free(env);
+        env = NULL;
+        return ;
+    }
     else
     {
         pid = fork();
@@ -120,6 +125,8 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         {
             if(execve(cmd, head->args, env) != 0)
             {
+                if(access(cmd, F_OK) == 0)
+                    write(2, "minishell: is a directory\n", 27);
                 perror("minishell: ");
                 exit(EXIT_FAILURE);
             }

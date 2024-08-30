@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/29 23:20:01 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/30 10:52:07 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,9 +229,10 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
     tmpl = *list;
     if(var_name && ft_strchr(var_name, '+'))
     {
-        tmp = var_name;
         var_name = ft_strtrim(var_name, "+=");
+        tmp = var_name;
         var_name = ft_strjoin(var_name, "=");
+        free(tmp);
         flag = 1;
     }
     while(tmpl)
@@ -259,6 +260,8 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
         }
         tmpl = tmpl->next;
     }
+    if(flag)
+        free(var_name);
     return(0);
 }
 
@@ -266,6 +269,7 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
 {
     int     flag;
     int     flag2;
+    int     free_var_name = 0; // flag to indicate whether to free var_name
     
     if(var_name && var_name[0] == '-')
     {
@@ -281,10 +285,11 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     flag2 = search_var_replace(exp_list, var_name, var_value);
     if(var_name && ft_strchr(var_name, '+'))
     {
-        char *tmp = var_name;
         var_name = ft_strtrim(var_name, "+=");
+        char *tmp = var_name;
         var_name = ft_strjoin(var_name, "=");
         free(tmp);
+        free_var_name = 1; // set flag to indicate var_name needs to be freed
     }
     if(!flag2 && !var_value && var_name)
         ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
@@ -294,7 +299,10 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
         ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, var_value)));
     if(!var_name)
         print_export(*exp_list);
-    //free var_name and var_value
+    
+    if (free_var_name)
+        free(var_name); // free var_name if it contains '+'
+    // free var_value if necessary
 }
 
 //unset command
@@ -403,7 +411,6 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
         if(!f && head->args[i])
         {
             var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
-            //var_value = ft_strdup("");
         }
         else if(f && head->args[i])
         {

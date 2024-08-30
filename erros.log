@@ -42,12 +42,12 @@ index = 0
 ==========================
 minishell: : Permission denied
 //////////////////////////////////////
-case17:
+case17: FIX
 check if the command is a directory and display the message "bash: /home/vietdu91: Is a directory" test : $HOME
 case18:
 check pwd option it should not run
-case19:
+case19 :
 fix cd when too many args
-case20:
+case20: FIX
 problem in "ls <> file"
-case21: LEAk free strjoin 
+case21fix: LEAk free strjoin 
