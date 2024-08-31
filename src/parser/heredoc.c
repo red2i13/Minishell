@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/31 15:01:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:28:43 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void read_put(char *file_name, char *del, int q, t_list *env)
         if (!str)
         {
             write(1, "bash: warning: here-document delimited by end-of-file!\n",55);
+            free(file_name);
             return ;
         }
         if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
@@ -116,8 +117,7 @@ int heredoc(t_token *head, t_list *env)
         if (head->type == HEREDOC)
         {
             file_name = ran_file();
-            int p = fork();
-            if (p == 0)
+            if (fork() == 0)
             {
                 if (is_q(head->next->args[0]))
                 {
