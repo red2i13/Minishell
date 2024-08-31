@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/28 16:31:11 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/31 12:59:53 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,11 @@ void read_put(char *file_name, char *del, int q, t_list *env)
     while(1)
     {
         str = readline(">");
+        if (!str)
+        {
+            write(1, "bash: warning: here-document delimited by end-of-file!\n",55);
+            return ;
+        }
         if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
             break;
         i[0] = 0;
