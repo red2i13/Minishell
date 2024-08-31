@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/30 17:09:22 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/31 14:48:21 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,23 +158,7 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     env = NULL;
 }
 //funcitons for signals
-void sighandler(int signum) 
-{
-    if(signum == SIGINT)
-    {
-        write(1, "\n", 1);
-        rl_replace_line("", 0);
-        rl_on_new_line();
-        rl_redisplay();
-    }
-}
 
-void signal_setup()
-{
-    signal(SIGINT, sighandler);
-    signal(SIGQUIT, SIG_IGN);
-    //signal(EOF, sighandler);
-}
 int check_pipe(t_token *list)
 {
     while(list)

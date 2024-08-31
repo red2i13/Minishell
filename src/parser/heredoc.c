@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/31 12:59:53 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:01:41 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ void read_put(char *file_name, char *del, int q, t_list *env)
     char *tmp;
     int fd;
 
+    signal_setup(1);
     fd = open(file_name, O_CREAT | O_RDWR , 0777);
     while(1)
     {
@@ -103,23 +104,34 @@ int is_q(char *str)
     return (0);
 }
 
-void heredoc(t_token *head, t_list *env)
+int heredoc(t_token *head, t_list *env)
 {
     char *file_name;
     (void)head;
+    int status;
 
     while (head)
     {
+        signal_setup(0);
         if (head->type == HEREDOC)
         {
             file_name = ran_file();
-            if (is_q(head->next->args[0]))
+            int p = fork();
+            if (p == 0)
             {
-                head->next->args[0] = rm_quote(head->next->args[0]);
-                read_put(file_name, head->next->args[0], 1, env);
+                if (is_q(head->next->args[0]))
+                {
+                    head->next->args[0] = rm_quote(head->next->args[0]);
+                    read_put(file_name, head->next->args[0], 1, env);
+                }
+                else
+                    read_put(file_name, head->next->args[0], 0, env);
+                exit(2);
             }
-            else
-                read_put(file_name, head->next->args[0], 0, env);
+            else 
+                wait(&status);
+            if (WEXITSTATUS(status) == 5)
+                return (0);
             free_arr(head->args);
             head->args = malloc(sizeof(char *) * 2);
             head->args[0] = ft_strdup("<");
@@ -132,4 +144,5 @@ void heredoc(t_token *head, t_list *env)
         }
         head = head->next;   
     }
+    return (1);
 }
