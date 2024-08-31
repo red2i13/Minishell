@@ -6,24 +6,11 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 15:40:47 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/28 14:55:57 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:12:20 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void free_t(t_token *head)
-{
-    t_token *tmp;
-    
-    while (head)
-    {
-        tmp = head;
-        head = head->next;
-        free(tmp);
-    }
-}
-
 
 t_token *cmds_parse(char *line)
 {
@@ -41,7 +28,7 @@ t_token *cmds_parse(char *line)
     if (check_err(head) < 0)
     {
         p_err(check_err(head));
-        free_t(head);
+        list_clear(head);
         head = NULL;
     }
     return (head);
