@@ -51,3 +51,5 @@ fix cd when too many args
 case20: FIX
 problem in "ls <> file"
 case21fix: LEAk free strjoin 
+case 22: 
+ syntax error near unexpected token `|'
