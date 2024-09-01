@@ -10,6 +10,7 @@
 # include "../libft/libft.h"
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdbool.h>
 
 /*enum for the type of the tokens*/
 typedef enum e_type{
@@ -34,6 +35,7 @@ typedef struct s_token
     t_type  type;
     int     arg_size;
     int index;
+    bool    is_q;
     struct s_token  *next;
     struct s_token  *prev;
 }       t_token;

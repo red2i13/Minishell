@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/28 15:07:15 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/01 16:21:39 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,23 @@ char **ft_realloc(char *arg, char **old_arr)
 void set_size(t_token *head)
 {
     int count;
-
+    int i;
+    
     while(head)
     {
         count = 0;
         while (head->args[count])
             count++;
         head->arg_size = count;
+        i = 0;
+        while (head->args[i])
+        {
+            if (is_q(head->args[i]))
+                head->is_q = true;
+            else 
+                head->is_q = false;
+            i++;
+        }
         head = head->next;
     }
 }
