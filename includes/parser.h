@@ -81,4 +81,5 @@ void del(void *c);
 void signal_setup(int n);
 void sig_exit(int num);
 void sighandler(int signum) ;
+char *get_var(char *str, t_list  *env);
 #endif
