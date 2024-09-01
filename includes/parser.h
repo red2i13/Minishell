@@ -62,7 +62,7 @@ int check_err(t_token *head);
 void p_err(t_err n);
 t_token *cmds_parse(char *line);
 
-void heredoc(t_token *head, t_list *env);
+int heredoc(t_token *head, t_list *env);
 void free_arr(char **arr);
 
 char *expand(char *str, t_list  *env, int *q, char ***temp);
@@ -77,4 +77,8 @@ void cmd_mk(t_token *head);
 void set_index(t_token *head);
 char **ft_realloc(char *arg, char **old_arr);
 void del(void *c);
+
+void signal_setup(int n);
+void sig_exit(int num);
+void sighandler(int signum) ;
 #endif

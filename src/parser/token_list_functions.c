@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/28 15:05:45 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/31 15:11:47 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ size_t	size_list(t_token *head)
 void list_clear(t_token *head)
 {
 	t_token	*tmp;
+
 	while (head)
 	{
 		tmp = head->next;

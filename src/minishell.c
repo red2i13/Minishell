@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/31 10:14:57 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/01 23:19:10 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,7 @@ int main(int argc, char **argv, char **env)
     exp_list = setup_exp(envl);
     while (1)
     {
+        signal_setup(2);
         if (!g_status)
             line = readline("\033[0;32mminishell →\033[0m ");
         else
@@ -70,12 +71,17 @@ int main(int argc, char **argv, char **env)
         if (line[0] == '\0' || count_words(line, " \t", i) == 0)
             continue;
         head = cmds_parse(line);
-        heredoc(head, envl);
+        if (heredoc(head, envl) == 0)
+        {
+            list_clear(head);
+            head = NULL;
+            continue;
+        }
         start_ex(head, envl);
         start_rm_q(head);
         cmd_mk(head);
         ///////////////////////////////////////////////
-        //p_list(head);
+        // p_list(head);
         ///////////////////////////////////////////////
         if (!head)
             continue;
