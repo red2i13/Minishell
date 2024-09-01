@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/01 22:55:32 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/01 23:21:43 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,10 +186,7 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
             run(head, envl, exp_list, paths);
         }
         else if(i == p)
-        {
-            printf("the command is %s\n", head->args[0]);
             last_pid = pid;
-        }
         if(head->next)
             head = head->next->next;
         i++;
