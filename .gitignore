@@ -4,3 +4,6 @@ minishell
 .vscode
 *.nfs
 *.gdb_history
+*.supp
+*.sh
+*.log
