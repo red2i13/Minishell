@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/02 14:15:35 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:17:54 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,8 +132,19 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
         }
         else if(i == p)
             last_pid = pid;
-        if(head->next)
-            head = head->next->next;
+        //replace this if condition with a function that assign the next command in the list
+        // if(head->next)
+        //     head = head->next->next;
+        while (head)
+        {
+            if(head->args[0][0] == '|')
+            {
+                head = head->next;
+                break;
+            }
+            head = head->next;
+        }
+        
         i++;
     }
     for (i = 0; i < p; i++) 
