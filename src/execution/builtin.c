@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/30 16:52:08 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/01 19:05:17 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
             var_value = ft_strjoin(ft_strchr(str, '=') + 1, var_value);
             tmpl->content = ft_strjoin(var_name, var_value);
             free(tmp);
+            free(var_name);
             free(var_value);
             return(1);
         }
@@ -265,8 +266,7 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
         }
         tmpl = tmpl->next;
     }
-    if(flag)
-        free(var_name);
+    // if(flag)
     return(0);
 }
 
@@ -308,8 +308,8 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
     if (free_var_name)
         free(var_name); // free var_name if it contains '+'
     // free var_value if necessary
-    if (var_value)
-        free(var_value);
+    // if (var_value)
+    //     free(var_value);
 }
 
 //unset command

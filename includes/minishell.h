@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/25 13:26:46 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/08/30 18:32:45 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	**split_paths(char *paths);
 int	check_builtin(char *cmd);
 void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
 char *check_cmd(char *cmd, char **paths);
+int builtin(t_token *head, t_list **envl, t_list **exp_list);
 /*redirection.c*/
 int redir_output(char *filename, int flag);
 int redir_input(char *filename);
