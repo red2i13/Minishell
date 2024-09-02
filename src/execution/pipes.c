@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/01 23:21:43 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/02 14:15:35 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,12 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     }
     else if(!builtin(head, envl, exp_list))
     {
+        g_status = 0;
+        exit(0);
         free_arr(paths);
         free(env);
         env = NULL;
-        return ;
+        //return ;
     }
     cmd = check_cmd(head->args[0], paths);
     if(!cmd)
@@ -96,63 +98,6 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     exit(0);
 }
 
-
-// int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
-// {
-//     int i;
-//     int pid;
-//     int exit_st;    
-//     int p = calc_pipes(head);
-//     int **fdt = init_pipes(p);
-   
-//     i = p;
-//     while(head->next)
-//     {
-//         head = head->next;
-//     }
-//     while(i >= 0)
-//     {
-//         if(!(pid = fork()))
-//         {
-//             if(i != p)
-//             {
-//                 dup2(fdt[i][1], STDOUT_FILENO);
-//             }
-//             if(i > 0)
-//             {
-//                 dup2(fdt[i - 1][0], STDIN_FILENO);
-//             }
-//             //function that kill all the unused file descriptor
-//             for(int k = 0; k < p; k++)
-//             {
-//                 close(fdt[k][0]);
-//                 close(fdt[k][1]);
-//             }
-//             run(head, envl, exp_list, paths);
-//             exit(0);
-//         }
-//         if(head->prev)
-//             head = head->prev->prev;
-//         i--;
-//     }
-//     for (i = 0; i < p; i++) 
-//     {
-//         close(fdt[i][0]);
-//         close(fdt[i][1]);
-//     }
-//     while(wait(&exit_st) > 0)
-//     {   
-//         printf("status %i\n", WEXITSTATUS(exit_st));
-//     }
-//     for (i = 0; i < p; i++) 
-//     {
-//         free(fdt[i]);
-//     }
-//     free(fdt);
-//     g_status = exit_st / 256;
-//     free_arr(paths);
-//     return(0);
-// }
 
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
@@ -209,3 +154,59 @@ int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     free_arr(paths);
     return(0);
 }
+// int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
+// {
+//     int i;
+//     int pid;
+//     int exit_st;    
+//     int p = calc_pipes(head);
+//     int **fdt = init_pipes(p);
+   
+//     i = p;
+//     while(head->next)
+//     {
+//         head = head->next;
+//     }
+//     while(i >= 0)
+//     {
+//         if(!(pid = fork()))
+//         {
+//             if(i != p)
+//             {
+//                 dup2(fdt[i][1], STDOUT_FILENO);
+//             }
+//             if(i > 0)
+//             {
+//                 dup2(fdt[i - 1][0], STDIN_FILENO);
+//             }
+//             //function that kill all the unused file descriptor
+//             for(int k = 0; k < p; k++)
+//             {
+//                 close(fdt[k][0]);
+//                 close(fdt[k][1]);
+//             }
+//             run(head, envl, exp_list, paths);
+//             exit(0);
+//         }
+//         if(head->prev)
+//             head = head->prev->prev;
+//         i--;
+//     }
+//     for (i = 0; i < p; i++) 
+//     {
+//         close(fdt[i][0]);
+//         close(fdt[i][1]);
+//     }
+//     while(wait(&exit_st) > 0)
+//     {   
+//         printf("status %i\n", WEXITSTATUS(exit_st));
+//     }
+//     for (i = 0; i < p; i++) 
+//     {
+//         free(fdt[i]);
+//     }
+//     free(fdt);
+//     g_status = exit_st / 256;
+//     free_arr(paths);
+//     return(0);
+// }
