@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/02 11:16:51 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:23:18 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,47 @@ void p_list(t_token *head)
         if (head->type == FILE_N)
             printf("FILE_N\n");
         printf("index = %i\n", head->index);
+        if (head->is_q)
+            printf("is quoted : true\n");
+        else    
+            printf("is quoted : false\n");
         printf("==========================\n");
         head = head->next;
     }
 }
+char *get_user(t_list  *env, int err)
+{
+    char *user;
+    char *tmp;
 
+    user = get_var("USER", env);
+    if (!user)
+        user = ft_strdup("gest");
+    tmp = user;
+    user = ft_strjoin("\033[0;36m", user);
+    free(tmp);
+    tmp = user;
+    if (!err)
+        user = ft_strjoin(user, "@\033[0;32mminishell →\033[0m ");
+    else
+        user = ft_strjoin(user, "@\033[0;32mminishell\033[0;31m →\033[0m ");
+    free(tmp);
+    return (user);
+}
+
+char *prompt(t_list  *env)
+{
+    char *user;
+    char *line;
+
+    user = get_user(env, 0);
+    if (!g_status)
+        line = readline(user);
+    else
+        line = readline(user);
+    free(user);
+    return (line);
+}
 int main(int argc, char **argv, char **env)
 { 
     char    *line;
@@ -47,6 +83,7 @@ int main(int argc, char **argv, char **env)
     t_token *head;
     t_list  *envl ;
     t_list  *exp_list;
+
     (void)argc;
     (void)argv;
     envl= setup_env(env);
@@ -54,10 +91,7 @@ int main(int argc, char **argv, char **env)
     while (1)
     {
         signal_setup(2);
-        if (!g_status)
-            line = readline("\033[0;32mminishell →\033[0m ");
-        else
-            line = readline("\033[0;32mminishell\033[0;31m →\033[0m ");
+        line = prompt(envl);
         if (!line)
         {
             printf("exit\n");

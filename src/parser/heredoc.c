@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/31 15:28:43 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/08/31 19:21:57 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void read_put(char *file_name, char *del, int q, t_list *env)
         if (!str)
         {
             write(1, "bash: warning: here-document delimited by end-of-file!\n",55);
-            free(file_name);
             return ;
         }
         if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
@@ -108,6 +107,7 @@ int is_q(char *str)
 int heredoc(t_token *head, t_list *env)
 {
     char *file_name;
+    char fn[16];
     (void)head;
     int status;
 
@@ -117,15 +117,16 @@ int heredoc(t_token *head, t_list *env)
         if (head->type == HEREDOC)
         {
             file_name = ran_file();
+            ft_strlcpy(fn, file_name, 16);
             if (fork() == 0)
             {
                 if (is_q(head->next->args[0]))
                 {
                     head->next->args[0] = rm_quote(head->next->args[0]);
-                    read_put(file_name, head->next->args[0], 1, env);
+                    read_put(fn, head->next->args[0], 1, env);
                 }
                 else
-                    read_put(file_name, head->next->args[0], 0, env);
+                    read_put(fn, head->next->args[0], 0, env);
                 exit(2);
             }
             else 
