@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/03 11:12:50 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/03 13:35:13 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,14 +68,13 @@ char *prompt(t_list  *env)
     char *user;
     char *line;
 
-    printf("gstatus = %i\n", g_status);
     if (!g_status)
-    {    
+    {
         user = get_user(env, 0);
         line = readline(user);
     }
     else
-    {    
+    {
         user = get_user(env, 1);
         line = readline(user);
     }
@@ -97,6 +96,7 @@ int main(int argc, char **argv, char **env)
     while (1)
     {
         signal_setup(2);
+        restor_history(envl);
         line = prompt(envl);
         if (!line)
         {
@@ -110,11 +110,12 @@ int main(int argc, char **argv, char **env)
         }
         if (line[0] == '\0' || count_words(line, " \t", i) == 0)
             continue;
-        head = cmds_parse(line);
+        head = cmds_parse(line, envl);
         if (heredoc(head, envl) == 0)
         {
             list_clear(head);
             head = NULL;
+            g_status = 130;
             continue;
         }
         start_ex(head, envl);
