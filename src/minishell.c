@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/03 13:35:13 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/03 19:19:06 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,20 +130,6 @@ int main(int argc, char **argv, char **env)
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
         else if(check_redir(head, 0) || check_redir(head, 1))
         {
-            // int pid;
-            // int exit_st;
-            // if(!(pid = fork()))
-            // {
-            //     //pick tha last input
-            //     char *input = last_io(head, 1);
-            //     if(input)
-            //         redir_input(input);
-            //     run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
-            //     exit(0);
-            // }
-            // else
-            //     wait(&exit_st);
-            // g_status = exit_st / 256;
             //new redirection
             int old_fd[2];
             
