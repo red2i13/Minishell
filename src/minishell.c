@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/02 20:23:18 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/03 11:12:50 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,17 @@ char *prompt(t_list  *env)
     char *user;
     char *line;
 
-    user = get_user(env, 0);
+    printf("gstatus = %i\n", g_status);
     if (!g_status)
+    {    
+        user = get_user(env, 0);
         line = readline(user);
+    }
     else
+    {    
+        user = get_user(env, 1);
         line = readline(user);
+    }
     free(user);
     return (line);
 }
@@ -123,20 +129,45 @@ int main(int argc, char **argv, char **env)
             exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
         else if(check_redir(head, 0) || check_redir(head, 1))
         {
-            int pid;
-            int exit_st;
-            if(!(pid = fork()))
+            // int pid;
+            // int exit_st;
+            // if(!(pid = fork()))
+            // {
+            //     //pick tha last input
+            //     char *input = last_io(head, 1);
+            //     if(input)
+            //         redir_input(input);
+            //     run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+            //     exit(0);
+            // }
+            // else
+            //     wait(&exit_st);
+            // g_status = exit_st / 256;
+            //new redirection
+            int old_fd[2];
+            
+            char *input = last_io(head, 1);
+            if(input)
             {
-                //pick tha last input
-                char *input = last_io(head, 1);
-                if(input)
-                    redir_input(input);
-                run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
-                exit(0);
+                old_fd[0] = dup(STDIN_FILENO);
+                redir_input(input);
             }
-            else
-                wait(&exit_st);
-            g_status = exit_st / 256;
+            int r;
+            if((r = check_redir(head, 0)))
+            {
+                old_fd[1] = dup(STDOUT_FILENO);
+                t_token *tmp = head;
+                while(tmp)
+                {
+                    if(tmp->args[0][0] == '>')
+                        redir_output(tmp->next->args[0], r);
+                    tmp = tmp->next;
+                }
+            }
+            run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+            dup2(old_fd[0], STDIN_FILENO);
+            dup2(old_fd[1], STDOUT_FILENO);
+        
         }
         else
             run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
