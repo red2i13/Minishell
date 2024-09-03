@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/03 10:29:16 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/03 10:47:50 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,11 +68,16 @@ char *prompt(t_list  *env)
     char *user;
     char *line;
 
-    user = get_user(env, 0);
     if (!g_status)
+    {
+        user = get_user(env, 0);
         line = readline(user);
+    }
     else
+    {
+        user = get_user(env, 1);
         line = readline(user);
+    }
     free(user);
     return (line);
 }
@@ -110,6 +115,7 @@ int main(int argc, char **argv, char **env)
         {
             list_clear(head);
             head = NULL;
+            g_status = 130;
             continue;
         }
         start_ex(head, envl);
