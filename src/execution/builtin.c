@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/01 19:05:17 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/02 14:43:22 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,13 +53,20 @@ void echo(char **cmd)
 char*    pwd(int i, t_list *envl)
 {
     char *pwd ;
+    int flag;
+
+    flag = 0;
     pwd = getcwd(0, 0);
     if(!pwd)
+    {
         pwd = fenv(envl, "PWD") + 4;
+        flag = 1;
+    }
     if (i == 1)
     {
         printf("%s\n", pwd);
-        free(pwd);
+        if(!flag)
+            free(pwd);
     }
     return(pwd);
 }
@@ -77,6 +84,7 @@ char    *fenv(t_list    *envl, char *str)
 int    cd(char **args, t_list **envl, t_list **exp_list)
 {
     char *path;
+    char *tmp;
     
     path = NULL;
     if(args[1] && args[2])
@@ -86,20 +94,22 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
         path = fenv(*envl, "HOME=");
         if(!path)
             return(write(2, "cd: HOME not set", 17), 1);
-        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
+        export(exp_list, envl, "OLDPWD=", tmp = pwd(0, *envl));
+        free(tmp);
         chdir(path + 5);
     }   
     else if(args[1][0] == '-')
     {
         path = fenv(*envl, "OLDPWD=");
-        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
+        export(exp_list, envl, "OLDPWD=", tmp = pwd(0, *envl));
+        free(tmp);
         chdir(path + 7);
         pwd(1, *envl);
     }
     else
     {
-        export(exp_list, envl, "OLDPWD=", pwd(0, *envl));
-        char *tmp;
+        export(exp_list, envl, "OLDPWD=", tmp = pwd(0, *envl));
+        free(tmp);
         if((tmp = getcwd(NULL, 0)) == NULL) 
             printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
         free(tmp);
@@ -109,7 +119,8 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
             error_func(errno, 1);
         }
     }
-    export(exp_list, envl, "PWD=", pwd(0, *envl));
+    export(exp_list, envl, "PWD=", tmp = pwd(0, *envl));
+    free(tmp);
     //debug
     //printf("debug %s\n", fenv(*envl, "PWD"));
     //
@@ -331,6 +342,7 @@ void unset(t_list **envl, char *var_name, int flag)
     {
         if(!flag)
             write(2, "unset: invalid parameter name\n", 31);
+        free(var_name);
         return ;
     }
     while(env)

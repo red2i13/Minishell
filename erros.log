@@ -53,3 +53,9 @@ problem in "ls <> file"
 case21fix: LEAk free strjoin 
 case 22: 
  syntax error near unexpected token `|'
+case23: check heap overflow when excuting builtin command in the pipe
+case24: update the globale variable with 130 when clicking ctrl+c
+case25: problem in signals
+case26:minishell → rm ls
+rm: cannot remove 'ls': Is a directory
+minishell →

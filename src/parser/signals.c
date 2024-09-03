@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:14:44 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/31 15:03:19 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/02 15:11:54 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void sighandler(int signum)
         rl_replace_line("", 0);
         rl_on_new_line();
         rl_redisplay();
+        g_status = 130;
     }
 }
 

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/01 23:21:43 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/02 20:17:54 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,12 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     }
     else if(!builtin(head, envl, exp_list))
     {
+        g_status = 0;
+        exit(0);
         free_arr(paths);
         free(env);
         env = NULL;
-        return ;
+        //return ;
     }
     cmd = check_cmd(head->args[0], paths);
     if(!cmd)
@@ -97,6 +99,72 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 }
 
 
+int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
+{
+    int i;
+    int pid;
+    int exit_st;    
+    int p = calc_pipes(head);
+    int **fdt = init_pipes(p);
+    //to test
+    int last_pid;
+    i = 0;
+
+    while(i <= p)
+    {
+        if(!(pid = fork()))
+        {
+            if(i != p)
+            {
+                dup2(fdt[i][1], STDOUT_FILENO);
+            }
+            if(i > 0)
+            {
+                dup2(fdt[i - 1][0], STDIN_FILENO);
+            }
+            //function that kill all the unused file descriptor
+            for(int k = 0; k < p; k++)
+            {
+                close(fdt[k][0]);
+                close(fdt[k][1]);
+            }
+            run(head, envl, exp_list, paths);
+        }
+        else if(i == p)
+            last_pid = pid;
+        //replace this if condition with a function that assign the next command in the list
+        // if(head->next)
+        //     head = head->next->next;
+        while (head)
+        {
+            if(head->args[0][0] == '|')
+            {
+                head = head->next;
+                break;
+            }
+            head = head->next;
+        }
+        
+        i++;
+    }
+    for (i = 0; i < p; i++) 
+    {
+        close(fdt[i][0]);
+        close(fdt[i][1]);
+    }
+    waitpid(last_pid, &exit_st, 0);
+    while(wait(NULL) > 0)
+    {
+    }
+    g_status = WEXITSTATUS(exit_st);
+    for (i = 0; i < p; i++) 
+    {
+        free(fdt[i]);
+    }
+    free(fdt);
+    free_arr(paths);
+    return(0);
+}
 // int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 // {
 //     int i;
@@ -153,59 +221,3 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 //     free_arr(paths);
 //     return(0);
 // }
-
-int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
-{
-    int i;
-    int pid;
-    int exit_st;    
-    int p = calc_pipes(head);
-    int **fdt = init_pipes(p);
-    //to test
-    int last_pid;
-    i = 0;
-
-    while(i <= p)
-    {
-        if(!(pid = fork()))
-        {
-            if(i != p)
-            {
-                dup2(fdt[i][1], STDOUT_FILENO);
-            }
-            if(i > 0)
-            {
-                dup2(fdt[i - 1][0], STDIN_FILENO);
-            }
-            //function that kill all the unused file descriptor
-            for(int k = 0; k < p; k++)
-            {
-                close(fdt[k][0]);
-                close(fdt[k][1]);
-            }
-            run(head, envl, exp_list, paths);
-        }
-        else if(i == p)
-            last_pid = pid;
-        if(head->next)
-            head = head->next->next;
-        i++;
-    }
-    for (i = 0; i < p; i++) 
-    {
-        close(fdt[i][0]);
-        close(fdt[i][1]);
-    }
-    waitpid(last_pid, &exit_st, 0);
-    while(wait(NULL) > 0)
-    {
-    }
-    g_status = WEXITSTATUS(exit_st);
-    for (i = 0; i < p; i++) 
-    {
-        free(fdt[i]);
-    }
-    free(fdt);
-    free_arr(paths);
-    return(0);
-}
