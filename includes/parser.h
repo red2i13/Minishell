@@ -11,6 +11,7 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
+#include "get_next_line.h"
 
 /*enum for the type of the tokens*/
 typedef enum e_type{
@@ -40,7 +41,7 @@ typedef struct s_token
     struct s_token  *prev;
 }       t_token;
 
-char **get_cmds(char *line);
+char **get_cmds(char *line, t_list  *envl);
 int count_words(char *line, char *set,int *i);
 char **fill_arr(char **arr, char *line, int *i);
 
@@ -62,7 +63,7 @@ void set_type(t_token *head);
 
 int check_err(t_token *head);
 void p_err(t_err n);
-t_token *cmds_parse(char *line);
+t_token *cmds_parse(char *line, t_list  *envl);
 
 int heredoc(t_token *head, t_list *env);
 void free_arr(char **arr);
@@ -84,4 +85,6 @@ void signal_setup(int n);
 void sig_exit(int num);
 void sighandler(int signum) ;
 char *get_var(char *str, t_list  *env);
+int setup_h(char *line, t_list  *envl);
+void restor_history(t_list  *envl);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/02 20:23:18 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/03 10:29:16 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ int main(int argc, char **argv, char **env)
     while (1)
     {
         signal_setup(2);
+        restor_history(envl);
         line = prompt(envl);
         if (!line)
         {
@@ -104,7 +105,7 @@ int main(int argc, char **argv, char **env)
         }
         if (line[0] == '\0' || count_words(line, " \t", i) == 0)
             continue;
-        head = cmds_parse(line);
+        head = cmds_parse(line, envl);
         if (heredoc(head, envl) == 0)
         {
             list_clear(head);

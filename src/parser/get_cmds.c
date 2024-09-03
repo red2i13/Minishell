@@ -30,13 +30,13 @@ char **cmds_trim(char *line, int *i, char **arr)
 }
 
 
-char **get_cmds(char *line)
+char **get_cmds(char *line, t_list  *envl)
 {
     char **arr;
     int i[3];
 
     arr = NULL;
-    add_history(line);
+    setup_h(line, envl);
     arr = cmds_trim(line, i, arr);
     int j = 0;
     int len = 0;
