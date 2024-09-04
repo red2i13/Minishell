@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/03 19:22:11 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:16:01 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,14 +123,6 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     
     exit_st = 0;
     env = convert_to_array(*envl);
-    //check if the first node is a redirection
-    char **tmp = NULL;
-    if(head->type == RED)
-    {
-        head = head->next;
-        tmp = head->args;
-        head->args++;
-    }
     if (!ft_strncmp(head->args[0], "exit", 5))
     {
         free_arr(paths);
@@ -177,8 +169,6 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     free_arr(paths);
     if(cmd != head->args[0])
         free(cmd);
-    if(tmp)
-        head->args = tmp;
     free(env);
     env = NULL;
 }

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/03 19:19:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:49:01 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,25 @@ int main(int argc, char **argv, char **env)
     (void)argv;
     envl= setup_env(env);
     exp_list = setup_exp(envl);
+    //update the shell level(make in a function)
+    if(envl)
+    {
+        char *tmp ;
+        char *val = ft_itoa(ft_atoi(tmp = get_var("SHLVL", envl)) + 1);
+        free(tmp);
+        export(&exp_list, &envl, "SHLVL=", val);
+        free(val);
+    }
+    //
+    //if env is empty
+    if (envl == NULL)
+    {
+        char *tmp;
+        export(&exp_list, &envl, "PWD=", tmp = getcwd(NULL, 0));
+        export(&exp_list, &envl, "SHLVL=", "1");
+        export(&exp_list, &envl, "_=", "/usr/bin/env");     
+        free(tmp);
+    }
     while (1)
     {
         signal_setup(2);
@@ -131,18 +150,17 @@ int main(int argc, char **argv, char **env)
         else if(check_redir(head, 0) || check_redir(head, 1))
         {
             //new redirection
-            int old_fd[2];
-            
-            char *input = last_io(head, 1);
-            if(input)
-            {
-                old_fd[0] = dup(STDIN_FILENO);
-                redir_input(input);
-            }
+            int old_fd[2]; 
+            char *input ;
             int r;
+            
+            input = last_io(head, 1);
+            old_fd[0] = dup(STDIN_FILENO);
+            old_fd[1] = dup(STDOUT_FILENO);
+            if(input)
+                redir_input(input);
             if((r = check_redir(head, 0)))
             {
-                old_fd[1] = dup(STDOUT_FILENO);
                 t_token *tmp = head;
                 while(tmp)
                 {
