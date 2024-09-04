@@ -1,30 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   token_list_functions_v2.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 15:32:37 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 11:53:01 by ysahraou         ###   ########.fr       */
+/*   Created: 2024/09/04 12:40:34 by ysahraou          #+#    #+#             */
+/*   Updated: 2024/09/04 12:57:32 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#include "../../includes/minishell.h"
 
-# include <unistd.h>
-# include <stdlib.h>
-
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 42
-# endif
-
-char	*get_next_line(int fd);
-char	*ftt_strchr(const char *s, int c);
-char	*ftt_strjoin(char const *s1, char const *s2);
-size_t	ftt_strlen(const char *s);
-void	*ftt_calloc(size_t nmemb, size_t size);
-void	ftt_bzero(void *s, size_t n);
-
-#endif
+void	add_front_t(t_token **lst, t_token *new)
+{
+	if (!new || !lst)
+		return ;
+	new->next = *lst;
+	(*lst)->prev = new;
+	*(lst) = new;
+}
