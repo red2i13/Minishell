@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:11:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 12:40:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:11:21 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ void	fork_heredoc(char *file_name, t_token *head, t_list *env)
 	}
 	else
 		read_put(file_name, head->next->args[0], 0, env);
-	free(file_name);
 	exit(2);
 }
 

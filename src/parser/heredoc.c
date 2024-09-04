@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 12:28:49 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/04 15:11:10 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ int	heredoc(t_token *head, t_list *env)
 {
 	char	*file_name;
 	int		status;
+	char	fn[16];
 
 	while (head)
 	{
@@ -82,8 +83,9 @@ int	heredoc(t_token *head, t_list *env)
 		if (head->type == HEREDOC)
 		{
 			file_name = ran_file();
+			ft_strlcpy(fn, file_name, 16);
 			if (fork() == 0)
-				fork_heredoc(file_name, head, env);
+				fork_heredoc(fn, head, env);
 			else
 				wait(&status);
 			if (WEXITSTATUS(status) == 5)
