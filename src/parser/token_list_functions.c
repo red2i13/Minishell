@@ -6,11 +6,22 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/31 15:11:47 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/04 10:07:23 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+
+void	add_front_t(t_token **lst, t_token *new)
+{
+	if (!new || !lst)
+		return ;
+	new->next = *lst;
+	new->prev = NULL;
+	(*lst)->prev = new;
+	*(lst) = new;
+}
 
 void	add_back_t(t_token **head, t_token *new)
 {
