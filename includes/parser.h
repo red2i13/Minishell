@@ -51,6 +51,7 @@ char **join_cmds(char **big, char **mini, int pos);
 
 
 /*token_list_functions.c*/
+void	add_front_t(t_token **head, t_token *new);
 void	add_back_t(t_token **head, t_token *new);
 t_token *create_token(char **args);
 size_t  size_list(t_token *head);
@@ -76,7 +77,7 @@ int is_q(char *str);
 void start_rm_q(t_token *head);
 char *rm_quote(char *str);
 
-void cmd_mk(t_token *head);
+int cmd_mk(t_token *head);
 void set_index(t_token *head);
 char **ft_realloc(char *arg, char **old_arr);
 void del(void *c);
@@ -87,4 +88,5 @@ void sighandler(int signum) ;
 char *get_var(char *str, t_list  *env);
 int setup_h(char *line, t_list  *envl);
 void restor_history(t_list  *envl);
+void cmd_mk_v2(t_token **head);
 #endif
