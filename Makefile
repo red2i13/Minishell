@@ -1,7 +1,12 @@
 #Dont forget to delet the -g flag
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 FLAGS = -lreadline
-PARSER =   get_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c token_list_functions.c init_tokens.c cmds_parse.c parsing_utlis.c heredoc.c utiles.c expand.c rm_quote.c signals.c history.c get_next_line_utils.c get_next_line.c
+PARSER =   get_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c \
+			token_list_functions.c init_tokens.c cmds_parse.c \
+			parsing_utlis.c heredoc.c utiles.c expand.c rm_quote.c \
+			signals.c history.c get_next_line_utils.c get_next_line.c \
+			init_tokens_v2.c heredoc_v2.c expand_v2.c init_tokens_v2.c \
+			token_list_functions_v2.c
 EXEC = builtin.c exec.c pipes.c redirection.c 
 HANDLE_ERR = check_err.c error.c
 SOURCES = src/minishell.c

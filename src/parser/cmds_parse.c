@@ -12,24 +12,24 @@
 
 #include "../../includes/minishell.h"
 
-t_token *cmds_parse(char *line, t_list  *envl)
+t_token	*cmds_parse(char *line, t_list *envl)
 {
-    char **args;
-    t_token *head;
+	char	**args;
+	t_token	*head;
 
-    args = get_cmds(line, envl);
-    if (!args)
-        return NULL;
-    head = init_tokens(args);
-    if (!head)
-        return (NULL);
-    set_size(head);
-    set_type(head);
-    if (check_err(head) < 0)
-    {
-        p_err(check_err(head));
-        list_clear(head);
-        head = NULL;
-    }
-    return (head);
+	args = get_cmds(line, envl);
+	if (!args)
+		return (NULL);
+	head = init_tokens(args);
+	if (!head)
+		return (NULL);
+	set_size(head);
+	set_type(head);
+	if (check_err(head) < 0)
+	{
+		p_err(check_err(head));
+		list_clear(head);
+		head = NULL;
+	}
+	return (head);
 }

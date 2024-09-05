@@ -3,36 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utlis.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/08 22:29:17 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:04:08 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-char *get_PATH(t_list *envl)
+char	*get_path(t_list *envl)
 {
 	char	*path;
-	// int		i;
 
-	// i = 0;
 	path = NULL;
 	while (envl)
 	{
-		path = ft_strnstr((char*)envl->content, "PATH=", 5);
+		path = ft_strnstr((char *)envl->content, "PATH=", 5);
 		if (path)
 			break ;
 		envl = envl->next;
 	}
-	return path;
+	return (path);
 }
+
 char	**split_paths(char *paths)
 {
 	int		i;
-    char	*first_part;
+	char	*first_part;
 	char	**the_paths;
 
 	i = 0;
@@ -46,30 +44,22 @@ char	**split_paths(char *paths)
 	free(first_part);
 	return (the_paths);
 }
+
 int	check_builtin(char *cmd)
 {
-	char *str;
-
-	str = "cd";
-	if(!ft_strncmp(cmd, str, 3))
-		return(0);
-	str = "pwd";
-	if(!ft_strncmp(cmd, str, 4))
-		return(0);
-	str = "export";
-	if(!ft_strncmp(cmd, str, 7))
-		return(0);
-	str = "unset";
-	if(!ft_strncmp(cmd, str, 6))
-		return(0);
-	str = "env";
-	if(!ft_strncmp(cmd, str, 4))
-		return(0);
-	str = "echo";
-	if(!ft_strncmp(cmd, str, 5))
-		return(0);
-	str = "exit";
-	if(!ft_strncmp(cmd, str, 5))
-		return(0);
-	return(1);
+	if (!ft_strncmp(cmd, "cd", 3))
+		return (0);
+	if (!ft_strncmp(cmd, "pwd", 4))
+		return (0);
+	if (!ft_strncmp(cmd, "export", 7))
+		return (0);
+	if (!ft_strncmp(cmd, "unset", 6))
+		return (0);
+	if (!ft_strncmp(cmd, "env", 4))
+		return (0);
+	if (!ft_strncmp(cmd, "echo", 5))
+		return (0);
+	if (!ft_strncmp(cmd, "exit", 5))
+		return (0);
+	return (1);
 }

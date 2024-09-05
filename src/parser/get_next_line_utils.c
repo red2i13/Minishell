@@ -6,15 +6,14 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/27 15:31:27 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/02 19:40:38 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/04 11:53:25 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-//ft_strchr()
-char	*ft_strchr(const char *s, int c)
+// ft_strchr()
+char	*ftt_strchr(const char *s, int c)
 {
 	int	i;
 
@@ -30,8 +29,8 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-//ft_strjoin()
-char	*ft_strjoin(char const *s1, char const *s2)
+// ft_strjoin()
+char	*ftt_strjoin(char const *s1, char const *s2)
 {
 	int		lens1;
 	int		lens2;
@@ -52,8 +51,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (newstr - (lens1 + lens2));
 }
 
-//ft_strlen()
-size_t	ft_strlen(const char *s)
+// ft_strlen()
+size_t	ftt_strlen(const char *s)
 {
 	size_t	i;
 
@@ -63,8 +62,8 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-//ft_calloc()
-void	*ft_calloc(size_t nmemb, size_t size)
+// ft_calloc()
+void	*ftt_calloc(size_t nmemb, size_t size)
 {
 	void	*ptr;
 
@@ -75,8 +74,8 @@ void	*ft_calloc(size_t nmemb, size_t size)
 	return (ptr);
 }
 
-//ft_bzero
-void	ft_bzero(void *s, size_t n)
+// ft_bzero
+void	ftt_bzero(void *s, size_t n)
 {
 	char	*str;
 	size_t	i;

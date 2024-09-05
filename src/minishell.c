@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 11:46:06 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 18:46:53 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,14 +139,19 @@ int main(int argc, char **argv, char **env)
         }
         start_ex(head, envl);
         start_rm_q(head);
-        cmd_mk(head);
+        while(1)
+            if (cmd_mk(head))
+                break;
+        cmd_mk_v2(&head);
+        set_type(head);
+        set_size(head);
         ///////////////////////////////////////////////
-        //p_list(head);
+        // p_list(head);
         ///////////////////////////////////////////////
         if (!head)
             continue;
         if(check_pipe(head))
-            exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
+            exec_pipes(head, &envl, &exp_list, split_paths(get_path(envl)));
         else if(check_redir(head, 0) || check_redir(head, 1))
         {
             //new redirection
@@ -169,13 +174,13 @@ int main(int argc, char **argv, char **env)
                     tmp = tmp->next;
                 }
             }
-            run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+            run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
             dup2(old_fd[0], STDIN_FILENO);
             dup2(old_fd[1], STDOUT_FILENO);
         
         }
         else
-            run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+            run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
         list_clear(head);
         head = NULL;
     }
