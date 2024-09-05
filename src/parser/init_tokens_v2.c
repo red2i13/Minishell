@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:09:35 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 11:38:35 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 18:59:57 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	fun_init_v2(char ***new_args, t_token **head, char **args, int *i)
 	if (*new_args)
 		add_back_t(head, create_token(*new_args));
 	*new_args = malloc(sizeof(char *) * 2);
-	*new_args[0] = args[*i];
-	*new_args[1] = NULL;
+	(*new_args)[0] = args[*i];
+	(*new_args)[1] = NULL;
 	add_back_t(head, create_token(*new_args));
 	*new_args = NULL;
 	*i += 1;
