@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 21:26:48 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:14:27 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void    error_exit(char *str, int exit_num);
 /*builtin.c*/
 void    echo(char **cmd);
 void    print_env(t_list *envl);
-int     cd(char **args, t_list **envl, t_list **exp_list);
+int     cd(char **args,  t_list **envl, t_list **exp_list);
 char*   pwd(int i, t_list *envl);
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value);
 void    unset(t_list **envl, char *var_name, int flag);

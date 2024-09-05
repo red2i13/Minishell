@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/05 21:28:38 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 22:21:48 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,11 @@ int redir_output(char *filename, int flag)
 {
 	int fd;
 	
+	if(flag == 1 && access(filename, F_OK) == 0)
+	{
+		write(2, "bash: cannot overwrite existing file\n", 37);
+		return(-1);
+	}
 	if(flag == 1)
 		fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else

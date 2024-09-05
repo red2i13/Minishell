@@ -59,3 +59,8 @@ case25: problem in signals
 case26:minishell → rm ls
 rm: cannot remove 'ls': Is a directory
 minishell →
+case27:
+rbenmakh@minishell → > $gfgf
+AddressSanitizer:DEADLYSIGNAL
+=================================================================
+==131017==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004d1d31 bp 0x7ffd8e47dd50 sp 0x7ffd8e47dba0 T0)
