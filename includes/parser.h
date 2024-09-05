@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 09:21:53 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 20:50:32 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ void				free_re(t_token *head, char *file_name);
 int					ff_strncmp(const char *s1, const char *s2, size_t n);
 void				free_expand(char *fr, char *brev, char *var, char *str);
 char				*expand(char *str, t_list *env, int *q, char ***temp);
+void rm_em_var(t_token *head);
 #endif
