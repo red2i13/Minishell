@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 09:47:50 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:07:40 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,10 @@ int	heredoc(t_token *head, t_list *env)
 				fork_heredoc(fn, head, env);
 			else
 				wait(&status);
-			if (WEXITSTATUS(status) == 5)
-				return (0);
 			free_arr(head->args);
 			free_re(head, file_name);
+			if (WEXITSTATUS(status) == 5)
+				return (0);
 		}
 		head = head->next;
 	}

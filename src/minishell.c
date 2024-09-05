@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 10:07:26 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:07:26 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int main(int argc, char **argv, char **env)
         cmd_mk_v2(&head);
         set_type(head);
         ///////////////////////////////////////////////
-        //p_list(head);
+        // p_list(head);
         ///////////////////////////////////////////////
         if (!head)
             continue;
