@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/05 12:40:14 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 14:21:55 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,13 +54,14 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     char **env ;
     
     int r;
-    printf("head->args[0] = %s\n", head->args[0]);
     if((r = check_redir(head, 0) || check_redir(head, 1)))
     {
         t_token *tmp = head;
         while(tmp)
         {
-            if(tmp->args[0][0] == '>')
+            if(tmp->args[0][0] == '|')
+                break;
+            else if(tmp->args[0][0] == '>')
                 redir_output(tmp->next->args[0], r);
             else if(tmp->args[0][0] == '<')
                 redir_input(tmp->next->args[0]);
