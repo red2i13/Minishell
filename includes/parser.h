@@ -102,11 +102,13 @@ char				*get_var(char *str, t_list *env);
 int					setup_h(char *line, t_list *envl);
 void				restor_history(t_list *envl);
 void				cmd_mk_v2(t_token **head);
-void				fun_init(char	***new_args, t_token	**head, char **args, int *i);
-void fun_init_v2(char	***new_args, t_token	**head, char **args, int *i);
-void	fork_heredoc(char *fn, t_token *head, t_list *env);
-void free_re(t_token *head, char  *file_name);
-int	ff_strncmp(const char *s1, const char *s2, size_t n);
-void free_expand(char *fr, char	*brev, char	*var, char *str);
-char	*expand(char *str, t_list *env, int *q, char ***temp);
+void				fun_init(char ***new_args, t_token **head, char **args,
+						int *i);
+void				fun_init_v2(char ***new_args, t_token **head, char **args,
+						int *i);
+void				fork_heredoc(char *fn, t_token *head, t_list *env);
+void				free_re(t_token *head, char *file_name);
+int					ff_strncmp(const char *s1, const char *s2, size_t n);
+void				free_expand(char *fr, char *brev, char *var, char *str);
+char				*expand(char *str, t_list *env, int *q, char ***temp);
 #endif
