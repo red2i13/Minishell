@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 10:04:01 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 11:38:05 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 09:53:51 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,10 @@ void	start_rm_q(t_token *head)
 		while (head->args[i])
 		{
 			if (is_q(head->args[i]))
+			{
+				head->is_q = true;
 				head->args[i] = rm_quote(head->args[i]);
+			}
 			i++;
 		}
 		head = head->next;

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:11:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 15:11:21 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 09:44:39 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 	int		i[3];
 	int		fd;
 
-	signal_setup(1);
 	fd = open(file_name, O_CREAT | O_RDWR, 0777);
 	while (1)
 	{
@@ -48,16 +47,17 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 	close(fd);
 }
 
-void	fork_heredoc(char *file_name, t_token *head, t_list *env)
+void	fork_heredoc(char *fn, t_token *head, t_list *env)
 {
+	signal_setup(1);
 	if (is_q(head->next->args[0]))
 	{
 		head->next->args[0] = rm_quote(head->next->args[0]);
-		read_put(file_name, head->next->args[0], 1, env);
+		read_put(fn, head->next->args[0], 1, env);
 	}
 	else
-		read_put(file_name, head->next->args[0], 0, env);
-	exit(2);
+		read_put(fn, head->next->args[0], 0, env);
+	exit(0);
 }
 
 void	free_re(t_token *head, char *file_name)

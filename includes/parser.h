@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 15:11:28 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 09:21:53 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void				restor_history(t_list *envl);
 void				cmd_mk_v2(t_token **head);
 void				fun_init(char	***new_args, t_token	**head, char **args, int *i);
 void fun_init_v2(char	***new_args, t_token	**head, char **args, int *i);
-void fork_heredoc(char  *file_name, t_token *head, t_list *env);
+void	fork_heredoc(char *fn, t_token *head, t_list *env);
 void free_re(t_token *head, char  *file_name);
 int	ff_strncmp(const char *s1, const char *s2, size_t n);
 void free_expand(char *fr, char	*brev, char	*var, char *str);
