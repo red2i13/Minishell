@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 12:16:01 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 11:54:53 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,7 @@ int check_redir(t_token *head, int f)
     while(head)
     {
         if(head->args[0][0] == '>' && !f)
-        {
-            if(head->args[1] == NULL)
-                return(1);
-            else
-                return(2);
-        }
+            return(head->arg_size);
         if(head->args[0][0] == '<' && f)
         {
             return(1);
@@ -122,6 +117,11 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     int exit_st;
     
     exit_st = 0;
+    if(head->args[0][0] == '>' || head->args[0][0] == '<')
+    {
+        free_arr(paths);
+        return ;
+    }
     env = convert_to_array(*envl);
     if (!ft_strncmp(head->args[0], "exit", 5))
     {
