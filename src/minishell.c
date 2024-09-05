@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 21:24:17 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:38:08 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,7 @@ int main(int argc, char **argv, char **env)
             continue;
         }
         start_ex(head, envl);
+        rm_em_var(head);
         start_rm_q(head);
         while(1)
             if (cmd_mk(head))

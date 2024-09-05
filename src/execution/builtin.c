@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/05 20:31:38 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:36:50 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -416,11 +416,6 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
 
     i = 1;
     
-    if(head->arg_size == 2 && !head->is_q)
-    { 
-        print_export(*exp_list);
-        return ;
-    }
     while (head->args[i])
     {
         char *f ;
