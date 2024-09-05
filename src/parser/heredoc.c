@@ -6,39 +6,39 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/08/31 19:21:57 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 09:47:50 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-char *ran_file(void)
+char	*ran_file(void)
 {
-    int fd;
-    char *s;
-    char *tmp;
-    int i[2];
-    char *buff;
-    
-    i[0] = 0;
-    i[1] = 0;
-    buff = malloc(100 * sizeof(char));
-    s = malloc(11 * sizeof(char));
-    fd = open("/dev/random", O_RDONLY);
-    read(fd, buff, 100);
-    while (i[0] < 100)
-    {
-        if (ft_isalnum(buff[i[0]]) && i[1] < 10)
-            s[i[1]++] = buff[i[0]];
-        i[0]++;
-    }
-    s[i[1]] = '\0';
-    tmp = s;
-    s = ft_strjoin("/tmp/", s);
-    free(tmp);
-    free(buff);
-    close(fd);
-    return(s);
+	int		fd;
+	char	*s;
+	char	*tmp;
+	int		i[2];
+	char	*buff;
+
+	i[0] = 0;
+	i[1] = 0;
+	buff = malloc(100 * sizeof(char));
+	s = malloc(11 * sizeof(char));
+	fd = open("/dev/random", O_RDONLY);
+	read(fd, buff, 100);
+	while (i[0] < 100)
+	{
+		if (ft_isalnum(buff[i[0]]) && i[1] < 10)
+			s[i[1]++] = buff[i[0]];
+		i[0]++;
+	}
+	s[i[1]] = '\0';
+	tmp = s;
+	s = ft_strjoin("/tmp/", s);
+	free(tmp);
+	free(buff);
+	close(fd);
+	return (s);
 }
 
 int	ff_strncmp(const char *s1, const char *s2, size_t n)
@@ -57,93 +57,43 @@ int	ff_strncmp(const char *s1, const char *s2, size_t n)
 	return (0);
 }
 
-void read_put(char *file_name, char *del, int q, t_list *env)
+int	is_q(char *str)
 {
-    char *str;
-    int i[3];
-    char *tmp;
-    int fd;
+	int	i;
 
-    signal_setup(1);
-    fd = open(file_name, O_CREAT | O_RDWR , 0777);
-    while(1)
-    {
-        str = readline(">");
-        if (!str)
-        {
-            write(1, "bash: warning: here-document delimited by end-of-file!\n",55);
-            return ;
-        }
-        if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
-            break;
-        i[0] = 0;
-        i[1] = 0;
-        i[2] = 0;
-        if (q == 0)
-            str = expand(str, env, i, NULL);
-        tmp = str;
-        str = ft_strjoin(str, "\n");
-        free(tmp);
-        write(fd, str, ft_strlen(str));
-        free(str);
-    }
-    close(fd);
+	i = 0;
+	while (str && str[i])
+	{
+		if (str[i] == '\'' || str[i] == '\"')
+			return (1);
+		i++;
+	}
+	return (0);
 }
 
-int is_q(char *str)
+int	heredoc(t_token *head, t_list *env)
 {
-    int i;
+	char	*file_name;
+	int		status;
+	char	fn[16];
 
-    i = 0;
-    while (str && str[i])
-    {
-        if (str[i] == '\'' || str[i] == '\"')
-            return (1);
-        i++;
-    }
-    return (0);
-}
-
-int heredoc(t_token *head, t_list *env)
-{
-    char *file_name;
-    char fn[16];
-    (void)head;
-    int status;
-
-    while (head)
-    {
-        signal_setup(0);
-        if (head->type == HEREDOC)
-        {
-            file_name = ran_file();
-            ft_strlcpy(fn, file_name, 16);
-            if (fork() == 0)
-            {
-                if (is_q(head->next->args[0]))
-                {
-                    head->next->args[0] = rm_quote(head->next->args[0]);
-                    read_put(fn, head->next->args[0], 1, env);
-                }
-                else
-                    read_put(fn, head->next->args[0], 0, env);
-                exit(2);
-            }
-            else 
-                wait(&status);
-            if (WEXITSTATUS(status) == 5)
-                return (0);
-            free_arr(head->args);
-            head->args = malloc(sizeof(char *) * 2);
-            head->args[0] = ft_strdup("<");
-            head->args[1] = NULL;
-            head->type = RED;
-            head->arg_size = 1;
-            free(head->next->args[0]);
-            head->next->args[0] = file_name;
-            head->next->type = FILE_N;
-        }
-        head = head->next;   
-    }
-    return (1);
+	while (head)
+	{
+		signal_setup(0);
+		if (head->type == HEREDOC)
+		{
+			file_name = ran_file();
+			ft_strlcpy(fn, file_name, 16);
+			if (fork() == 0)
+				fork_heredoc(fn, head, env);
+			else
+				wait(&status);
+			if (WEXITSTATUS(status) == 5)
+				return (0);
+			free_arr(head->args);
+			free_re(head, file_name);
+		}
+		head = head->next;
+	}
+	return (1);
 }

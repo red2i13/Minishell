@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/27 15:25:28 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/02 19:40:42 by ysahraou         ###   ########.fr       */
+/*   Created: 2024/09/04 11:07:58 by ysahraou          #+#    #+#             */
+/*   Updated: 2024/09/04 11:53:56 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static char	*ft_join_and_free(char *result, char *buffer)
 {
 	char	*temp;
 
-	temp = ft_strjoin(result, buffer);
+	temp = ftt_strjoin(result, buffer);
 	free(result);
 	return (temp);
 }
@@ -35,7 +35,7 @@ static char	*ft_rest(char *buffer)
 		free(buffer);
 		return (NULL);
 	}
-	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	line = ftt_calloc((ftt_strlen(buffer) - i + 1), sizeof(char));
 	if (!line)
 		return (NULL);
 	j = 0;
@@ -62,7 +62,7 @@ static char	*ft_find_line(char *buffer)
 	}
 	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	line = ft_calloc(i + 2, sizeof(char));
+	line = ftt_calloc(i + 2, sizeof(char));
 	if (!line)
 		return (NULL);
 	i = 0;
@@ -83,11 +83,11 @@ static char	*read_from_file(int fd, char *result)
 
 	if (!result)
 	{
-		result = ft_calloc(1, 1);
+		result = ftt_calloc(1, 1);
 		if (!result)
 			return (NULL);
 	}
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
+	buffer = ftt_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (!buffer)
 		return (NULL);
 	byte_readed = 1;
@@ -98,7 +98,7 @@ static char	*read_from_file(int fd, char *result)
 			return (free(buffer), free(result), NULL);
 		buffer[byte_readed] = 0;
 		result = ft_join_and_free(result, buffer);
-		if (ft_strchr(buffer, '\n'))
+		if (ftt_strchr(buffer, '\n'))
 			break ;
 	}
 	return (free(buffer), result);

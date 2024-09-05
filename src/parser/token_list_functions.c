@@ -6,32 +6,22 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 10:07:23 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/04 12:40:56 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-void	add_front_t(t_token **lst, t_token *new)
-{
-	if (!new || !lst)
-		return ;
-	new->next = *lst;
-	new->prev = NULL;
-	(*lst)->prev = new;
-	*(lst) = new;
-}
-
 void	add_back_t(t_token **head, t_token *new)
 {
-	t_token *tmp;
+	t_token	*tmp;
+
 	if (!new)
-		return;
+		return ;
 	if (!head || !*head)
 	{
 		*head = new;
-		return;
+		return ;
 	}
 	tmp = *head;
 	while (tmp->next)
@@ -40,39 +30,40 @@ void	add_back_t(t_token **head, t_token *new)
 	new->prev = tmp;
 }
 
-t_token *last_t(t_token *head)
+t_token	*last_t(t_token *head)
 {
 	if (head == NULL)
-		return NULL;
+		return (NULL);
 	while (head->next)
 		head = head->next;
-	return head;
+	return (head);
 }
 
-t_token *create_token(char **args)
+t_token	*create_token(char **args)
 {
-    t_token *token;
-    
-    token = malloc(sizeof(t_token));
-    token->args = args;
-    token->next = NULL;
-    token->prev	= NULL;
-    return (token);
+	t_token	*token;
+
+	token = malloc(sizeof(t_token));
+	token->args = args;
+	token->next = NULL;
+	token->prev = NULL;
+	return (token);
 }
 
 size_t	size_list(t_token *head)
 {
-	size_t i;
+	size_t	i;
+
 	i = 0;
 	while (head)
 	{
 		i++;
 		head = head->next;
 	}
-	return i;
+	return (i);
 }
 
-void list_clear(t_token *head)
+void	list_clear(t_token *head)
 {
 	t_token	*tmp;
 

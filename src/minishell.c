@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 10:23:27 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 10:07:26 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,13 +124,14 @@ int main(int argc, char **argv, char **env)
             if (cmd_mk(head))
                 break;
         cmd_mk_v2(&head);
+        set_type(head);
         ///////////////////////////////////////////////
         //p_list(head);
         ///////////////////////////////////////////////
         if (!head)
             continue;
         if(check_pipe(head))
-            exec_pipes(head, &envl, &exp_list, split_paths(get_PATH(envl)));
+            exec_pipes(head, &envl, &exp_list, split_paths(get_path(envl)));
         else if(check_redir(head, 0) || check_redir(head, 1))
         {
             int pid;
@@ -141,7 +142,7 @@ int main(int argc, char **argv, char **env)
                 char *input = last_io(head, 1);
                 if(input)
                     redir_input(input);
-                run(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+                run(head, &envl, &exp_list,split_paths(get_path(envl)));
                 exit(0);
             }
             else
@@ -149,7 +150,7 @@ int main(int argc, char **argv, char **env)
             g_status = exit_st / 256;
         }
         else
-            run_cmd(head, &envl, &exp_list,split_paths(get_PATH(envl)));
+            run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
         list_clear(head);
         head = NULL;
     }
