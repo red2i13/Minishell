@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/02 14:43:22 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 20:31:38 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,10 +317,7 @@ void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value)
         print_export(*exp_list);
     
     if (free_var_name)
-        free(var_name); // free var_name if it contains '+'
-    // free var_value if necessary
-    // if (var_value)
-    //     free(var_value);
+        free(var_name);
 }
 
 //unset command
@@ -418,6 +415,12 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
     char *var_name;
 
     i = 1;
+    
+    if(head->arg_size == 2 && !head->is_q)
+    { 
+        print_export(*exp_list);
+        return ;
+    }
     while (head->args[i])
     {
         char *f ;

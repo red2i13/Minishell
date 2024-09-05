@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 11:05:13 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:26:48 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ int	check_builtin(char *cmd);
 void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
 char *check_cmd(char *cmd, char **paths);
 int builtin(t_token *head, t_list **envl, t_list **exp_list);
+void printf_error(char *str, char *cmd);
 /*redirection.c*/
 int redir_output(char *filename, int flag);
 int redir_input(char *filename);

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/26 09:56:21 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:28:38 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ int redir_output(char *filename, int flag)
 		fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else
 		fd = open(filename, O_CREAT | O_APPEND | O_RDWR, 0644);
-   if (dup2(fd, 1) == -1) 
-   {
-        perror("dup2");
+   	if (dup2(fd, 1) == -1) 
+   	{
+        write(2, "Minishell: Ambiguous redirect\n", 30);
         close(fd);
         return -1;
     }
@@ -52,8 +52,8 @@ int redir_input(char *filename)
 	fd = open(filename, O_RDONLY);
 	if(fd == -1)
 	{
-		perror("open");
-		exit(1);	
+        write(2, "Minishell: Ambiguous redirect\n", 30);
+		return(-1);
 	}
 	dup2(fd, STDIN_FILENO);
 	close (fd);

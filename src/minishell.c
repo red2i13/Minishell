@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 18:46:53 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/05 21:24:17 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,23 +158,29 @@ int main(int argc, char **argv, char **env)
             int old_fd[2]; 
             char *input ;
             int r;
+            int flag; 
             
+            flag = 0;
             input = last_io(head, 1);
             old_fd[0] = dup(STDIN_FILENO);
             old_fd[1] = dup(STDOUT_FILENO);
             if(input)
-                redir_input(input);
+                flag = redir_input(input);
             if((r = check_redir(head, 0)))
             {
                 t_token *tmp = head;
                 while(tmp)
                 {
                     if(tmp->args[0][0] == '>')
-                        redir_output(tmp->next->args[0], r);
+                    {
+                        if((flag = redir_output(tmp->next->args[0], r)) == -1)
+                            break;
+                    }
                     tmp = tmp->next;
                 }
             }
-            run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
+            if(flag != -1)
+                run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
             dup2(old_fd[0], STDIN_FILENO);
             dup2(old_fd[1], STDOUT_FILENO);
         
