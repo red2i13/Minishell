@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/06 17:52:19 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:01:06 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,6 @@ int main(int argc, char **argv, char **env)
         }
         start_ex(head, envl);
         rm_em_var(head);
-        p_list(head);
         start_rm_q(head);
         while(1)
             if (cmd_mk(head))
