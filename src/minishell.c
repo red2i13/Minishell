@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/06 18:01:06 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:20:59 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,9 @@ void p_list(t_token *head)
     {
         printf("==========================\n");
         for (int i = 0; head->args[i]; i++)
-        {
             printf("{%i}[%s]\n", i, head->args[i]);
-        }
+        if (head->arg_size == 0)
+            printf("{}[none]\n");
         printf("%i\n", head->arg_size);
         if (head->type == HEREDOC)
             printf("HEREDOC\n");
@@ -39,44 +39,7 @@ void p_list(t_token *head)
         head = head->next;
     }
 }
-char *get_user(t_list  *env, int err)
-{
-    char *user;
-    char *tmp;
 
-    user = get_var("USER", env);
-    if (!user)
-        user = ft_strdup("gest");
-    tmp = user;
-    user = ft_strjoin("\033[0;36m", user);
-    free(tmp);
-    tmp = user;
-    if (!err)
-        user = ft_strjoin(user, "@\033[0;32mminishell →\033[0m ");
-    else
-        user = ft_strjoin(user, "@\033[0;32mminishell\033[0;31m →\033[0m ");
-    free(tmp);
-    return (user);
-}
-
-char *prompt(t_list  *env)
-{
-    char *user;
-    char *line;
-
-    if (!g_status)
-    {
-        user = get_user(env, 0);
-        line = readline(user);
-    }
-    else
-    {
-        user = get_user(env, 1);
-        line = readline(user);
-    }
-    free(user);
-    return (line);
-}
 int main(int argc, char **argv, char **env)
 { 
     char    *line;
@@ -121,10 +84,10 @@ int main(int argc, char **argv, char **env)
             if (cmd_mk(head))
                 break;
         cmd_mk_v2(&head);
+        p_list(head);
         set_type(head);
         set_size(head);
         ///////////////////////////////////////////////
-        // p_list(head);
         ///////////////////////////////////////////////
         if (!head)
             continue;

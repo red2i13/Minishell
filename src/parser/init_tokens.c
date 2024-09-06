@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 19:00:07 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:19:30 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,21 +63,21 @@ void	set_type(t_token *head)
 {
 	while (head)
 	{
-		if (head->args[0][0] == '|')
+		if (head->args[0] && head->args[0][0] == '|')
 			head->type = PIPE;
 		else if (head->prev && (head->prev->type == RED
 				|| head->prev->type == HEREDOC))
 			head->type = FILE_N;
 		else if (head->arg_size == 2)
 		{
-			if (head->args[0][0] == '<' && head->args[1][0] == '<')
+			if (head->args[0] && head->args[0][0] == '<' && head->args[1][0] == '<')
 				head->type = HEREDOC;
 			else if (head->args[0][0] == '>' || head->args[1][0] == '>')
 				head->type = RED;
 			else
 				head->type = CMD;
 		}
-		else if (head->args[0][0] == '>' || head->args[0][0] == '<')
+		else if ((head->args[0] && head->args[0][0] == '>') || (head->args[0] && head->args[0][0] == '<'))
 			head->type = RED;
 		else
 			head->type = CMD;
