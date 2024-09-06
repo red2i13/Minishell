@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/05 22:21:48 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/06 09:52:41 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int redir_output(char *filename, int flag)
 	if(flag == 1 && access(filename, F_OK) == 0)
 	{
 		write(2, "bash: cannot overwrite existing file\n", 37);
+		g_status = 1;
 		return(-1);
 	}
 	if(flag == 1)
@@ -43,6 +44,7 @@ int redir_output(char *filename, int flag)
    	if (dup2(fd, 1) == -1) 
    	{
         write(2, "Minishell: Ambiguous redirect\n", 30);
+		g_status = 1;
         close(fd);
         return -1;
     }
@@ -57,7 +59,8 @@ int redir_input(char *filename)
 	fd = open(filename, O_RDONLY);
 	if(fd == -1)
 	{
-        write(2, "Minishell: Ambiguous redirect\n", 30);
+        write(2, "Minishell: no such file or directory\n", 38);
+		g_status = 1;
 		return(-1);
 	}
 	dup2(fd, STDIN_FILENO);

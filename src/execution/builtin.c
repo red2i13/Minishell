@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/05 21:36:50 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/06 10:51:13 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
     }
     else
     {
-        export(exp_list, envl, "OLDPWD=", tmp = pwd(0, *envl));
+        export(exp_list, envl, "OLDPWD=", tmp = get_var("PWD", *envl)); 
         free(tmp);
         if((tmp = getcwd(NULL, 0)) == NULL) 
             printf("cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n");
@@ -121,9 +121,6 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
     }
     export(exp_list, envl, "PWD=", tmp = pwd(0, *envl));
     free(tmp);
-    //debug
-    //printf("debug %s\n", fenv(*envl, "PWD"));
-    //
     free(path);
     return(0);
 }
@@ -413,22 +410,18 @@ void init_export(t_token *head , t_list **envl, t_list **exp_list)
     int i;
     char *var_value;
     char *var_name;
+    char *f ;
 
-    i = 1;
-    
+    i = 1;  
     while (head->args[i])
     {
-        char *f ;
         f = NULL;
         if(head->args[i])
             f = ft_strchr(head->args[i], '=');       
         var_name = NULL;
         var_value = NULL;
-
         if(!f && head->args[i])
-        {
             var_name = ft_substr(head->args[i], 0, ft_strlen(head->args[i]));
-        }
         else if(f && head->args[i])
         {
             var_name =  ft_substr(head->args[i], 0, f - head->args[i] + 1 );

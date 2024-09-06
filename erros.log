@@ -64,3 +64,8 @@ rbenmakh@minishell → > $gfgf
 AddressSanitizer:DEADLYSIGNAL
 =================================================================
 ==131017==ERROR: AddressSanitizer: SEGV on unknown address 0x000000000000 (pc 0x0000004d1d31 bp 0x7ffd8e47dd50 sp 0x7ffd8e47dba0 T0)
+case28:
+echo "echo "$HOME""
+case29: rbenmakh@minishell → chmod 000 minishell
+rbenmakh@minishell → ./minishell
+./minishell: command not found
