@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 10:04:01 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 20:54:33 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:52:49 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,60 +91,9 @@ void	start_rm_q(t_token *head)
 		while (head->args[i])
 		{
 			if (is_q(head->args[i]))
-			{
-				head->is_q = true;
 				head->args[i] = rm_quote(head->args[i]);
-			}
 			i++;
 		}
-		head = head->next;
-	}
-}
-
-int rm_size(char **args)
-{
-	int i;
-	int count;
-	
-	count = 0;
-	i = 0;
-	while (args && args[i])
-	{
-		if (args[i][0] != '\0')
-			count++;
-		i++;
-	}
-	return (count);
-}
-char **rm_em_var2(char **args)
-{
-	char **new_args;
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	printf("[[[%i\n", rm_size(args));
-	new_args = 	malloc(sizeof(char *) * (rm_size(args) + 1));
-	while (args && args[i])
-	{
-		if (args[i][0] != '\0')
-			new_args[j++] = args[i];
-		else
-			free(args[i]);
-		i++;
-	}
-	new_args[j] = NULL;
-	return new_args;
-}
-void rm_em_var(t_token *head)
-{
-	char **tmp;
-	while (head)
-	{
-		tmp = head->args;
-		head->args = rm_em_var2(head->args);
-		free(tmp);
 		head = head->next;
 	}
 }

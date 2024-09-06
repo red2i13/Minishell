@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 20:52:59 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:52:19 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,6 @@ void p_list(t_token *head)
         if (head->type == FILE_N)
             printf("FILE_N\n");
         printf("index = %i\n", head->index);
-        if (head->is_q)
-            printf("is quoted : true\n");
-        else    
-            printf("is quoted : false\n");
         printf("==========================\n");
         head = head->next;
     }
