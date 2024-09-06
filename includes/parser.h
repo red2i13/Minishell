@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 20:50:32 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/06 17:53:05 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdbool.h>
 # include <stdio.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
@@ -50,7 +49,6 @@ typedef struct s_token
 	t_type			type;
 	int				arg_size;
 	int				index;
-	bool			is_q;
 	struct s_token	*next;
 	struct s_token	*prev;
 }					t_token;
