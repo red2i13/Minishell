@@ -6,62 +6,71 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/06 11:03:56 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/07 21:57:40 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void printf_error(char *str, char *cmd)
+void printf_error(char *str, char *cmd, int exit_status)
 {
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": ", 2);
 	write(2, str, ft_strlen(str));
 	write(2, "\n", 1);
+	if(exit_status)
+		g_status = exit_status;
 }
-char *check_cmd(char *cmd, char **paths)
+char *search_path(char *cmd, char **paths, int *num)
 {
-	int num; 
-	int i ;
+	int i;
 	char *tmp;
 	char *tmp1;
 	
 	i = 0;
-	num = -1;
-	if(!paths)
-	{
-		write(2, "minishell: : No such file or directory\n", 40);
-		return(NULL);
-	}
-	else if(cmd[0] == '\0')
-		return(NULL);
-	else if(cmd[0] == '.' && access(cmd, F_OK) != 0)
-	{
-		printf_error("No such file or directory", cmd);
-		g_status = 127;
-		return(NULL);
-	}
 	while(paths[i])
 	{
 		tmp = ft_strjoin( "/", cmd);
 		tmp1 = tmp;
 		tmp = ft_strjoin(paths[i], tmp);
 		free(tmp1);
-		num = access(tmp, F_OK | X_OK);
-		if(!num)
+		*num = access(tmp, F_OK | X_OK);
+		if(!*num)
 			return(tmp);
 		free(tmp);
 		i++;
 	}
 	if(!access(cmd,F_OK | X_OK))
 		return(cmd);
-	//if the command not found return 127 as exit code
+
+	return(NULL);
+}	
+
+char *check_cmd(char *cmd, char **paths)
+{
+	int num; 
+	int i ;
+	char *tmp;
+
+	i = 0;
+	num = -1;
+	if(!paths)	
+		return(write(2, "minishell: : No such file or directory\n", 40), NULL);
+	else if(cmd[0] == '\0')
+		return(NULL);
+	else if(cmd[0] == '.' && access(cmd, F_OK) != 0)
+	{
+		printf_error("No such file or directory", cmd, 127);
+		return(NULL);
+	}
+	if((tmp = search_path(cmd, paths, &num)))
+		return(tmp);
+	else if (!access(cmd, F_OK))
+		return(printf_error("Permission denied", cmd, 126), NULL);
 	if(num == -1 && check_builtin(cmd))
 	{
-		//this function should store the exit code if the command is not found
-		printf_error("command not found ", cmd);
+		printf_error("command not found", cmd, 127);
 		cmd = NULL ;
-		g_status = 127;
 	}
 	return(cmd);
 }
@@ -69,9 +78,9 @@ int check_redir(t_token *head, int f)
 {
 	while(head)
 	{
-		if(head->args[0][0] == '>' && !f)
+		if(head->args[0] && head->args[0][0] == '>' && !f)
 			return(head->arg_size);
-		if(head->args[0][0] == '<' && f)
+		if(head->args[0] && head->args[0][0] == '<' && f)
 		{
 			return(1);
 		}
@@ -82,12 +91,12 @@ int check_redir(t_token *head, int f)
 int builtin(t_token *head, t_list **envl, t_list **exp_list)
 {
 	if(!ft_strncmp(head->args[0], "cd", 3))
-		return(cd(head->args, envl, exp_list), 0);
+		return(cd(head->args, envl, exp_list));
 	else if(!ft_strncmp(head->args[0], "echo", 5))
 		return(echo(head->args), 0);
 	else if(!ft_strncmp(head->args[0], "export", 7))
 	{
-		if(!head->args[1])
+		if(head->arg_size == 1)
 			export(exp_list, envl, NULL, NULL);
 		init_export(head, envl, exp_list);
 		return(0);
@@ -104,10 +113,17 @@ int builtin(t_token *head, t_list **envl, t_list **exp_list)
 		return(write(2, "env: too many arguments\n", 25),0);
 	else if(!ft_strncmp(head->args[0], "pwd", 4) && !head->args[1])
 		return(pwd(1, *envl), 0);
-	else if(!ft_strncmp(head->args[0], "pwd", 4) && head->args[1])
-		return(write(2, "pwd: too many arguments\n", 25), 0);
 	return(1);
 }
+void free_run_cmd(char **paths, char **env, char ***arr,int flag)
+{
+	free_arr(paths);
+	if(flag)
+		free_arr(env);
+	else
+		free(env);
+	*arr = NULL;
+}	
 void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
 	int pid;
@@ -115,9 +131,8 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 	char **env;
 	int exit_st;
 	
-	(void)pid;
 	exit_st = 0;
-	if(head->args[0][0] == '>' || head->args[0][0] == '<')
+	if(!head->args[0] || (head->args[0] && head->args[0][0] == '>') || (head->args[0] && head->args[0][0] == '<'))
 	{
 		free_arr(paths);
 		return ;
@@ -125,52 +140,38 @@ void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 	env = convert_to_array(*envl);
 	if (!ft_strncmp(head->args[0], "exit", 5))
 	{
-		free_arr(paths);
-		free_arr(env);
-		env = NULL;
-		//free envl and exp list
+		free_run_cmd(paths, env, &env, 1);
 		ft_exit(head);
 	}
-	else if(!builtin(head, envl, exp_list))
+	else if(!(g_status = builtin(head, envl, exp_list)))
 	{
-		g_status = 0;
-		free_arr(paths);
-		free(env);
-		env = NULL;
+		free_run_cmd(paths, env, &env, 0);	
 		return ;
 	}
-	cmd = check_cmd(head->args[0], paths);
-	if(!cmd)
+	if(!(cmd = check_cmd(head->args[0], paths)))
 	{
-		free_arr(paths);
-		free(env);
-		env = NULL;
+		free_run_cmd(paths, env, &env, 0);
 		return ;
+	}
+	signal_setup(0);
+	pid = fork();
+	if(!pid)
+	{
+		signal_setup(1);
+		if(execve(cmd, head->args, env) != 0)
+		{
+			if(access(cmd, F_OK) == 0)
+				write(2, "minishell: is a directory\n", 27);
+			//perror("minishell: ");
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
-	{
-		signal_setup(0);
-		pid = fork();
-		if(!pid)
-		{
-			signal_setup(1);
-			if(execve(cmd, head->args, env) != 0)
-			{
-				if(access(cmd, F_OK) == 0)
-					write(2, "minishell: is a directory\n", 27);
-				//perror("minishell: ");
-				exit(EXIT_FAILURE);
-			}
-		}
-		else
-			wait(&exit_st); 
-	}
+		wait(&exit_st);
 	g_status = exit_st / 256;
-	free_arr(paths);
+	free_run_cmd(paths, env, &env, 0);
 	if(cmd != head->args[0])
 		free(cmd);
-	free(env);
-	env = NULL;
 }
 //funcitons for signals
 
@@ -178,7 +179,7 @@ int check_pipe(t_token *list)
 {
 	while(list)
 	{
-		if(list->args[0][0] == '|')
+		if(list->args[0] && list->args[0][0] == '|')
 			return(1);
 		list = list->next;
 	}

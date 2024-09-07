@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/06 09:52:41 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/07 10:46:48 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ char  *last_io(t_token * head, int type)
 	file = NULL;
 	while(head)
 	{
-		if(head->args[0][0] == '<' && type)
+		if(head->args[0] && head->args[0][0] == '<' && type)
 			file = head->next->args[0];
-		else if(head->args[0][0] == '>' && !type)
+		else if(head->args[0] && head->args[0][0] == '>' && !type)
 			file = head->next->args[0];
 		head = head->next;
 	}
@@ -33,7 +33,7 @@ int redir_output(char *filename, int flag)
 	
 	if(flag == 1 && access(filename, F_OK) == 0)
 	{
-		write(2, "bash: cannot overwrite existing file\n", 37);
+		write(2, "minishell: cannot overwrite existing file\n", 37);
 		g_status = 1;
 		return(-1);
 	}
@@ -43,7 +43,7 @@ int redir_output(char *filename, int flag)
 		fd = open(filename, O_CREAT | O_APPEND | O_RDWR, 0644);
    	if (dup2(fd, 1) == -1) 
    	{
-        write(2, "Minishell: Ambiguous redirect\n", 30);
+        write(2, "minishell: Ambiguous redirect\n", 30);
 		g_status = 1;
         close(fd);
         return -1;
@@ -59,7 +59,7 @@ int redir_input(char *filename)
 	fd = open(filename, O_RDONLY);
 	if(fd == -1)
 	{
-        write(2, "Minishell: no such file or directory\n", 38);
+        write(2, "minishell: no such file or directory\n", 38);
 		g_status = 1;
 		return(-1);
 	}

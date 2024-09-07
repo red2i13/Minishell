@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/06 10:51:13 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/07 15:22:40 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,8 +115,9 @@ int    cd(char **args, t_list **envl, t_list **exp_list)
         free(tmp);
         if(chdir(args[1]))
         {
-            printf("cd: %s ", args[1]);
+            printf("cd: %s : ", args[1]);
             error_func(errno, 1);
+            return(1);
         }
     }
     export(exp_list, envl, "PWD=", tmp = pwd(0, *envl));
@@ -251,7 +252,6 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
     while(tmpl)
     {
         str = (char*)tmpl->content;
-        // printf("*******************************(%s)\n", str);
         if(var_name && !var_value && ft_strnstr(str, var_name, ft_strlen(var_name)))
             return(1);
         else if(var_name && var_value && ft_strnstr(str, var_name, ft_strlen(var_name)) && flag)
@@ -392,12 +392,12 @@ void    ft_exit(t_token *head)
     val = ft_atoi(head->args[1]);
     if((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-'))
     {
-        write(2, "bash: exit: numeric argument required\n", 39);
+        write(2, "minishell: exit: numeric argument required\n", 39);
         exit(2);
     }
     else if (head->args[2])
     {
-        write(2, "exit\nMinishell: exit: too many arguments\n", 42);
+        write(2, "exit\nminishell: exit: too many arguments\n", 42);
         return ;
     }
     else if (val != 0)
