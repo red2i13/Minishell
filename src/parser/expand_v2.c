@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:34:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 12:38:45 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:06:12 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@ void	free_expand(char *fr, char *brev, char *var, char *str)
 	free(brev);
 	free(var);
 	free(str);
+}
+
+char **join_and_split(char *str, char *set)
+{
+	int len;
+	int i[3];
+	char **arr;
+
+	len = 0;
+	len = count_words(str, set, i);
+	arr = malloc(sizeof(char *) * (len + 1));
+	arr = fill_arr(arr, str, i);
+	arr[len] = NULL;
+	return (arr);
 }
 
 char	*expand(char *str, t_list *env, int *q, char ***temp)
@@ -36,7 +50,7 @@ char	*expand(char *str, t_list *env, int *q, char ***temp)
 			if (!q[0] && !q[1] && temp)
 			{
 				t = vars_sub(str, q[2], env);
-				*temp = ft_split(t, ' ');
+				*temp = join_and_split(t, " \t");
 				return (t);
 			}
 			else
