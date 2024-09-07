@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/07 13:08:23 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/07 14:36:33 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ void p_list(t_token *head)
 int main(int argc, char **argv, char **env)
 { 
     char    *line;
-    int i[3];
     t_token *head;
     t_list  *envl ;
     t_list  *exp_list;
@@ -86,7 +85,7 @@ int main(int argc, char **argv, char **env)
             free(line);
             return (0);
         }
-        if (line[0] == '\0' || count_words(line, " \t", i) == 0)
+        if (line[0] == '\0')
             continue;
         head = cmds_parse(line, envl);
         if (heredoc(head, envl) == 0)
