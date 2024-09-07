@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 11:07:17 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 11:07:18 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/07 14:39:14 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,11 @@ char	**cmds_trim(char *line, int *i, char **arr)
 
 	i[0] = 0;
 	i[1] = 0;
-	nwords = count_words(line, "     ", i);
+	nwords = count_words(line, " \t", i);
 	if (nwords < 0)
 		return (p_err(nwords), NULL);
+	if (nwords == 0)
+		return (NULL);
 	arr = malloc(sizeof(char *) * (nwords + 1));
 	if (arr == NULL)
 		return (NULL);
