@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/07 09:35:10 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/07 09:38:47 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ int main(int argc, char **argv, char **env)
             if (cmd_mk(head))
                 break;
         cmd_mk_v2(&head);
-        p_list(head);
         set_type(head);
         set_size(head);
         ///////////////////////////////////////////////
+        // p_list(head);
         ///////////////////////////////////////////////
         if (!head)
             continue;
