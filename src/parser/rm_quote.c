@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/21 10:04:01 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/06 20:30:27 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/07 09:33:44 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,49 +98,3 @@ void	start_rm_q(t_token *head)
 	}
 }
 
-int rm_size(char **args)
-{
-	int i;
-	int count;
-	
-	count = 0;
-	i = 0;
-	while (args && args[i])
-	{
-		if (args[i][0] != '\0')
-			count++;
-		i++;
-	}
-	return (count);
-}
-char **rm_em_var2(char **args)
-{
-	char **new_args;
-	int i;
-	int j;
-
-	i = 0;
-	j = 0;
-	new_args = 	malloc(sizeof(char *) * (rm_size(args) + 1));
-	while (args && args[i])
-	{
-		if (args[i][0] != '\0')
-			new_args[j++] = args[i];
-		else
-			free(args[i]);
-		i++;
-	}
-	new_args[j] = NULL;
-	return new_args;
-}
-void rm_em_var(t_token *head)
-{
-	char **tmp;
-	while (head)
-	{
-		tmp = head->args;
-		head->args = rm_em_var2(head->args);
-		free(tmp);
-		head = head->next;
-	}
-}
