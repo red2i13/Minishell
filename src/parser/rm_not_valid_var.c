@@ -6,17 +6,17 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/06 17:49:29 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/06 17:51:16 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/06 18:03:32 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int rm_size(char **args)
+int	rm_size(char **args)
 {
-	int i;
-	int count;
-	
+	int	i;
+	int	count;
+
 	count = 0;
 	i = 0;
 	while (args && args[i])
@@ -27,15 +27,16 @@ int rm_size(char **args)
 	}
 	return (count);
 }
-char **rm_em_var2(char **args)
+
+char	**rm_em_var2(char **args)
 {
-	char **new_args;
-	int i;
-	int j;
+	char	**new_args;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
-	new_args = 	malloc(sizeof(char *) * (rm_size(args) + 1));
+	new_args = malloc(sizeof(char *) * (rm_size(args) + 1));
 	while (args && args[i])
 	{
 		if (args[i][0] != '\0')
@@ -45,11 +46,13 @@ char **rm_em_var2(char **args)
 		i++;
 	}
 	new_args[j] = NULL;
-	return new_args;
+	return (new_args);
 }
-void rm_em_var(t_token *head)
+
+void	rm_em_var(t_token *head)
 {
-	char **tmp;
+	char	**tmp;
+
 	while (head)
 	{
 		tmp = head->args;
