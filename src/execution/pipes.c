@@ -6,11 +6,15 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/07 19:05:53 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:02:00 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+typedef struct s_pipe
+{
+    int fd[2];
+} t_pipe;
 
 int calc_pipes(t_token *list)
 {
@@ -25,19 +29,18 @@ int calc_pipes(t_token *list)
     }
     return(p);
 }
-int **init_pipes(int p)
+t_pipe *init_pipes(int p)
 {
-    int **fdt;
+    t_pipe *fdt;
     int i;
 
     i = 0;
-    fdt = (int**)malloc(sizeof(int*) * p);
+    fdt = malloc(sizeof(t_pipe) * p);
     if(!fdt)
         return(0);
     while(i < p)
     {
-        fdt[i] = malloc(sizeof(int) * 2);
-        if(pipe(fdt[i]) == -1)
+        if(pipe(fdt[i].fd) == -1)
         {
             //exit if the pipes are note created 
             (void)fdt;
@@ -101,14 +104,14 @@ void run(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
     exit(0);
 }
 
-void close_unused_fd(int **fdt, int p)
+void close_unused_fd(t_pipe *fdt, int p)
 {
     int i = 0;
     
     while(i < p)
     {
-        close(fdt[i][0]);
-        close(fdt[i][1]);
+        close(fdt[i].fd[0]);
+        close(fdt[i].fd[1]);
         i++;
     }
 }
@@ -124,50 +127,54 @@ void next_cmd(t_token **head)
         *head = (*head)->next;
     }
 }  
-void free_fdt(int **fdt, int p)
+void free_fdt(t_pipe *fdt, int p)
 {
-    int i = 0;
-    while(i < p)
-    {
-        free(fdt[i]);
-        i++;
-    }
-    free(fdt);
+    // int i = 0;
+    (void)p;
+    // while(i < p)
+    // {
+        // free(fdt[i][0]);
+        // free(fdt[i][1]);
+        free(fdt);
+    //     i++;
+    // }
+    // free(fdt);
+    fdt = NULL;
 }
-int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
+
+void free_and_wait(t_pipe *fdt, int p, int pid)
 {
-    int i;
-    int pid;
-    int exit_st;    
-    int p = calc_pipes(head);
-    int **fdt = init_pipes(p);
-    int last_pid;
-    
-    i = 0;
-    while(i <= p)
-    {
-        if(!(pid = fork()))
-        {
-            if(i != p)
-                dup2(fdt[i][1], STDOUT_FILENO);
-            if(i > 0)
-                dup2(fdt[i - 1][0], STDIN_FILENO);
-            //function that kill all the unused file descriptor
-            close_unused_fd(fdt, p);
-            run(head, envl, exp_list, paths);
-        }
-        else if(i == p)
-            last_pid = pid;
-        next_cmd(&head);
-        i++;
-    }
-    close_unused_fd(fdt, p);
-    waitpid(last_pid, &exit_st, 0);
+    free_fdt(fdt, p);
+    waitpid(pid, &p, 0);
     while(wait(NULL) > 0)
     {
     }
-    g_status = WEXITSTATUS(exit_st);
-    free_fdt(fdt, p);
-    free_arr(paths);
-    return(0);
+}   
+int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
+{
+    int i[5]; 
+    t_pipe *fdt = init_pipes(i[3]);
+
+    i[0] = 0;
+    i[3] = calc_pipes(head);
+    while(i[0] <= i[3])
+    {
+        if(!(i[1] = fork()))
+        {
+            if(i[0] != i[3])
+                dup2(fdt[i[0]].fd[1], STDOUT_FILENO);
+            if(i[0] > 0)
+                dup2(fdt[i[0] - 1].fd[0], STDIN_FILENO);
+            //function that kill all the unused file descriptor
+            close_unused_fd(fdt, i[3]);
+            run(head, envl, exp_list, paths);
+        }
+        else if(i[0] == i[3])
+            i[4] = i[1];
+        next_cmd(&head);
+        i[0]++;
+    }
+    close_unused_fd(fdt, i[3]);
+    free_and_wait(fdt, i[3], i[4]);
+    return (free_arr(paths), 0);
 }

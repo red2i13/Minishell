@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/07 21:57:40 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:06:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,52 +123,59 @@ void free_run_cmd(char **paths, char **env, char ***arr,int flag)
 	else
 		free(env);
 	*arr = NULL;
+}
+int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
+{
+	t_list **envl;
+	t_list **exp_list;
+
+	envl = lists[0];
+	exp_list = lists[1];
+	if (head->args[0] && !ft_strncmp(head->args[0], "exit", 5))
+		ft_exit(head);
+	if(!head->args[0] || (head->args[0] && head->args[0][0] == '>'))
+	{
+		free_arr(paths);
+		g_status = 0;
+		return(0);
+	}
+	else if((head->args[0] && head->args[0][0] == '<') || (!(g_status = builtin(head, envl, exp_list))) || (!(*cmd = check_cmd(head->args[0], paths))))
+	{
+		free_arr(paths);
+		return(0) ;
+	}
+	return(1);
+}
+void execve_error(char *cmd)
+{
+	if(access(cmd, F_OK) == 0)
+		write(2, "minishell: is a directory\n", 27);
+	exit(EXIT_FAILURE);
 }	
 void run_cmd(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
-	int pid;
 	char *cmd;
 	char **env;
-	int exit_st;
+	int num[2];
+	t_list **lists[2];
 	
-	exit_st = 0;
-	if(!head->args[0] || (head->args[0] && head->args[0][0] == '>') || (head->args[0] && head->args[0][0] == '<'))
-	{
-		free_arr(paths);
-		return ;
-	}
+	lists[0] = envl;
+	lists[1] = exp_list;
+	if(!essential_cmd(head, paths, lists, &cmd))
+		return;
+	num[0] = 0;
 	env = convert_to_array(*envl);
-	if (!ft_strncmp(head->args[0], "exit", 5))
-	{
-		free_run_cmd(paths, env, &env, 1);
-		ft_exit(head);
-	}
-	else if(!(g_status = builtin(head, envl, exp_list)))
-	{
-		free_run_cmd(paths, env, &env, 0);	
-		return ;
-	}
-	if(!(cmd = check_cmd(head->args[0], paths)))
-	{
-		free_run_cmd(paths, env, &env, 0);
-		return ;
-	}
 	signal_setup(0);
-	pid = fork();
-	if(!pid)
+	num[1] = fork();
+	if(!num[1])
 	{
 		signal_setup(1);
 		if(execve(cmd, head->args, env) != 0)
-		{
-			if(access(cmd, F_OK) == 0)
-				write(2, "minishell: is a directory\n", 27);
-			//perror("minishell: ");
-			exit(EXIT_FAILURE);
-		}
+			execve_error(cmd);
 	}
 	else
-		wait(&exit_st);
-	g_status = exit_st / 256;
+		wait(&num[0]);
+	g_status = num[0] / 256;
 	free_run_cmd(paths, env, &env, 0);
 	if(cmd != head->args[0])
 		free(cmd);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/07 14:36:33 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/08 15:14:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,41 +109,10 @@ int main(int argc, char **argv, char **env)
         ///////////////////////////////////////////////
         if (!head)
             continue;
-        if(check_pipe(head))
+        else if(check_pipe(head))
             exec_pipes(head, &envl, &exp_list, split_paths(get_path(envl)));
         else if(check_redir(head, 0) || check_redir(head, 1))
-        {
-            //new redirection
-            int old_fd[2]; 
-            char *input ;
-            int r;
-            int flag; 
-            
-            flag = 0;
-            input = last_io(head, 1);
-            old_fd[0] = dup(STDIN_FILENO);
-            old_fd[1] = dup(STDOUT_FILENO);
-            if(input)
-                flag = redir_input(input);
-            if((r = check_redir(head, 0)))
-            {
-                t_token *tmp = head;
-                while(tmp)
-                {
-                    if(tmp->args[0][0] == '>')
-                    {
-                        if((flag = redir_output(tmp->next->args[0], r)) == -1)
-                            break;
-                    }
-                    tmp = tmp->next;
-                }
-            }
-            if(flag != -1)
-                run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
-            dup2(old_fd[0], STDIN_FILENO);
-            dup2(old_fd[1], STDOUT_FILENO);
-        
-        }
+            redirection(head, &envl, &exp_list);
         else
             run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
         list_clear(head);

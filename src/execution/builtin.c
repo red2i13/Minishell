@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/07 15:22:40 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/08 17:03:10 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,6 +231,29 @@ int check_var(char *var_name)
     }
     return(0);
 }
+void change_var_and_free(char *var_name, char *var_value, char *str, t_list *tmpl)   
+{
+    char    *tmp;
+    char    *tmp1;
+    
+    tmp = str;
+    tmp1 = var_value;
+    var_value = ft_strjoin(ft_strchr(str, '=') + 1, var_value);
+    tmpl->content = ft_strjoin(var_name, var_value);
+    free(tmp);
+    free(var_name);
+    free(var_value);
+}   
+void plus_equal(int *flag, char *var_name, char *tmp)
+{
+    {
+        var_name = ft_strtrim(var_name, "+=");
+        tmp = var_name;
+        var_name = ft_strjoin(var_name, "=");
+        free(tmp);
+        flag = 1;
+    }   
+}
 int search_var_replace(t_list **list, char *var_name, char *var_value)
 {
     char    *tmp;
@@ -238,7 +261,7 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
     char    *str;
     t_list  *tmpl;
     int     flag;
-// add second tmp for var_value when +=
+
     flag = 0;
     tmpl = *list;
     if(var_name && ft_strchr(var_name, '+'))
@@ -256,13 +279,7 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
             return(1);
         else if(var_name && var_value && ft_strnstr(str, var_name, ft_strlen(var_name)) && flag)
         {
-            tmp = str;
-            tmp1 = var_value;
-            var_value = ft_strjoin(ft_strchr(str, '=') + 1, var_value);
-            tmpl->content = ft_strjoin(var_name, var_value);
-            free(tmp);
-            free(var_name);
-            free(var_value);
+            change_var_and_free(var_name, var_value, str, tmpl);
             return(1);
         }
         else if(var_name && var_value && ft_strnstr(str, var_name, ft_strlen(var_name)) && !flag)
@@ -274,7 +291,6 @@ int search_var_replace(t_list **list, char *var_name, char *var_value)
         }
         tmpl = tmpl->next;
     }
-    // if(flag)
     return(0);
 }
 
