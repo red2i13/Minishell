@@ -131,8 +131,7 @@ int    cd(char **args, t_list **envl, t_list **exp_list, char *path)
     }
     export(exp_list, envl, "PWD=", tmp = pwd(0, *envl));
     free(tmp);
-    free(path);
-    return(0);
+    return (free(path), 0);
 }
 void    print_env(t_list *envl)
 {
@@ -184,6 +183,14 @@ void   printf_export(char *str)
         printf("=\"%s\"", str + i + 1);
     printf("\n");
 }
+void while_print_export(t_list *exp_list)
+{
+    while(exp_list)
+    {
+        printf_export((char *)exp_list->content);
+        exp_list = exp_list->next;
+    }
+}
 void print_export(t_list *exp_list)
 {
     t_list  *head;
@@ -206,11 +213,7 @@ void print_export(t_list *exp_list)
         }
         exp_list = exp_list->next;
     }
-    while(head)
-    {
-        printf_export((char *)head->content);
-        head = head->next;
-    }
+    while_print_export(head);
 }
 int find_var(t_list **list, char *var_name, char *var_value)
 {
