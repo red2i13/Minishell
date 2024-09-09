@@ -38,7 +38,7 @@ void    error_exit(char *str, int exit_num);
 /*builtin.c*/
 void    echo(char **cmd);
 void    print_env(t_list *envl);
-int     cd(char **args,  t_list **envl, t_list **exp_list);
+int    cd(char **args, t_list **envl, t_list **exp_list, char *path);
 char*   pwd(int i, t_list *envl);
 void export(t_list **exp_list, t_list**envl ,char *var_name, char *var_value);
 void    unset(t_list **envl, char *var_name, int flag);
@@ -47,7 +47,7 @@ t_list  *setup_exp(t_list   *envl);
 char    *fenv(t_list    *envl, char *str);
 char **convert_to_array(t_list *envl);
 void    ft_exit(t_token *head);
-void init_export(t_token *head , t_list **envl, t_list **exp_list);
+void init_export(t_token *head , t_list **envl, t_list **exp_list, int i);
 /*pipes.c*/
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
 /*exec.c*/

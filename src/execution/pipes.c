@@ -153,10 +153,10 @@ void free_and_wait(t_pipe *fdt, int p, int pid)
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths)
 {
     int i[5]; 
-    t_pipe *fdt = init_pipes(i[3]);
 
     i[0] = 0;
     i[3] = calc_pipes(head);
+    t_pipe *fdt = init_pipes(i[3]);
     while(i[0] <= i[3])
     {
         if(!(i[1] = fork()))

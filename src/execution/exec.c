@@ -49,10 +49,8 @@ char *search_path(char *cmd, char **paths, int *num)
 char *check_cmd(char *cmd, char **paths)
 {
 	int num; 
-	int i ;
 	char *tmp;
 
-	i = 0;
 	num = -1;
 	if(!paths)	
 		return(write(2, "minishell: : No such file or directory\n", 40), NULL);
@@ -91,14 +89,14 @@ int check_redir(t_token *head, int f)
 int builtin(t_token *head, t_list **envl, t_list **exp_list)
 {
 	if(!ft_strncmp(head->args[0], "cd", 3))
-		return(cd(head->args, envl, exp_list));
+		return(cd(head->args, envl, exp_list, NULL));
 	else if(!ft_strncmp(head->args[0], "echo", 5))
 		return(echo(head->args), 0);
 	else if(!ft_strncmp(head->args[0], "export", 7))
 	{
 		if(head->arg_size == 1)
 			export(exp_list, envl, NULL, NULL);
-		init_export(head, envl, exp_list);
+		init_export(head, envl, exp_list, 0);
 		return(0);
 	}
 	else if(!ft_strncmp(head->args[0], "unset", 6))
