@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/08 15:50:12 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/09 19:15:00 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ char **convert_to_array(t_list *envl);
 void    ft_exit(t_token *head);
 void init_export(t_token *head , t_list **envl, t_list **exp_list, int i);
 /*pipes.c*/
+typedef struct s_pipe
+{
+	int	fd[2];
+}		t_pipe;
+
 int exec_pipes(t_token *head, t_list **envl, t_list **exp_list ,char **paths);
 /*exec.c*/
 int check_pipe(t_token *list);
