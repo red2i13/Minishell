@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/09 19:19:33 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:43:26 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,9 @@ void	pipe_redirection(t_token *head)
 	int		r;
 	t_token	*tmp;
 
-	if ((r = check_redir(head, 0) || check_redir(head, 1)))
-	{
+    r = check_redir(head, 0);
+	if (r || check_redir(head, 1))
+    {
 		tmp = head;
 		while (tmp)
 		{
@@ -89,12 +90,12 @@ void	run(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 		exit(0);
 	}
 	env = convert_to_array(*envl);
-	if (!(cmd = check_cmd(head->args[0], paths)))
+    cmd = check_cmd(head->args[0], paths);
+	if (!cmd)
 		exit(127);
 	else if (execve(cmd, head->args, env) == -1)
 	{
-		perror("minishell: ");
-		exit(EXIT_FAILURE);
+        error_and_exit(1);
 	}
 	if (cmd != head->args[0])
 		free(cmd);
@@ -144,17 +145,19 @@ void	free_and_wait(t_pipe *fdt, int p, int pid)
 	{
 	}
 }
-void init_i(int i[5])
+
+void init_var_pipe(t_token *head, int i[5])
 {
-	
+	i[0] = 0;
+    i[3] = calc_pipes(head);
 }
+
 int	exec_pipes(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 {
 	int		i[5];
 	t_pipe	*fdt;
 
-	i[0] = 0;
-	i[3] = calc_pipes(head);
+    init_var_pipe(head, i);
 	fdt = init_pipes(i[3]);
 	while (i[0] <= i[3])
 	{

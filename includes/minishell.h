@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/09 19:15:00 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/09 20:42:24 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ extern int g_status;
 /*error.c*/
 void    error_func(int errnum, int exit_num);
 void    error_exit(char *str, int exit_num);
-
+void	error_and_exit(int exit_num);
 /*builtin.c*/
 void    echo(char **cmd);
 void    print_env(t_list *envl);
