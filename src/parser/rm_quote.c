@@ -97,4 +97,3 @@ void	start_rm_q(t_token *head)
 		head = head->next;
 	}
 }
-

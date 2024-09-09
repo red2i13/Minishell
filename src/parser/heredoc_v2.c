@@ -31,7 +31,8 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 		str = readline(">");
 		if (!str)
 		{
-			write(1, "minishell: warning: here-document delimited by end-of-file!\n",
+			write(1,
+				"minishell: warning: here-document delimited by end-of-file!\n",
 				55);
 			return ;
 		}

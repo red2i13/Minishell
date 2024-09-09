@@ -70,14 +70,16 @@ void	set_type(t_token *head)
 			head->type = FILE_N;
 		else if (head->arg_size == 2)
 		{
-			if (head->args[0] && head->args[0][0] == '<' && head->args[1][0] == '<')
+			if (head->args[0] && head->args[0][0] == '<'
+				&& head->args[1][0] == '<')
 				head->type = HEREDOC;
 			else if (head->args[0][0] == '>' || head->args[1][0] == '>')
 				head->type = RED;
 			else
 				head->type = CMD;
 		}
-		else if ((head->args[0] && head->args[0][0] == '>') || (head->args[0] && head->args[0][0] == '<'))
+		else if ((head->args[0] && head->args[0][0] == '>') || (head->args[0]
+				&& head->args[0][0] == '<'))
 			head->type = RED;
 		else
 			head->type = CMD;

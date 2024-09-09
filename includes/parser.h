@@ -110,5 +110,5 @@ int					ff_strncmp(const char *s1, const char *s2, size_t n);
 void				free_expand(char *fr, char *brev, char *var, char *str);
 char				*expand(char *str, t_list *env, int *q, char ***temp);
 void				rm_em_var(t_token *head);
-char				*prompt(t_list  *env);
+char				*prompt(t_list *env);
 #endif

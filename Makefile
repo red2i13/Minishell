@@ -23,24 +23,45 @@ SRC_DIR_E = src/execution
 LIBFT_DIR = libft/include
 INCLUDES = include
 
-all: $(NAME) 
 
-$(NAME): $(OBJECTS) libft/libft.a 
-	$(CC) $(CFLAGS)  -I$(LIBFT_DIR) -I$(INCLUDES) -o $@ $^  $(FLAGS)
+
+all: $(NAME)
+	@echo "\033[0;31m";
+	@echo "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥";
+	@echo "                                                    ";
+	@echo " ██    ██ █ ██    █ █ █████ █   █ █████ █     █     ";
+	@echo " ███  ███ █ ███   █ █ █     █   █ █     █     █     ";
+	@echo " █ ████ █ █ █ ██  █ █ █████ █████ ████  █     █     ";
+	@echo " █  ██  █ █ █  ██ █ █     █ █   █ █     █     █     ";
+	@echo " █      █ █ █   ███ █ █████ █   █ █████ █████ █████ ";
+	@echo "                                                    ";
+	@echo "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥";
+	@echo "                                                    ";
+	@echo "\033[0;32mMinishell is ready 🐚\033[0m";
+
+$(NAME): $(OBJECTS) libft/libft.a
+	@echo "\033[0;32mLinking obj files 🔗\033[0m"
+	@$(CC) $(CFLAGS)  -I$(LIBFT_DIR) -I$(INCLUDES) -o $@ $^  $(FLAGS)
 
 $(LIB)/libft.a:
-	$(MAKE) -C $(LIB) all bonus -s
+	@echo "\033[0;32mCommpiling libft 📚\033[0m"
+	@$(MAKE) -C $(LIB) all bonus -s
 
-$(SRC_DIR)/%.o: $(SRC_DIR)/%.c
-	$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(INCLUDES) -c $< -o $@
+%.o: %.c
+	@clear
+	@echo "\033[0;32mCommpiling Minishell obj files ⏳\033[0m"
+	@sleep 0.1
+	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(OBJECTS)
-	$(MAKE) -C $(LIB) clean -s
+	@echo "\033[0;31mCleaning obj files 🗑️\033[0m"
+	@rm -f $(OBJECTS)
+	@$(MAKE) -C $(LIB) clean -s
 
 fclean: clean
-	rm -f minishell
-	$(MAKE) -C $(LIB) fclean -s
+	@echo "\033[0;31mCleaning obj files and minishell program 🗑️\033[0m"
+	@rm -f minishell
+	@$(MAKE) -C $(LIB) fclean -s
 
 re: fclean all
 
