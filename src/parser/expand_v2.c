@@ -20,11 +20,11 @@ void	free_expand(char *fr, char *brev, char *var, char *str)
 	free(str);
 }
 
-char **join_and_split(char *str, char *set)
+char	**join_and_split(char *str, char *set)
 {
-	int len;
-	int i[3];
-	char **arr;
+	int		len;
+	int		i[3];
+	char	**arr;
 
 	len = 0;
 	len = count_words(str, set, i);
