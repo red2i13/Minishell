@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:29:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/09 17:47:21 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 09:39:12 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,16 @@ int	check_err(t_token *head)
 
 void	p_err(t_err n)
 {
+	char	*str;
+
+	str = "minishell: syntax error near unexpected token `>' or `<'\n";
 	if (n == RED_E)
-		printf("minishell: syntax error near unexpected token `>' or `<'\n");
+		write(2, str, ft_strlen(str));
+	str = "minishell: syntax error a quote is still open\n";
 	if (n == QUOTE_E)
-		printf("minishell: syntax error a quote is still open\n");
+		write(2, str, ft_strlen(str));
+	str = "minishell: syntax error near unexpected token `|'\n";
 	if (n == PIPE_E)
-		printf("minishell: syntax error near unexpected token `|'\n");
+		write(2, str, ft_strlen(str));
 	g_status = 2;
 }
