@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:50:05 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 09:53:45 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 12:41:44 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	check_pipe(t_token *list)
 {
 	while (list)
 	{
-		if (list->args[0] && list->args[0][0] == '|')
+		if (list->args[0] && list->type == PIPE)
 			return (1);
 		list = list->next;
 	}

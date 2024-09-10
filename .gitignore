@@ -2,7 +2,7 @@
 minishell
 *.a
 .vscode
-*.nfs
+*.nfs*
 *.gdb_history
 *.supp
 *.sh
