@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:48:26 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 18:49:18 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 19:16:51 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	cd_operands(char **args, t_list **envl, t_list **exp_list, char **path)
 		if (!*path)
 			return (write(2, "cd: HOME not set", 17), 1);
 		export(exp_list, envl, "OLDPWD=", tmp = pwd(0, *envl));
-		printf("tmp: %s\n", tmp);
 		free(tmp);
 		chdir(*path + 5);
 		return (0);

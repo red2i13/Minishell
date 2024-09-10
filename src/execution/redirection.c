@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 09:37:48 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 21:54:11 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void	while_redir(t_token *head, int *flag, int r)
 	{
 		if (tmp->args[0][0] == '>')
 		{
-			*flag = redir_output(tmp->next->args[0], r);
+			(void)r;
+			*flag = redir_output(tmp->next->args[0], check_redir(tmp, 0));
 			if (*flag == -1)
 				break ;
 		}
