@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:48:26 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 10:02:23 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:47:50 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ char	*pwd(int i, t_list *envl)
 {
 	char	*pwd;
 	int		flag;
-
+	char 	*tmp;
+	
 	flag = 0;
 	pwd = getcwd(0, 0);
 	if (!pwd)
 	{
-		pwd = fenv(envl, "PWD") + 4;
+		tmp = fenv(envl, "PWD");
+		pwd = ft_strdup(tmp + 4);
+		free(tmp);
 		flag = 1;
 	}
 	if (i == 1)
@@ -48,12 +51,13 @@ int	cd_operands(char **args, t_list **envl, t_list **exp_list, char **path)
 {
 	char	*tmp;
 
-	if (!args[1] || args[1][0] == '~')
+	if (!args[1] || (args[1][0] == '~' && !args[1][1]))
 	{
 		*path = fenv(*envl, "HOME=");
 		if (!*path)
 			return (write(2, "cd: HOME not set", 17), 1);
 		export(exp_list, envl, "OLDPWD=", tmp = pwd(0, *envl));
+		printf("tmp: %s\n", tmp);
 		free(tmp);
 		chdir(*path + 5);
 		return (0);
