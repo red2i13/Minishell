@@ -12,44 +12,44 @@
 
 #include "../includes/minishell.h"
 
-int g_status;
+int	g_status;
 
-int main(int argc, char **argv, char **env)
-{ 
-    char    *line;
-    t_token *head;
-    t_list  *envl;
-    t_list  *exp_list;
+int	main(int argc, char **argv, char **env)
+{
+	char	*line;
+	t_token	*head;
+	t_list	*envl;
+	t_list	*exp_list;
 
-    set_up_env_exp(&envl, &exp_list, env);
-    while (argc && argv)
-    {
-        signal_setup(2);
-        restor_history(envl);
-        line = prompt(envl);
-        if (!line)
-            return (ctl_exit(exp_list, envl));
-        if (line[0] == '\0')
-            continue;
-        head = cmds_parse(line, envl);
-        if (heredoc(head, envl) == 0)
-        {
-            list_clear(head);
-            head = NULL;
-            g_status = 130;
-            continue;
-        }
-        ex_rm(&head, envl);
-        if (!head)
-            continue;
-        else if(check_pipe(head))
-            exec_pipes(head, &envl, &exp_list, split_paths(get_path(envl)));
-        else if(check_redir(head, 0) || check_redir(head, 1))
-            redirection(head, &envl, &exp_list);
-        else
-            run_cmd(head, &envl, &exp_list,split_paths(get_path(envl)));
-        list_clear(head);
-        head = NULL;
-    }
-    return (0);
+	set_up_env_exp(&envl, &exp_list, env);
+	while (argc && argv)
+	{
+		signal_setup(2);
+		restor_history(envl);
+		line = prompt(envl);
+		if (!line)
+			return (ctl_exit(exp_list, envl));
+		if (line[0] == '\0')
+			continue ;
+		head = cmds_parse(line, envl);
+		if (heredoc(head, envl) == 0)
+		{
+			list_clear(head);
+			head = NULL;
+			g_status = 130;
+			continue ;
+		}
+		ex_rm(&head, envl);
+		if (!head)
+			continue ;
+		else if (check_pipe(head))
+			exec_pipes(head, &envl, &exp_list, split_paths(get_path(envl)));
+		else if (check_redir(head, 0) || check_redir(head, 1))
+			redirection(head, &envl, &exp_list);
+		else
+			run_cmd(head, &envl, &exp_list, split_paths(get_path(envl)));
+		list_clear(head);
+		head = NULL;
+	}
+	return (0);
 }

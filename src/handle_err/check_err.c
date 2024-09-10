@@ -57,12 +57,12 @@ void	p_err(t_err n)
 	g_status = 2;
 }
 
-int ctl_exit(t_list  *exp_list, t_list  *envl)
+int	ctl_exit(t_list *exp_list, t_list *envl)
 {
 	write(2, "exit\n", 5);
-	if(envl)
+	if (envl)
 		ft_lstclear(&envl, &del);
-	if(exp_list)
+	if (exp_list)
 		ft_lstclear(&exp_list, &del);
 	return (0);
 }
