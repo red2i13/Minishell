@@ -50,7 +50,7 @@ $(LIB)/libft.a:
 %.o: %.c
 	@clear
 	@echo "\033[0;32mCommpiling Minishell obj files ⏳\033[0m"
-	@sleep 0.1
+	@sleep 0.01
 	@$(CC) $(CFLAGS) -I$(LIBFT_DIR) -I$(INCLUDES) -c $< -o $@
 
 clean:
