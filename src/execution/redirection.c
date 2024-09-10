@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/08 16:22:48 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 09:37:48 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*last_io(t_token *head, int type)
 	}
 	return (file);
 }
+
 int	redir_output(char *filename, int flag)
 {
 	int	fd;
@@ -67,6 +68,7 @@ int	redir_input(char *filename)
 	close(fd);
 	return (0);
 }
+
 void	while_redir(t_token *head, int *flag, int r)
 {
 	t_token	*tmp;
@@ -76,7 +78,8 @@ void	while_redir(t_token *head, int *flag, int r)
 	{
 		if (tmp->args[0][0] == '>')
 		{
-			if ((*flag = redir_output(tmp->next->args[0], r)) == -1)
+			*flag = redir_output(tmp->next->args[0], r);
+			if (*flag == -1)
 				break ;
 		}
 		tmp = tmp->next;
@@ -96,7 +99,8 @@ void	redirection(t_token *head, t_list **envl, t_list **exp_list)
 	old_fd[1] = dup(STDOUT_FILENO);
 	if (input)
 		flag = redir_input(input);
-	if ((r = check_redir(head, 0)))
+	r = check_redir(head, 0);
+	if (r)
 	{
 		while_redir(head, &flag, r);
 	}

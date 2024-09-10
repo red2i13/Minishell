@@ -6,21 +6,11 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/09 19:12:40 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:56:07 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-void	printf_error(char *str, char *cmd, int exit_status)
-{
-	write(2, cmd, ft_strlen(cmd));
-	write(2, ": ", 2);
-	write(2, str, ft_strlen(str));
-	write(2, "\n", 1);
-	if (exit_status)
-		g_status = exit_status;
-}
 
 char	*search_path(char *cmd, char **paths, int *num)
 {
@@ -74,21 +64,6 @@ char	*check_cmd(char *cmd, char **paths)
 	return (cmd);
 }
 
-int	check_redir(t_token *head, int f)
-{
-	while (head)
-	{
-		if (head->args[0] && head->args[0][0] == '>' && !f)
-			return (head->arg_size);
-		if (head->args[0] && head->args[0][0] == '<' && f)
-		{
-			return (1);
-		}
-		head = head->next;
-	}
-	return (0);
-}
-
 int	builtin(t_token *head, t_list **envl, t_list **exp_list)
 {
 	if (!ft_strncmp(head->args[0], "cd", 3))
@@ -117,16 +92,6 @@ int	builtin(t_token *head, t_list **envl, t_list **exp_list)
 	return (1);
 }
 
-void	free_run_cmd(char **paths, char **env, char ***arr, int flag)
-{
-	free_arr(paths);
-	if (flag)
-		free_arr(env);
-	else
-		free(env);
-	*arr = NULL;
-}
-
 int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 {
 	t_list	**envl;
@@ -142,21 +107,15 @@ int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 		g_status = 0;
 		return (0);
 	}
-	else if ((head->args[0] && head->args[0][0] == '<')
-		|| (!(g_status = builtin(head, envl, exp_list)))
-		|| (!(*cmd = check_cmd(head->args[0], paths))))
-	{
-		free_arr(paths);
-		return (0);
-	}
+	else if ((head->args[0] && head->args[0][0] == '<'))
+		return (free_arr(paths), 0);
+	g_status = builtin(head, envl, exp_list);
+	if (!g_status)
+		return (free_arr(paths), 0);
+	*cmd = check_cmd(head->args[0], paths);
+	if (!*cmd)
+		return (free_arr(paths), 0);
 	return (1);
-}
-
-void	execve_error(char *cmd)
-{
-	if (access(cmd, F_OK) == 0)
-		write(2, "minishell: is a directory\n", 27);
-	exit(EXIT_FAILURE);
 }
 
 void	run_cmd(t_token *head, t_list **envl, t_list **exp_list, char **paths)
@@ -186,15 +145,4 @@ void	run_cmd(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	free_run_cmd(paths, env, &env, 0);
 	if (cmd != head->args[0])
 		free(cmd);
-}
-
-int	check_pipe(t_token *list)
-{
-	while (list)
-	{
-		if (list->args[0] && list->args[0][0] == '|')
-			return (1);
-		list = list->next;
-	}
-	return (0);
 }

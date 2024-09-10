@@ -6,25 +6,11 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/09 20:43:26 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:02:00 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	calc_pipes(t_token *list)
-{
-	int	p;
-
-	p = 0;
-	while (list)
-	{
-		if (list->args[0] && list->args[0][0] == '|')
-			p++;
-		list = list->next;
-	}
-	return (p);
-}
 
 t_pipe	*init_pipes(int p)
 {
@@ -51,9 +37,9 @@ void	pipe_redirection(t_token *head)
 	int		r;
 	t_token	*tmp;
 
-    r = check_redir(head, 0);
+	r = check_redir(head, 0);
 	if (r || check_redir(head, 1))
-    {
+	{
 		tmp = head;
 		while (tmp)
 		{
@@ -90,12 +76,12 @@ void	run(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 		exit(0);
 	}
 	env = convert_to_array(*envl);
-    cmd = check_cmd(head->args[0], paths);
+	cmd = check_cmd(head->args[0], paths);
 	if (!cmd)
 		exit(127);
 	else if (execve(cmd, head->args, env) == -1)
 	{
-        error_and_exit(1);
+		error_and_exit(1);
 	}
 	if (cmd != head->args[0])
 		free(cmd);
@@ -104,60 +90,12 @@ void	run(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	exit(0);
 }
 
-void	close_unused_fd(t_pipe *fdt, int p)
-{
-	int	i;
-
-	i = 0;
-	while (i < p)
-	{
-		close(fdt[i].fd[0]);
-		close(fdt[i].fd[1]);
-		i++;
-	}
-}
-
-void	next_cmd(t_token **head)
-{
-	while (*head)
-	{
-		if ((*head)->args[0] && (*head)->args[0][0] == '|')
-		{
-			*head = (*head)->next;
-			break ;
-		}
-		*head = (*head)->next;
-	}
-}
-
-void	free_fdt(t_pipe *fdt, int p)
-{
-	(void)p;
-	free(fdt);
-	fdt = NULL;
-}
-
-void	free_and_wait(t_pipe *fdt, int p, int pid)
-{
-	free_fdt(fdt, p);
-	waitpid(pid, &p, 0);
-	while (wait(NULL) > 0)
-	{
-	}
-}
-
-void init_var_pipe(t_token *head, int i[5])
-{
-	i[0] = 0;
-    i[3] = calc_pipes(head);
-}
-
 int	exec_pipes(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 {
 	int		i[5];
 	t_pipe	*fdt;
 
-    init_var_pipe(head, i);
+	init_var_pipe(head, i);
 	fdt = init_pipes(i[3]);
 	while (i[0] <= i[3])
 	{

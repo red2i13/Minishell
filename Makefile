@@ -7,7 +7,7 @@ PARSER =   get_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c \
 			signals.c history.c get_next_line_utils.c get_next_line.c \
 			init_tokens_v2.c heredoc_v2.c expand_v2.c init_tokens_v2.c \
 			token_list_functions_v2.c rm_not_valid_var.c prompt.c
-EXEC = builtin.c exec.c pipes.c redirection.c 
+EXEC = builtin.c builtin1.c builtin2.c builtin3.c builtin_utils.c exec.c exec1.c pipes.c pipe1.c pipe_utils.c redirection.c 
 HANDLE_ERR = check_err.c error.c
 SOURCES = src/minishell.c
 SOURCES += $(addprefix $(SRC_DIR_P)/, $(PARSER))
