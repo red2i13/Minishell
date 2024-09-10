@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmds_parse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 15:40:47 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/02 19:21:45 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:38:41 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*cmds_parse(char *line, t_list *envl)
 	if (check_err(head) < 0)
 	{
 		p_err(check_err(head));
-		list_clear(head);
+		list_clear(&head);
 		head = NULL;
 	}
 	return (head);

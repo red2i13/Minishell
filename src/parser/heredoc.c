@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 11:07:40 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:33:15 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	heredoc(t_token *head, t_list *env)
 			free_arr(head->args);
 			free_re(head, file_name);
 			if (WEXITSTATUS(status) == 5)
-				return (0);
+				return (g_status = 130, 0);
 		}
 		head = head->next;
 	}

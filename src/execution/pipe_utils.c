@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:53:02 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 09:59:27 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:51:18 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,16 @@ char	**convert_to_array(t_list *envl)
 	}
 	cenv[i] = 0;
 	return (cenv);
+}
+
+void	excution(t_token **head, t_list	**envl, t_list	**exp_list)
+{
+	if (check_pipe(*head))
+		exec_pipes(*head, envl, exp_list, split_paths(get_path(*envl)));
+	else if (check_redir(*head, 0) || check_redir(*head, 1))
+		redirection(*head, envl, exp_list);
+	else
+		run_cmd(*head, envl, exp_list, split_paths(get_path(*envl)));
+	list_clear(head);
+	*head = NULL;
 }

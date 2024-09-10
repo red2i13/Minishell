@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 10:10:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:27:23 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void				add_front_t(t_token **head, t_token *new);
 void				add_back_t(t_token **head, t_token *new);
 t_token				*create_token(char **args);
 size_t				size_list(t_token *head);
-void				list_clear(t_token *head);
+void				list_clear(t_token **head);
 t_token				*last_t(t_token *head);
 
 t_token				*init_tokens(char **args);

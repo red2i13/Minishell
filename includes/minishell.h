@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 11:00:10 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:50:08 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ int			builtin(t_token *head, t_list **envl, t_list **exp_list);
 void		printf_error(char *str, char *cmd, int exit_status);
 void		free_run_cmd(char **paths, char **env, char ***arr, int flag);
 char		**convert_to_array(t_list *envl);
+void		excution(t_token **head, t_list	**envl, t_list	**exp_list);
 /*redirection.c*/
 int			redir_output(char *filename, int flag);
 int			redir_input(char *filename);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_list_functions.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/02 09:04:22 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 12:40:56 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 11:26:28 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,16 +63,17 @@ size_t	size_list(t_token *head)
 	return (i);
 }
 
-void	list_clear(t_token *head)
+void	list_clear(t_token **head)
 {
 	t_token	*tmp;
 
-	while (head)
+	while (*head)
 	{
-		tmp = head->next;
-		free_arr(head->args);
-		head->args = NULL;
-		free(head);
-		head = tmp;
+		tmp = (*head)->next;
+		free_arr((*head)->args);
+		(*head)->args = NULL;
+		free((*head));
+		(*head) = tmp;
 	}
+	*head = NULL;
 }
