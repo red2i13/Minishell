@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:48:26 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 18:47:50 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:49:18 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ char	*pwd(int i, t_list *envl)
 {
 	char	*pwd;
 	int		flag;
-	char 	*tmp;
-	
+	char	*tmp;
+
 	flag = 0;
 	pwd = getcwd(0, 0);
 	if (!pwd)
