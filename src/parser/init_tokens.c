@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 19:49:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 12:35:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 18:00:02 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	set_type(t_token *head)
 		else if (head->arg_size == 2)
 		{
 			if (head->args[0] && ff_strncmp("<", head->args[0], 2)
-				&& ff_strncmp(">", head->args[1], 2))
+				&& ff_strncmp("<", head->args[1], 2))
 				head->type = HEREDOC;
 			else if (ff_strncmp(">", head->args[0], 2) || ff_strncmp(">",
 					head->args[1], 2))
