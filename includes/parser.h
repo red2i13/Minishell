@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/06 18:21:53 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 10:10:41 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,12 +56,9 @@ typedef struct s_token
 char				**get_cmds(char *line, t_list *envl);
 int					count_words(char *line, char *set, int *i);
 char				**fill_arr(char **arr, char *line, int *i);
-
 int					count_words_2(char *line, char *set, int *i);
 char				**fill_arr_2(char **arr, char *line, int *i, char *set);
 char				**join_cmds(char **big, char **mini, int pos);
-
-/*token_list_functions.c*/
 void				add_front_t(t_token **head, t_token *new);
 void				add_back_t(t_token **head, t_token *new);
 t_token				*create_token(char **args);
@@ -111,4 +108,6 @@ void				free_expand(char *fr, char *brev, char *var, char *str);
 char				*expand(char *str, t_list *env, int *q, char ***temp);
 void				rm_em_var(t_token *head);
 char				*prompt(t_list *env);
+void				ex_rm(t_token **head, t_list *envl);
+int					ctl_exit(t_list *exp_list, t_list *envl);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:29:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 09:39:12 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/10 09:57:48 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,4 +55,14 @@ void	p_err(t_err n)
 	if (n == PIPE_E)
 		write(2, str, ft_strlen(str));
 	g_status = 2;
+}
+
+int ctl_exit(t_list  *exp_list, t_list  *envl)
+{
+	write(2, "exit\n", 5);
+	if(envl)
+		ft_lstclear(&envl, &del);
+	if(exp_list)
+		ft_lstclear(&exp_list, &del);
+	return (0);
 }
