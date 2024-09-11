@@ -71,7 +71,7 @@ clean:
 
 fclean: clean
 	@echo "\033[0;31mCleaning obj files and minishell program 🗑️\033[0m"
-	@rm -f minishell
+	@rm -f $(BIN_DIR)/$(NAME)
 	@$(MAKE) -C $(LIB) fclean -s
 
 re: fclean all
