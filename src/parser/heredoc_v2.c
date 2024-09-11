@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_v2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:11:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/07 10:17:22 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:15:42 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 		{
 			write(1,
 				"minishell: warning: here-document delimited by end-of-file!\n",
-				55);
+				61);
 			return ;
 		}
 		if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)

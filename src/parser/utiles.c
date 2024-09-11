@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/11 11:16:11 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/05 11:07:05 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:23:49 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,14 @@ int	cmd_mk(t_token *head)
 	{
 		if (head->type == FILE_N && head->index >= 2 && head->arg_size >= 2)
 		{
-			i = 1;
+			i = 0;
 			file = malloc(sizeof(char *) * 2);
 			file[0] = head->args[0];
 			file[1] = NULL;
-			while (head->args[i])
-			{
+			while (head->args[++i])
 				head->prev->prev->args = ft_realloc(head->args[i],
 						head->prev->prev->args);
-				i++;
-			}
+			free(head->args);
 			head->args = file;
 			return (0);
 		}

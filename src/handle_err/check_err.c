@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:29:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 09:57:48 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:11:11 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ int	check_err(t_token *head)
 		{
 			if (head->type == head->next->type && head->type == PIPE)
 				return (PIPE_E);
-			else if (RED == head->next->type && head->type == PIPE)
-				return (RED_E);
 			else if (PIPE == head->next->type && head->type == RED)
 				return (PIPE_E);
 		}
