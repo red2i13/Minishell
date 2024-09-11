@@ -13,14 +13,16 @@ EXEC = builtin.c builtin1.c builtin2.c builtin3.c builtin_utils.c \
 		set_up_env.c
 HANDLE_ERR = check_err.c error.c
 SOURCES = src/minishell.c
+OBJ_DIR = obj
 SOURCES += $(addprefix $(SRC_DIR_P)/, $(PARSER))
 SOURCES += $(addprefix $(SRC_DIR_E)/, $(EXEC))
 SOURCES += $(addprefix src/handle_err/, $(HANDLE_ERR))
-OBJECTS = $(SOURCES:.c=.o)
+OBJECTS = $(addprefix $(OBJ_DIR)/, $(SOURCES:.c=.o))
 NAME = minishell
 
 CC = cc
 LIB = libft
+BIN_DIR = bin
 SRC_DIR_P = src/parser
 SRC_DIR_E = src/execution
 LIBFT_DIR = libft/include
@@ -28,7 +30,7 @@ INCLUDES = include
 
 
 
-all: $(NAME)
+all: $(OBJ_DIR) $(BIN_DIR) $(BIN_DIR)/$(NAME)
 	@echo "\033[0;31m";
 	@echo "🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥";
 	@echo "                                                    ";
@@ -42,7 +44,13 @@ all: $(NAME)
 	@echo "                                                    ";
 	@echo "\033[0;32mMinishell is ready 🐚\033[0m";
 
-$(NAME): $(OBJECTS) libft/libft.a
+$(BIN_DIR):
+	@mkdir $(BIN_DIR)
+
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)/src $(OBJ_DIR)/$(SRC_DIR_P) $(OBJ_DIR)/$(SRC_DIR_E) $(OBJ_DIR)/src/handle_err
+
+$(BIN_DIR)/$(NAME): $(OBJECTS) libft/libft.a
 	@echo "\033[0;32mLinking obj files 🔗\033[0m"
 	@$(CC) $(CFLAGS)  -I$(LIBFT_DIR) -I$(INCLUDES) -o $@ $^  $(FLAGS)
 
@@ -50,7 +58,7 @@ $(LIB)/libft.a:
 	@echo "\033[0;32mCommpiling libft 📚\033[0m"
 	@$(MAKE) -C $(LIB) all bonus -s
 
-%.o: %.c
+$(OBJ_DIR)/%.o: %.c
 	@clear
 	@echo "\033[0;32mCommpiling Minishell obj files ⏳\033[0m"
 	@sleep 0.01
@@ -63,7 +71,7 @@ clean:
 
 fclean: clean
 	@echo "\033[0;31mCleaning obj files and minishell program 🗑️\033[0m"
-	@rm -f minishell
+	@rm -f $(BIN_DIR)/$(NAME)
 	@$(MAKE) -C $(LIB) fclean -s
 
 re: fclean all
