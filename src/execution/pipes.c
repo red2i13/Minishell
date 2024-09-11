@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 10:02:00 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:17:09 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ void	run(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	char	*cmd;
 	char	**env;
 
+	signal_setup(1);
 	pipe_redirection(head);
 	check_invalid_cmd(head);
 	if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
@@ -80,9 +81,7 @@ void	run(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	if (!cmd)
 		exit(127);
 	else if (execve(cmd, head->args, env) == -1)
-	{
 		error_and_exit(1);
-	}
 	if (cmd != head->args[0])
 		free(cmd);
 	free_arr(paths);
