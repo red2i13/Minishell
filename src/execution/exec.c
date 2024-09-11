@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 10:56:07 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/11 12:45:13 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	builtin(t_token *head, t_list **envl, t_list **exp_list)
 		return (print_env(*envl), 0);
 	else if (!ft_strncmp(head->args[0], "env", 4) && head->args[1])
 		return (write(2, "env: too many arguments\n", 25), 0);
-	else if (!ft_strncmp(head->args[0], "pwd", 4) && !head->args[1])
+	else if (!ft_strncmp(head->args[0], "pwd", 4))
 		return (pwd(1, *envl), 0);
 	return (1);
 }
