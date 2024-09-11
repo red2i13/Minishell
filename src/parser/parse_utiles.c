@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:48:51 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 11:17:52 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:21:35 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,9 @@ void	ex_rm(t_token **head, t_list *envl)
 	start_rm_q(*head);
 	while (1)
 		if (cmd_mk(*head))
+			break ;
+	while (1)
+		if (cmd_mk_2(*head))
 			break ;
 	cmd_mk_v2(head);
 	set_type(*head);

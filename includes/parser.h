@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 11:27:23 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/11 14:21:28 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,4 +110,5 @@ void				rm_em_var(t_token *head);
 char				*prompt(t_list *env);
 void				ex_rm(t_token **head, t_list *envl);
 int					ctl_exit(t_list *exp_list, t_list *envl);
+int					cmd_mk_2(t_token *head);
 #endif
