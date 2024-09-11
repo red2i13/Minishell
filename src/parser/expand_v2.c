@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:34:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 18:51:10 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/11 09:43:41 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*expand(char *str, t_list *env, int *q, char ***temp)
 {
 	char	*t;
 
-	while (str && str[q[2]])
+	while (str && str[0] && str[q[2]])
 	{
 		q[0] = (q[0] + (!q[1] && str[q[2]] == '\'')) % 2;
 		q[1] = (q[1] + (!q[0] && str[q[2]] == '\"')) % 2;
