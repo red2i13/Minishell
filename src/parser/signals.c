@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/31 14:14:44 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/04 10:58:54 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:58:14 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ void	signal_setup(int n)
 	{
 		signal(SIGINT, sighandler);
 		signal(SIGQUIT, SIG_IGN);
+	}
+	else if (n == 3)
+	{
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 	}
 	else
 	{

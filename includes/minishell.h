@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 11:50:08 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:03:42 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int			builtin(t_token *head, t_list **envl, t_list **exp_list);
 void		printf_error(char *str, char *cmd, int exit_status);
 void		free_run_cmd(char **paths, char **env, char ***arr, int flag);
 char		**convert_to_array(t_list *envl);
-void		excution(t_token **head, t_list	**envl, t_list	**exp_list);
+void		excution(t_token **head, t_list **envl, t_list **exp_list);
 /*redirection.c*/
 int			redir_output(char *filename, int flag);
 int			redir_input(char *filename);
@@ -89,4 +89,9 @@ int			check_redir(t_token *head, int f);
 char		*last_io(t_token *head, int type);
 void		redirection(t_token *head, t_list **envl, t_list **exp_list);
 void		set_up_env_exp(t_list **envl, t_list **exp_list, char **env);
-#endif
+# ifndef DEFAULT_PATH_VALUE
+#  define DEFAULT_PATH_VALUE "PATH=/nfs/homes/rbenmakh/.local/bin:\
+	/nfs/homes/rbenmakh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:\
+	/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
+# endif
+#endif 

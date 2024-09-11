@@ -71,3 +71,4 @@ rbenmakh@minishell → ./minishell
 ./minishell: command not found
 case29 : pwd too many args exit 42 fsdfsd exit 1 buitltin fix erors msg
 case31 : export exit code
+case : fix signals in interactive mode

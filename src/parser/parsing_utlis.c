@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utlis.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:19:34 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/04 11:04:08 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/11 19:57:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*get_path(t_list *envl)
 	char	*path;
 
 	path = NULL;
+	if(!getenv("PATH"))
+		return (DEFAULT_PATH_VALUE);
 	while (envl)
 	{
 		path = ft_strnstr((char *)envl->content, "PATH=", 5);
