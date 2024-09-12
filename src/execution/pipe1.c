@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:52:05 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 10:02:13 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:24:36 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ void	free_and_wait(t_pipe *fdt, int p, int pid)
 	while (wait(NULL) > 0)
 	{
 	}
+	exit_status(p);
 }
 
 void	init_var_pipe(t_token *head, int i[5])
