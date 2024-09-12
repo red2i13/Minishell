@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 16:35:34 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:47:18 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	redir_input(char *filename)
 {
 	int	fd;
 
-	if (!access(filename, F_OK))
+	if (access(filename, F_OK) == -1)
 	{
 		write(2, "minishell: Permission denied\n", 29);
 		g_status = 1;
