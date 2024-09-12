@@ -28,7 +28,7 @@ char	**join_and_split(char *str, char *set)
 
 	len = 0;
 	if (str[0] == '\0')
-		return	(NULL);
+		return (NULL);
 	len = count_words(str, set, i);
 	arr = malloc(sizeof(char *) * (len + 1));
 	arr = fill_arr(arr, str, i);

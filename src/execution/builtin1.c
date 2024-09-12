@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:45:49 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 09:49:57 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:18:39 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	export_errors(char *var_name)
 			|| (check_var(var_name + 1))))
 	{
 		write(2, "export: not a valid identifier\n", 32);
+		g_status = 1;
 		return (1);
 	}
 	return (0);

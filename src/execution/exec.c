@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 10:41:30 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:19:47 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	builtin(t_token *head, t_list **envl, t_list **exp_list)
 	{
 		if (head->arg_size == 1)
 			export(exp_list, envl, NULL, NULL);
-		return (init_export(head, envl, exp_list, 0), 0);
+		return (init_export(head, envl, exp_list, 0), g_status);
 	}
 	else if (!ft_strncmp(head->args[0], "unset", 6))
 	{
