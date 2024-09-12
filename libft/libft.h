@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:38:55 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/28 14:36:29 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:15:11 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int					ft_toupper(int c);
 void				*ft_memchr(const void *s, int c, size_t n);
 char				*ft_itoa(int n);
 int					ft_isprint(int c);
-int					ft_atoi(const char *nptr);
+long				ft_atoi(const char *nptr);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
 int					ft_isalnum(int c);

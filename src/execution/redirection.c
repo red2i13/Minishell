@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 16:47:18 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:17:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,16 @@ char	*last_io(t_token *head, int type)
 	while (head)
 	{
 		if (head->args[0] && head->args[0][0] == '<' && type)
+		{
+			if (head->next->args[0] && (!ft_strncmp(head->next->args[0],
+						"/dev/stdin", 11) || !ft_strncmp(head->next->args[0],
+						"/dev/stdout ", 13)))
+			{
+				head = head->next;
+				continue ;
+			}
 			file = head->next->args[0];
+		}
 		else if (head->args[0] && head->args[0][0] == '>' && !type)
 			file = head->next->args[0];
 		head = head->next;

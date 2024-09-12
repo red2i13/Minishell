@@ -6,18 +6,18 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 21:22:32 by rbenmakh          #+#    #+#             */
-/*   Updated: 2023/11/21 11:32:35 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:31:11 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 
-int	ft_atoi(const char *nptr)
+long	ft_atoi(const char *nptr)
 {
-	int	i;
-	int	result;
-	int	sign;
+	int		i;
+	long	result;
+	int		sign;
 
 	sign = 1;
 	i = 0;
@@ -33,6 +33,9 @@ int	ft_atoi(const char *nptr)
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		result = result * 10 + nptr[i] - '0';
+		if ((result > 2147483647 && sign == 1)
+		|| (result < -2147483648 && sign == -1))
+			return (__LONG_MAX__);
 		i++;
 	}
 	return (result * sign);

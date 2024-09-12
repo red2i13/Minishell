@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/11 14:23:34 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 18:30:51 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,12 +79,13 @@ void	while_print_export(t_list *exp_list)
 
 void	ft_exit(t_token *head)
 {
-	int	val;
+	long	val;
 
 	if (!head->args[1])
 		exit(0);
 	val = ft_atoi(head->args[1]);
-	if ((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-'))
+	if ((!val && head->args[1][0] != '0') ||
+	(!val && head->args[1][0] == '-') || val == __LONG_MAX__)
 	{
 		write(2, "minishell: exit: numeric argument required\n", 44);
 		exit(2);
