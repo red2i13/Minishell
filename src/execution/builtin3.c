@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:48:26 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 19:16:51 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:46:36 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,19 @@
 char	*pwd(int i, t_list *envl)
 {
 	char	*pwd;
-	int		flag;
 	char	*tmp;
 
-	flag = 0;
 	pwd = getcwd(0, 0);
 	if (!pwd)
 	{
 		tmp = fenv(envl, "PWD");
 		pwd = ft_strdup(tmp + 4);
 		free(tmp);
-		flag = 1;
 	}
 	if (i == 1)
 	{
 		printf("%s\n", pwd);
-		if (!flag)
-			free(pwd);
+		free(pwd);
 	}
 	return (pwd);
 }
