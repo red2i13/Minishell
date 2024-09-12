@@ -17,7 +17,7 @@ char	*get_path(t_list *envl)
 	char	*path;
 
 	path = NULL;
-	if(!getenv("PATH"))
+	if (!getenv("PATH"))
 		return (DEFAULT_PATH_VALUE);
 	while (envl)
 	{
