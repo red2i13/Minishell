@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 14:19:47 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:55:04 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	run_cmd(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	}
 	else
 		wait(&num[0]);
-	g_status = num[0] / 256;
+	exit_status(num[0]);
 	free_run_cmd(paths, env, &env, 0);
 	if (cmd != head->args[0])
 		free(cmd);
