@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:34:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 11:55:45 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 12:31:38 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,15 +48,14 @@ char	*expand(char *str, t_list *env, int *q, char ***temp)
 			&& !ft_strchr("\\#=+-^[].,!@;*%~&{}() \t", str[q[2] + 1])
 			&& !(ft_strchr("\"", str[q[2] + 1]) && q[1]))
 		{
-			q[2]++;
 			if (!q[0] && !q[1] && temp)
 			{
-				t = vars_sub(str, q[2], env);
+				t = vars_sub(str, q[2] + 1, env);
 				*temp = join_and_split(t, " \t");
 				return (t);
 			}
 			else
-				return (expand(vars_sub(str, q[2], env), env, q, temp));
+				return (expand(vars_sub(str, q[2] + 1, env), env, q, temp));
 		}
 		q[2]++;
 	}
