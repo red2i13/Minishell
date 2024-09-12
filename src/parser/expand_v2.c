@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:34:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 12:31:38 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:34:59 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,7 @@ char	*expand(char *str, t_list *env, int *q, char ***temp)
 				*temp = join_and_split(t, " \t");
 				return (t);
 			}
-			else
-				return (expand(vars_sub(str, q[2] + 1, env), env, q, temp));
+			return (expand(vars_sub(str, q[2] + 1, env), env, q, temp));
 		}
 		q[2]++;
 	}

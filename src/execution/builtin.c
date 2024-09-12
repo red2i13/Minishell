@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 18:30:51 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:00:59 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	check_nl(char *s)
 {
+	if(*s == '\0')
+		return(1);
 	while (*s)
 	{
 		if (*s != 'n')

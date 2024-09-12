@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/12 11:57:38 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:34:01 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ void	start_ex(t_token *head, t_list *env)
 			head->args[i] = expand(head->args[i], env, q, temp);
 			if (*temp)
 				head->args = join_cmds(head->args, *temp, i);
-			i++;
+			else
+				i++;
 		}
 		head = head->next;
 	}
