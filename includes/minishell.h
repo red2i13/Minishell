@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/11 20:03:42 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 14:46:35 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int			check_redir(t_token *head, int f);
 char		*last_io(t_token *head, int type);
 void		redirection(t_token *head, t_list **envl, t_list **exp_list);
 void		set_up_env_exp(t_list **envl, t_list **exp_list, char **env);
+void		exit_status(int status);
 # ifndef DEFAULT_PATH_VALUE
 #  define DEFAULT_PATH_VALUE "PATH=/nfs/homes/rbenmakh/.local/bin:\
 	/nfs/homes/rbenmakh/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:\
