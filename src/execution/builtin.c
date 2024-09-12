@@ -14,8 +14,8 @@
 
 int	check_nl(char *s)
 {
-	if(*s == '\0')
-		return(1);
+	if (*s == '\0')
+		return (1);
 	while (*s)
 	{
 		if (*s != 'n')
@@ -86,8 +86,8 @@ void	ft_exit(t_token *head)
 	if (!head->args[1])
 		exit(0);
 	val = ft_atoi(head->args[1]);
-	if ((!val && head->args[1][0] != '0') ||
-	(!val && head->args[1][0] == '-') || val == __LONG_MAX__)
+	if ((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-')
+		|| val == __LONG_MAX__)
 	{
 		write(2, "minishell: exit: numeric argument required\n", 44);
 		exit(2);

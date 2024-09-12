@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 21:22:32 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 18:31:11 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:40:43 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ long	ft_atoi(const char *nptr)
 	while (nptr[i] >= '0' && nptr[i] <= '9')
 	{
 		result = result * 10 + nptr[i] - '0';
-		if ((result > 2147483647 && sign == 1)
-		|| (result < -2147483648 && sign == -1))
+		if ((result > 2147483647 && sign == 1) || (result < -2147483648
+				&& sign == -1))
 			return (__LONG_MAX__);
 		i++;
 	}
