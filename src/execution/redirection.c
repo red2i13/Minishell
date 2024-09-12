@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 15:53:22 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 16:35:34 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,14 @@ char	*last_io(t_token *head, int type)
 int	redir_output(char *filename, int flag)
 {
 	int	fd;
-	char	*tmp;
 
-	if (access(filename, F_OK | R_OK | W_OK) != 0)
-	{
-		g_status = 1;
-		tmp = ft_strjoin("minishell: ", filename);
-		perror(tmp);
-		free(tmp);
-		return (-1);
-	}
 	if (flag == 1)
 		fd = open(filename, O_CREAT | O_RDWR | O_TRUNC, 0644);
 	else
 		fd = open(filename, O_CREAT | O_APPEND | O_RDWR, 0644);
 	if (dup2(fd, 1) == -1)
 	{
-		write(2, "minishell: Ambiguous redirect\n", 30);
+		write(2, "minishell: Ambiguous redirect or permission denied\n", 52);
 		g_status = 1;
 		close(fd);
 		return (-1);
@@ -60,6 +51,12 @@ int	redir_input(char *filename)
 {
 	int	fd;
 
+	if (!access(filename, F_OK))
+	{
+		write(2, "minishell: Permission denied\n", 29);
+		g_status = 1;
+		return (-1);
+	}
 	fd = open(filename, O_RDONLY);
 	if (fd == -1)
 	{
