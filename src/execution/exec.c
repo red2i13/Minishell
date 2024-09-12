@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/11 19:53:16 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:13:28 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ char	*search_path(char *cmd, char **paths, int *num)
 	char	*tmp1;
 
 	i = 0;
+	if (cmd[0] == '\0')
+		return (NULL);
 	while (paths[i])
 	{
 		tmp = ft_strjoin("/", cmd);
@@ -44,8 +46,6 @@ char	*check_cmd(char *cmd, char **paths)
 	num = -1;
 	if (!paths)
 		return (write(2, "minishell: : No such file or directory\n", 40), NULL);
-	else if (cmd[0] == '\0')
-		return (NULL);
 	else if (cmd[0] == '.' && access(cmd, F_OK) != 0)
 	{
 		printf_error("No such file or directory", cmd, 127);
@@ -101,7 +101,7 @@ int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 	exp_list = lists[1];
 	if (head->args[0] && !ft_strncmp(head->args[0], "exit", 5))
 		ft_exit(head);
-	if (!head->args[0] || (head->args[0] && head->args[0][0] == '>'))
+	if ((head->args[0] && head->args[0][0] == '>'))
 	{
 		free_arr(paths);
 		g_status = 0;

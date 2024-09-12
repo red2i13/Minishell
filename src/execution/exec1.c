@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:50:05 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/10 12:41:44 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 09:58:36 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int	check_pipe(t_token *list)
 
 void	printf_error(char *str, char *cmd, int exit_status)
 {
+	write(2, "minishell: ", 11);
 	write(2, cmd, ft_strlen(cmd));
 	write(2, ": ", 2);
 	write(2, str, ft_strlen(str));
