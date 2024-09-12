@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:11:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/11 12:15:42 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 17:53:58 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 				61);
 			return ;
 		}
-		if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) != 0)
+		if (ff_strncmp(str, del, ft_strlen(del)) && ft_strlen(str) == 0)
 			break ;
 		set_int(i);
 		if (q == 0)
-			str = expand(str, env, i, NULL);
+			str = expand_h(str, env, i, NULL);
 		write(fd, str, ft_strlen(str));
 		write(fd, "\n", 1);
 		free(str);
