@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 10:13:28 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/12 10:41:30 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ char	*check_cmd(char *cmd, char **paths)
 
 int	builtin(t_token *head, t_list **envl, t_list **exp_list)
 {
+	if (!head->args[0])
+		return (1);
 	if (!ft_strncmp(head->args[0], "cd", 3))
 		return (cd(head->args, envl, exp_list, NULL));
 	else if (!ft_strncmp(head->args[0], "echo", 5))
@@ -74,8 +76,7 @@ int	builtin(t_token *head, t_list **envl, t_list **exp_list)
 	{
 		if (head->arg_size == 1)
 			export(exp_list, envl, NULL, NULL);
-		init_export(head, envl, exp_list, 0);
-		return (0);
+		return (init_export(head, envl, exp_list, 0), 0);
 	}
 	else if (!ft_strncmp(head->args[0], "unset", 6))
 	{
@@ -101,7 +102,7 @@ int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 	exp_list = lists[1];
 	if (head->args[0] && !ft_strncmp(head->args[0], "exit", 5))
 		ft_exit(head);
-	if ((head->args[0] && head->args[0][0] == '>'))
+	if (!head->args[0] || (head->args[0] && head->args[0][0] == '>'))
 	{
 		free_arr(paths);
 		g_status = 0;
