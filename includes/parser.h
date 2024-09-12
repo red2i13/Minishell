@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/11 14:21:28 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:16:27 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,4 +111,5 @@ char				*prompt(t_list *env);
 void				ex_rm(t_token **head, t_list *envl);
 int					ctl_exit(t_list *exp_list, t_list *envl);
 int					cmd_mk_2(t_token *head);
+int					arr_size(char **arr);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:34:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/11 09:43:41 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 11:55:45 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	**join_and_split(char *str, char *set)
 	char	**arr;
 
 	len = 0;
+	if (str[0] == '\0')
+		return	(NULL);
 	len = count_words(str, set, i);
 	arr = malloc(sizeof(char *) * (len + 1));
 	arr = fill_arr(arr, str, i);
