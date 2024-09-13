@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/12 19:34:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:32:53 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*vars_sub(char *str, int i, t_list *env)
 
 	pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
 	if (pos == -1)
-		pos = ft_strlen(str) - 1;
+		pos = ft_strlen(&str[i]);
 	brev = ft_substr(str, 0, i - 1);
 	fr = ft_substr(str, i, pos);
 	var = get_var(fr, env);
