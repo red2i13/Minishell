@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_v2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:11:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 19:03:49 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/12 19:43:17 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 		if (!str)
 		{
 			write(1,
-				"minishell: warning: here-document delimited by end-of-file!\n",
-				61);
+				"minishell: warning: here-document delimited by EOF!\n", 53);
 			return ;
 		}
-		if (ff_strncmp(str, del, ft_strlen(del)) || (ft_strlen(str) == 0 && ft_strlen(del) == 0))
+		if (ff_strncmp(str, del, ft_strlen(del)) || (ft_strlen(str) == 0
+				&& ft_strlen(del) == 0))
 			break ;
 		set_int(i);
 		if (q == 0)
