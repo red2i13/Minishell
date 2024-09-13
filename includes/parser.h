@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 17:50:36 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:46:34 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,8 @@ void				free_arr(char **arr);
 
 char				*expand(char *str, t_list *env, int *q, char ***temp);
 char				*vars_sub(char *str, int i, t_list *env);
-void				start_ex(t_token *head, t_list *env);
+void				start_ex(t_token *head, t_list *env, int q[4],
+						char ***temp);
 
 int					is_q(char *str);
 void				start_rm_q(t_token *head);

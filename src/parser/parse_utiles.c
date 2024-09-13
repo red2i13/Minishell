@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:48:51 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/11 14:21:35 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:45:54 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,11 @@
 
 void	ex_rm(t_token **head, t_list *envl)
 {
-	start_ex(*head, envl);
+	int		q[4];
+	char	***temp;
+
+	temp = malloc(sizeof(char **));
+	start_ex(*head, envl, q, temp);
 	rm_em_var(*head);
 	start_rm_q(*head);
 	while (1)
