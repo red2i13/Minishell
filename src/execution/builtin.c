@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 19:00:59 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/14 12:06:43 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ void	ft_exit(t_token *head)
 	long	val;
 
 	if (!head->args[1])
-		exit(0);
+	{
+		list_clear(&head);
+		exit(g_status);
+	}
 	val = ft_atoi(head->args[1]);
 	if ((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-')
 		|| val == __LONG_MAX__)

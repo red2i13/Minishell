@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/09 11:29:55 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/11 12:11:11 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/14 12:08:19 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,5 @@ int	ctl_exit(t_list *exp_list, t_list *envl)
 		ft_lstclear(&envl, &del);
 	if (exp_list)
 		ft_lstclear(&exp_list, &del);
-	return (0);
+	return (g_status);
 }
