@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/13 12:33:39 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/14 14:17:33 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int		g_status;
 // {
 // 	while (head)
 // 	{
-// 		printf("==========================\n");
+// 		printf("n_start==========================\n");
 // 		for (int i = 0; head->args[i]; i++)
 // 			printf("{%i}[%s]\n", i, head->args[i]);
 // 		if (head->args[head->arg_size] == NULL)
@@ -35,7 +35,7 @@ int		g_status;
 // 		if (head->type == FILE_N)
 // 			printf("FILE_N\n");
 // 		printf("index = %i\n", head->index);
-// 		printf("==========================\n");
+// 		printf("n_end==========================\n");
 // 		head = head->next;
 // 	}
 // }
