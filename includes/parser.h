@@ -17,10 +17,10 @@
 # include "get_next_line.h"
 # include <dirent.h>
 # include <fcntl.h>
+# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
-# include <stdio.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 
