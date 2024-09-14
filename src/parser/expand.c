@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/12 19:34:01 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/13 15:46:39 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*vars_sub(char *str, int i, t_list *env)
 
 	pos = get_pos(&str[i]) + (ft_strchr("$?", str[i]) != 0);
 	if (pos == -1)
-		pos = ft_strlen(str) - 1;
+		pos = ft_strlen(&str[i]);
 	brev = ft_substr(str, 0, i - 1);
 	fr = ft_substr(str, i, pos);
 	var = get_var(fr, env);
@@ -86,27 +86,29 @@ char	*vars_sub(char *str, int i, t_list *env)
 	return (path);
 }
 
-void	start_ex(t_token *head, t_list *env)
+void	start_ex(t_token *head, t_list *env, int q[4], char ***temp)
 {
-	int		i;
-	int		q[3];
-	char	***temp;
-
-	temp = malloc(sizeof(char **));
 	while (head)
 	{
-		i = 0;
-		while (head->args[i])
+		q[3] = 0;
+		while (head->args[q[3]])
 		{
 			*temp = NULL;
 			q[0] = 0;
 			q[1] = 0;
 			q[2] = 0;
-			head->args[i] = expand(head->args[i], env, q, temp);
+			head->args[q[3]] = expand(head->args[q[3]], env, q, temp);
+			if (head->prev && head->prev->type == RED && arr_size(*temp) >= 2)
+			{
+				head->args = ft_calloc(1, sizeof(char *));
+				free_arr(*temp);
+				q[3]++;
+				continue ;
+			}
 			if (*temp)
-				head->args = join_cmds(head->args, *temp, i);
+				head->args = join_cmds(head->args, *temp, q[3]);
 			else
-				i++;
+				q[3]++;
 		}
 		head = head->next;
 	}

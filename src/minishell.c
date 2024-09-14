@@ -6,15 +6,41 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 18:19:55 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:33:39 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	g_status;
+int		g_status;
 
-int	loop(int argc, char **argv, t_list	*lists[2])
+// void	p_list(t_token *head)
+// {
+// 	while (head)
+// 	{
+// 		printf("==========================\n");
+// 		for (int i = 0; head->args[i]; i++)
+// 			printf("{%i}[%s]\n", i, head->args[i]);
+// 		if (head->args[head->arg_size] == NULL)
+// 			printf("[NULL]\n");
+// 		printf("%i\n", head->arg_size);
+// 		if (head->type == HEREDOC)
+// 			printf("HEREDOC\n");
+// 		if (head->type == RED)
+// 			printf("RED\n");
+// 		if (head->type == PIPE)
+// 			printf("PIPE\n");
+// 		if (head->type == CMD)
+// 			printf("CMD\n");
+// 		if (head->type == FILE_N)
+// 			printf("FILE_N\n");
+// 		printf("index = %i\n", head->index);
+// 		printf("==========================\n");
+// 		head = head->next;
+// 	}
+// }
+
+int	loop(int argc, char **argv, t_list *lists[2])
 {
 	char	*line;
 	t_token	*head;
