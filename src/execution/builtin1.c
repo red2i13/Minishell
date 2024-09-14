@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:45:49 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 14:18:39 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:05:25 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	export_errors(char *var_name)
 			|| (check_var(var_name + 1))))
 	{
 		write(2, "export: not a valid identifier\n", 32);
-		g_status = 1;
 		return (1);
 	}
 	return (0);
@@ -87,7 +86,8 @@ void	export(t_list **exp_list, t_list **envl, char *var_name,
 	int	flags[3];
 
 	flags[2] = 0;
-	if (export_errors(var_name))
+	g_status = export_errors(var_name);
+	if (g_status)
 		return ;
 	flags[0] = search_var_replace(envl, var_name, var_value, 0);
 	flags[1] = search_var_replace(exp_list, var_name, var_value, 0);
