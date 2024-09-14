@@ -101,7 +101,12 @@ int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 	envl = lists[0];
 	exp_list = lists[1];
 	if (head->args[0] && !ft_strncmp(head->args[0], "exit", 5))
+	{
+		ft_lstclear(envl, &del);
+		ft_lstclear(exp_list, &del);
+		free_arr(paths);
 		ft_exit(head);
+	}
 	if (!head->args[0] || (head->args[0] && head->args[0][0] == '>'))
 	{
 		free_arr(paths);

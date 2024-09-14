@@ -12,7 +12,7 @@
 
 #include "libft.h"
 #include <stdlib.h>
-
+#include <stdio.h>
 static char	**ft_free(char **ptr, int j)
 {
 	while (j >= 0)
@@ -72,7 +72,7 @@ static char	**ft_fill(char const *str, char charset, int words, int i)
 	ptr = (char **)malloc((words + 1) * sizeof(char *));
 	if (ptr == NULL)
 		return (0);
-	while (str[++i] && j < words)
+	while (j < words && str[++i])
 	{
 		while (str[i] == charset)
 			i++;

@@ -7,3 +7,4 @@ minishell
 *.supp
 *.sh
 *.log
+*.suppression
