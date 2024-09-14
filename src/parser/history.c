@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/02 19:11:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/02 19:51:22 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/14 10:24:47 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,10 @@ int	setup_h(char *line, t_list *envl)
 
 	tmp = get_var("HOME", envl);
 	if (tmp == NULL)
+	{
+		add_history(line);
 		return (-1);
+	}
 	file_n = ft_strjoin(tmp, "/.minishell_history");
 	free(tmp);
 	if (access(file_n, F_OK | R_OK | W_OK))
