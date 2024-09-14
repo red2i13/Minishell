@@ -72,3 +72,12 @@ rbenmakh@minishell → ./minishell
 case29 : pwd too many args exit 42 fsdfsd exit 1 buitltin fix erors msg
 case31 : export exit code
 case : fix signals in interactive mode
+[11:22 AM, 9/13/2024] Youness Sahraoui: Long mach in 3xit
+[11:22 AM, 9/13/2024] Youness Sahraoui: Exit
+[11:22 AM, 9/13/2024] Youness Sahraoui: Last g_status
+[11:22 AM, 9/13/2024] Youness Sahraoui: Export l=""
+[11:22 AM, 9/13/2024] Youness Sahraoui: Export l+=
+[11:22 AM, 9/13/2024] Youness Sahraoui: Ls > file1 > file2 < gdhdh > file3
+[11:22 AM, 9/13/2024] Youness Sahraoui: Export a="ls  -al"
+[11:22 AM, 9/13/2024] Youness Sahraoui: After a ^c
+[11:22 AM, 9/13/2024] Youness Sahraoui: l$a.   A="s -la"

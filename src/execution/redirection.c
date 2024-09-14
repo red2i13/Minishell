@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 18:17:19 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/13 12:50:26 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	redir_input(char *filename)
 {
 	int	fd;
 
-	if (access(filename, F_OK) == -1)
+	if (!access(filename, F_OK ) && access(filename, F_OK | R_OK) == -1)
 	{
 		write(2, "minishell: Permission denied\n", 29);
 		g_status = 1;
@@ -81,14 +81,21 @@ int	redir_input(char *filename)
 void	while_redir(t_token *head, int *flag, int r)
 {
 	t_token	*tmp;
-
+	int 	ret;
 	tmp = head;
 	while (tmp)
 	{
+		if(tmp->args[0][0] == '<')
+		{
+			ret = redir_input(tmp->next->args[0]);
+			if (ret == -1)
+				break ;
+		}
+		else
 		if (tmp->args[0][0] == '>')
 		{
 			(void)r;
-			*flag = redir_output(tmp->next->args[0], check_redir(tmp, 0));
+			*flag += redir_output(tmp->next->args[0], check_redir(tmp, 0));
 			if (*flag == -1)
 				break ;
 		}
