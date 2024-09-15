@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:45:49 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/13 12:05:25 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:15:47 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,12 @@ int	search_var_replace(t_list **list, char *v_n, char *val, int flag)
 	while (tmpl)
 	{
 		tmp[1] = (char *)tmpl->content;
+		if(tmp[1] && !ft_strchr(tmp[1], '='))
+		{
+			tmp[0] = tmp[1];
+			tmp[1] = ft_strjoin(tmp[1], "=");
+			free(tmp[0]);
+		}
 		if (v_n && !val && ft_strnstr(tmp[1], v_n, ft_strlen(v_n)))
 			return (1);
 		else if (v_n && val && ft_strnstr(tmp[1], v_n, ft_strlen(v_n)) && flag)
@@ -94,7 +100,7 @@ void	export(t_list **exp_list, t_list **envl, char *var_name,
 	if (var_name && ft_strchr(var_name, '+'))
 		plus_export(&var_name, &flags[2]);
 	if (!flags[1] && !var_value && var_name)
-		ft_lstadd_back(exp_list, ft_lstnew(ft_strjoin(var_name, "=")));
+		ft_lstadd_back(exp_list, ft_lstnew(ft_strdup(var_name)));
 	if (!flags[0] && var_name && var_value)
 		ft_lstadd_back(envl, ft_lstnew(ft_strjoin(var_name, var_value)));
 	if (!flags[1] && var_name && var_value)

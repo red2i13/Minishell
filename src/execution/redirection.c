@@ -60,7 +60,7 @@ int	redir_input(char *filename)
 {
 	int	fd;
 
-	if (!access(filename, F_OK ) && access(filename, F_OK | R_OK) == -1)
+	if (!access(filename, F_OK) && access(filename, F_OK | R_OK) == -1)
 	{
 		write(2, "minishell: Permission denied\n", 29);
 		g_status = 1;
@@ -77,11 +77,11 @@ int	redir_input(char *filename)
 	close(fd);
 	return (0);
 }
-int		check_input_redirection(char *filename)
+int	check_input_redirection(char *filename)
 {
-	if(access(filename, F_OK))
+	if (access(filename, F_OK))
 		return (1);
-	else if (!access(filename, F_OK ) && access(filename, F_OK | R_OK) == -1)
+	else if (!access(filename, F_OK) && access(filename, F_OK | R_OK) == -1)
 	{
 		return (1);
 	}
@@ -95,15 +95,16 @@ void	while_redir(t_token *head, int *flag, int r)
 	tmp = head;
 	while (tmp)
 	{
-		if(tmp->args[0][0] == '<' && check_input_redirection(tmp->next->args[0]))
+		if (tmp->args[0][0] == '<'
+			&& check_input_redirection(tmp->next->args[0]))
 		{
-			break;
+			break ;
 		}
 		else if (tmp->args[0][0] == '>')
 		{
 			(void)r;
 			ret = redir_output(tmp->next->args[0], check_redir(tmp, 0));
-			if(ret == -1)
+			if (ret == -1)
 			{
 				*flag += (ret == -1) * -1;
 				break ;
