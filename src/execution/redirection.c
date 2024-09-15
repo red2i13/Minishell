@@ -79,19 +79,20 @@ int	redir_input(char *filename)
 }
 int		check_input_redirection(char *filename)
 {
-	if (!access(filename, F_OK ) && access(filename, F_OK | R_OK) == -1)
+	if(access(filename, F_OK))
+		return (1);
+	else if (!access(filename, F_OK ) && access(filename, F_OK | R_OK) == -1)
 	{
 		return (1);
 	}
-	else if(access(filename, F_OK))
-		return (1);
 	return (0);
 }
 void	while_redir(t_token *head, int *flag, int r)
 {
 	t_token	*tmp;
+	int		ret;
 
-	tmp = head;				
+	tmp = head;
 	while (tmp)
 	{
 		if(tmp->args[0][0] == '<' && check_input_redirection(tmp->next->args[0]))
@@ -101,9 +102,12 @@ void	while_redir(t_token *head, int *flag, int r)
 		else if (tmp->args[0][0] == '>')
 		{
 			(void)r;
-			*flag += redir_output(tmp->next->args[0], check_redir(tmp, 0));
-			if (*flag == -1)
+			ret = redir_output(tmp->next->args[0], check_redir(tmp, 0));
+			if(ret == -1)
+			{
+				*flag += (ret == -1) * -1;
 				break ;
+			}
 		}
 		tmp = tmp->next;
 	}
