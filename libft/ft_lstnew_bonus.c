@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstnew.c                                        :+:      :+:    :+:   */
+/*   ft_lstnew_bonus.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/15 17:03:34 by rbenmakh          #+#    #+#             */
-/*   Updated: 2023/11/19 20:04:20 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:29:25 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 #include <stddef.h>
 #include <stdlib.h>
 
-t_list	*ft_lstnew(void *content)
+t_list	*ft_lstnew(void *content, int is_equal)
 {
 	t_list	*ptr;
 
@@ -22,6 +22,7 @@ t_list	*ft_lstnew(void *content)
 	if (!ptr)
 		return (NULL);
 	ptr->content = content;
+	ptr->is_equal = is_equal;
 	ptr->next = NULL;
 	return (ptr);
 }

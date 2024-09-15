@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/15 12:30:45 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:16:44 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,10 @@ int	loop(int argc, char **argv, t_list *lists[2])
 	char	*line;
 	t_token	*head;
 
+	restor_history(lists[0]);
 	while (argc && argv)
 	{
 		signal_setup(2);
-		restor_history(lists[0]);
 		line = prompt(lists[0]);
 		if (!line)
 			return (ctl_exit(lists[1], lists[0]));

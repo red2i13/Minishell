@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/15 14:29:37 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 19:50:52 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	echo(char **cmd)
 		printf("\n");
 }
 
-void	printf_export(char *str)
+void	printf_export(char *str, int is_equal)
 {
 	int	i;
 
@@ -65,7 +65,7 @@ void	printf_export(char *str)
 		i++;
 	}
 	printf("declare -x %.*s", i, str);
-	if (str[i])
+	if (str[i] && !is_equal)
 		printf("=\"%s\"", str + i + 1);
 	printf("\n");
 }
@@ -74,7 +74,7 @@ void	while_print_export(t_list *exp_list)
 {
 	while (exp_list)
 	{
-		printf_export((char *)exp_list->content);
+		printf_export((char *)exp_list->content, exp_list->is_equal);
 		exp_list = exp_list->next;
 	}
 }
