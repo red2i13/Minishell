@@ -1,6 +1,7 @@
 *.o
 minishell
 *.a
+*.txt
 .vscode
 *.nfs*
 *.gdb_history
