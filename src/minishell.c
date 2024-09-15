@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/14 14:17:33 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/15 15:03:38 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,10 @@ int	loop(int argc, char **argv, t_list *lists[2])
 	char	*line;
 	t_token	*head;
 
+	restor_history(lists[0]);
 	while (argc && argv)
 	{
 		signal_setup(2);
-		restor_history(lists[0]);
 		line = prompt(lists[0]);
 		if (!line)
 			return (ctl_exit(lists[1], lists[0]));
