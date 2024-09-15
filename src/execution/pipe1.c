@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:52:05 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 15:24:36 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 12:06:42 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ void	close_unused_fd(t_pipe *fdt, int p)
 		close(fdt[i].fd[1]);
 		i++;
 	}
+	free(fdt);
 }
 
 void	next_cmd(t_token **head)
@@ -47,7 +48,7 @@ void	free_fdt(t_pipe *fdt, int p)
 
 void	free_and_wait(t_pipe *fdt, int p, int pid)
 {
-	free_fdt(fdt, p);
+	(void)fdt;
 	waitpid(pid, &p, 0);
 	while (wait(NULL) > 0)
 	{

@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 14:54:55 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 12:13:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ typedef struct s_pipe
 	int		fd[2];
 }			t_pipe;
 
-int			exec_pipes(t_token *head, t_list **envl, t_list **exp_list,
-				char **paths);
+int			exec_pipes(t_token *list[2], t_list **envl, t_list **exp_list, char **paths);
 void		init_var_pipe(t_token *head, int i[5]);
 void		next_cmd(t_token **head);
 void		close_unused_fd(t_pipe *fdt, int p);
@@ -75,7 +74,7 @@ void		run_cmd(t_token *head, t_list **envl, t_list **exp_list,
 char		*get_path(t_list *envl);
 char		**split_paths(char *paths);
 int			check_builtin(char *cmd);
-void		run(t_token *head, t_list **envl, t_list **exp_list, char **paths);
+void		run(t_token	*list[2], t_list **envl, t_list **exp_list, char **paths);
 char		*check_cmd(char *cmd, char **paths);
 int			builtin(t_token *head, t_list **envl, t_list **exp_list);
 void		printf_error(char *str, char *cmd, int exit_status);

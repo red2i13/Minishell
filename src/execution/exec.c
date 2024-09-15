@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 14:55:04 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 10:19:29 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,15 +95,10 @@ int	builtin(t_token *head, t_list **envl, t_list **exp_list)
 
 int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 {
-	t_list	**envl;
-	t_list	**exp_list;
-
-	envl = lists[0];
-	exp_list = lists[1];
 	if (head->args[0] && !ft_strncmp(head->args[0], "exit", 5))
 	{
-		ft_lstclear(envl, &del);
-		ft_lstclear(exp_list, &del);
+		ft_lstclear(lists[0], &del);
+		ft_lstclear(lists[1], &del);
 		free_arr(paths);
 		ft_exit(head);
 	}
@@ -115,7 +110,7 @@ int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 	}
 	else if ((head->args[0] && head->args[0][0] == '<'))
 		return (free_arr(paths), 0);
-	g_status = builtin(head, envl, exp_list);
+	g_status = builtin(head, lists[0], lists[1]);
 	if (!g_status)
 		return (free_arr(paths), 0);
 	*cmd = check_cmd(head->args[0], paths);

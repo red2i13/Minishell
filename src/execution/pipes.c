@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/11 12:17:09 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/15 12:12:05 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,41 +60,51 @@ void	check_invalid_cmd(t_token *head)
 		|| (head->args[0] && head->args[0][0] == '<'))
 		exit(0);
 }
-
-void	run(t_token *head, t_list **envl, t_list **exp_list, char **paths)
+void clear_child(t_token *head, t_list **envl, t_list **exp_list, char **paths)
+{
+	free_arr(paths);
+	ft_lstclear(envl, &del);
+	ft_lstclear(exp_list, &del);
+	list_clear(&head);
+}
+void	run(t_token	*list[2], t_list **envl, t_list **exp_list, char **paths)
 {
 	char	*cmd;
 	char	**env;
 
 	signal_setup(1);
-	pipe_redirection(head);
-	check_invalid_cmd(head);
-	if (ft_strnstr(head->args[0], "exit", ft_strlen("exit")))
-		ft_exit(head);
-	else if (!builtin(head, envl, exp_list))
+	pipe_redirection(list[1]);
+	check_invalid_cmd(list[1]);
+	if (ft_strnstr(list[1]->args[0], "exit", ft_strlen("exit")))
 	{
-		g_status = 0;
+		clear_child(list[0], envl, exp_list, paths);	
+		ft_exit(list[1]);
+	}
+	else if (!builtin(list[1], envl, exp_list))
+	{
+		clear_child(list[0], envl, exp_list, paths);
 		exit(0);
 	}
-	env = convert_to_array(*envl);
-	cmd = check_cmd(head->args[0], paths);
+	cmd = check_cmd(list[1]->args[0], paths);
 	if (!cmd)
+	{
+		clear_child(list[0], envl, exp_list, paths);
 		exit(127);
-	else if (execve(cmd, head->args, env) == -1)
+	}
+	env = convert_to_array(*envl);
+	if (execve(cmd, list[1]->args, env) == -1)
 		error_and_exit(1);
-	if (cmd != head->args[0])
-		free(cmd);
-	free_arr(paths);
-	free_arr(env);
-	exit(0);
 }
 
-int	exec_pipes(t_token *head, t_list **envl, t_list **exp_list, char **paths)
+int	exec_pipes(t_token *list[2], t_list **envl, t_list **exp_list, char **paths)
 {
 	int		i[5];
 	t_pipe	*fdt;
+	// t_token	*list[2];
 
-	init_var_pipe(head, i);
+	// list[0] = head;
+	// list[1] = head;
+	init_var_pipe(list[0], i);
 	fdt = init_pipes(i[3]);
 	while (i[0] <= i[3])
 	{
@@ -106,11 +116,11 @@ int	exec_pipes(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 			if (i[0] > 0)
 				dup2(fdt[i[0] - 1].fd[0], STDIN_FILENO);
 			close_unused_fd(fdt, i[3]);
-			run(head, envl, exp_list, paths);
+			run(list, envl, exp_list, paths);
 		}
 		else if (i[0] == i[3])
 			i[4] = i[1];
-		next_cmd(&head);
+		next_cmd(&list[1]);
 		i[0]++;
 	}
 	close_unused_fd(fdt, i[3]);
