@@ -52,7 +52,7 @@ char	**convert_to_array(t_list *envl)
 	return (cenv);
 }
 
-void	excution(t_token **head, t_list	**envl, t_list	**exp_list)
+void	excution(t_token **head, t_list **envl, t_list **exp_list)
 {
 	t_token	*list[2];
 

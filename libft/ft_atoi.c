@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 21:22:32 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/16 11:12:18 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:16:22 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 long long	ft_atoi(const char *nptr)
 {
-	int		i;
+	int			i;
 	long long	result;
-	int		sign;
+	int			sign;
 
 	sign = 1;
 	i = 0;

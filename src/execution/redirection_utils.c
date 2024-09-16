@@ -25,15 +25,15 @@ int	check_input_redirection(char *filename)
 
 int	check_while_input_redirection(t_token *list)
 {
-	char *filename;
-	
+	char	*filename;
+
 	while (list)
 	{
 		filename = list->args[0];
-		if(!filename || !filename[0])
+		if (!filename || !filename[0])
 		{
 			list = list->next;
-			continue;
+			continue ;
 		}
 		if (access(filename, F_OK))
 			return (1);

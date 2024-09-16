@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/16 12:03:53 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:15:34 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,9 +72,7 @@ void	run(t_token *list[2], t_list **envl, t_list **exp_list, char **paths)
 		exit(1);
 	check_invalid_cmd(list[1]);
 	if (ft_strnstr(list[1]->args[0], "exit", ft_strlen("exit")))
-	{
 		ft_exit_pipe(list[0], envl, exp_list, paths);
-	}
 	else if (!builtin(list[1], envl, exp_list))
 	{
 		clear_child(list[0], envl, exp_list, paths);

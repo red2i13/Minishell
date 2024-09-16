@@ -51,10 +51,10 @@ int	check_redir(t_token *head, int f)
 
 void	execve_error(char *cmd)
 {
-	struct stat st;
-	
+	struct stat	st;
+
 	stat(cmd, &st);
-	if(S_ISDIR(st.st_mode))
+	if (S_ISDIR(st.st_mode))
 	{
 		printf_error("is a directory", cmd, 126);
 		exit(126);

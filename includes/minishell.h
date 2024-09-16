@@ -17,6 +17,7 @@
 # include "parser.h"
 # include <errno.h>
 # include <fcntl.h>
+# include <limits.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
@@ -28,7 +29,6 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <unistd.h>
-# include <limits.h>
 /*global variable*/
 extern int	g_status;
 /*error.c*/
@@ -55,7 +55,7 @@ void		change_var_and_free(char *var_name, char *var_value, char *str,
 int			check_var(char *var_name);
 void		print_export(t_list *exp_list);
 void		while_print_export(t_list *exp_list);
-void	free_v_n(char *v_n, int flag);
+void		free_v_n(char *v_n, int flag);
 /*pipes.c*/
 typedef struct s_pipe
 {
@@ -70,9 +70,9 @@ void		close_unused_fd(t_pipe *fdt, int p);
 void		free_and_wait(t_pipe *fdt, int p, int pid);
 int			calc_pipes(t_token *list);
 void		ft_exit_pipe(t_token *head, t_list **envl, t_list **exp_list,
-		char **paths);
+				char **paths);
 void		clear_child(t_token *head, t_list **envl, t_list **exp_list,
-		char **paths);
+				char **paths);
 /*exec.c*/
 int			check_pipe(t_token *list);
 void		run_cmd(t_token *head, t_list **envl, t_list **exp_list,
