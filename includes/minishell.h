@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:33:16 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/16 12:03:44 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:11:42 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,9 @@ void		set_up_env_exp(t_list **envl, t_list **exp_list, char **env);
 void		exit_status(int status);
 int			check_input_redirection(char *filename);
 int			check_while_input_redirection(t_token *list);
+void		check_invalid_redirection(t_token *head, t_list **envl,
+				t_list **exp_list, char **paths);
+void		print_and_exit(char *msg, int status);
 
 # ifndef DEFAULT_PATH_VALUE
 #  define DEFAULT_PATH_VALUE \
