@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/03 14:43:12 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/16 11:07:51 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:45:46 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	ft_exit(t_token *head)
 	if ((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-')
 		|| val == __LONG_LONG_MAX__)
 	{
+		list_clear(&head);
 		write(2, "minishell: exit: numeric argument required\n", 44);
 		exit(2);
 	}
@@ -101,5 +102,8 @@ void	ft_exit(t_token *head)
 		return ;
 	}
 	else if (val != 0)
+	{
+		list_clear(&head);
 		exit(val % 256);
+	}
 }
