@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:50:05 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/12 09:58:36 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:58:19 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,16 @@ int	check_redir(t_token *head, int f)
 
 void	execve_error(char *cmd)
 {
-	if (access(cmd, F_OK) == 0)
-		write(2, "minishell: is a directory\n", 27);
+	struct stat st;
+	
+	stat(cmd, &st);
+	if(S_ISDIR(st.st_mode))
+	{
+		printf_error("is a directory", cmd, 126);
+		exit(126);
+	}
+	else if (access(cmd, F_OK) == 0)
+		exit(0);
 	exit(EXIT_FAILURE);
 }
 

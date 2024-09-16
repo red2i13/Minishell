@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:53:02 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/15 12:11:35 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 09:47:42 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	**convert_to_array(t_list *envl)
 void	excution(t_token **head, t_list	**envl, t_list	**exp_list)
 {
 	t_token	*list[2];
-	
+
 	list[0] = *head;
 	list[1] = *head;
 	if (check_pipe(*head))
@@ -66,4 +66,13 @@ void	excution(t_token **head, t_list	**envl, t_list	**exp_list)
 		run_cmd(*head, envl, exp_list, split_paths(get_path(*envl)));
 	list_clear(head);
 	*head = NULL;
+}
+
+void	clear_child(t_token *head, t_list **envl, t_list **exp_list,
+		char **paths)
+{
+	free_arr(paths);
+	ft_lstclear(envl, &del);
+	ft_lstclear(exp_list, &del);
+	list_clear(&head);
 }

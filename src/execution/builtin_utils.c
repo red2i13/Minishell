@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:56:45 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/15 19:33:13 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 09:37:39 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ t_list	*setup_env(char **env)
 	i = 0;
 	while (env[i])
 	{
-		ft_lstadd_back(&envl, ft_lstnew(ft_substr(env[i], 0,
-					ft_strlen(env[i])), 0));
+		ft_lstadd_back(&envl, ft_lstnew(ft_substr(env[i], 0, ft_strlen(env[i])),
+				0));
 		i++;
 	}
 	return (envl);
@@ -46,7 +46,8 @@ t_list	*setup_exp(t_list *envl)
 	while (envl)
 	{
 		str = (char *)envl->content;
-		ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str)), 0));
+		ft_lstadd_back(&exp_list, ft_lstnew(ft_substr(str, 0, ft_strlen(str)),
+				0));
 		envl = envl->next;
 	}
 	return (exp_list);

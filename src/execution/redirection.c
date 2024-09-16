@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/06 18:26:18 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/13 12:50:26 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 09:49:48 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,7 @@ int	redir_input(char *filename)
 	close(fd);
 	return (0);
 }
-int	check_input_redirection(char *filename)
-{
-	if (access(filename, F_OK))
-		return (1);
-	else if (!access(filename, F_OK) && access(filename, F_OK | R_OK) == -1)
-	{
-		return (1);
-	}
-	return (0);
-}
+
 void	while_redir(t_token *head, int *flag, int r)
 {
 	t_token	*tmp;

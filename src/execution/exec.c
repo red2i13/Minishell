@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/15 10:19:29 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:42:35 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ char	*check_cmd(char *cmd, char **paths)
 	num = -1;
 	if (!paths)
 		return (write(2, "minishell: : No such file or directory\n", 40), NULL);
-	else if (cmd[0] == '.' && access(cmd, F_OK) != 0)
+	else if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, F_OK| X_OK) != 0)
 	{
-		printf_error("No such file or directory", cmd, 127);
+		perror("minishell");
 		return (NULL);
 	}
+	else if ( (cmd[0] == '.' || cmd[0] == '/') && !access(cmd, F_OK | X_OK))
+		return (cmd);
 	tmp = search_path(cmd, paths, &num);
 	if (tmp)
 		return (tmp);
-	else if (!access(cmd, F_OK))
-		return (printf_error("Permission denied", cmd, 126), NULL);
 	if (num == -1 && check_builtin(cmd))
 	{
 		printf_error("command not found", cmd, 127);
@@ -139,6 +139,7 @@ void	run_cmd(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 		signal_setup(3);
 		if (execve(cmd, head->args, env) != 0)
 			execve_error(cmd);
+		(void)cmd;
 	}
 	else
 		wait(&num[0]);

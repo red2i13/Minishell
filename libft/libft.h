@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 17:38:55 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/15 19:28:28 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 11:06:06 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int					ft_toupper(int c);
 void				*ft_memchr(const void *s, int c, size_t n);
 char				*ft_itoa(int n);
 int					ft_isprint(int c);
-long				ft_atoi(const char *nptr);
+long long			ft_atoi(const char *nptr);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t nmemb, size_t size);
 int					ft_isalnum(int c);

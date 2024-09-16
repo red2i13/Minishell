@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 20:50:47 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/15 12:47:47 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/16 12:03:53 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,48 +60,16 @@ void	check_invalid_cmd(t_token *head)
 		|| (head->args[0] && head->args[0][0] == '<'))
 		exit(0);
 }
-void clear_child(t_token *head, t_list **envl, t_list **exp_list, char **paths)
-{
-	free_arr(paths);
-	ft_lstclear(envl, &del);
-	ft_lstclear(exp_list, &del);
-	list_clear(&head);
-}
-void	ft_exit_pipe(t_token *head, t_list **envl, t_list **exp_list, char **paths)
-{
-	long	val;
-	
-	if (!head->args[1])
-	{
-		clear_child(head, envl, exp_list, paths);
-		exit(g_status);
-	}
-	val = ft_atoi(head->args[1]);
-	if ((!val && head->args[1][0] != '0') || (!val && head->args[1][0] == '-')
-		|| val == __LONG_MAX__)
-	{
-		write(2, "minishell: exit: numeric argument required\n", 44);
-		clear_child(head, envl, exp_list, paths);
-		exit(2);
-	}
-	else if (head->args[2])
-	{
-		write(2, "exit\nminishell: exit: too many arguments\n", 42);
-		return ;
-	}
-	else if (val != 0)
-	{
-		clear_child(head, envl, exp_list, paths);
-		exit(val % 256);
-	}
-}
-void	run(t_token	*list[2], t_list **envl, t_list **exp_list, char **paths)
+
+void	run(t_token *list[2], t_list **envl, t_list **exp_list, char **paths)
 {
 	char	*cmd;
 	char	**env;
 
 	signal_setup(1);
 	pipe_redirection(list[1]);
+	if (check_while_input_redirection(list[0]))
+		exit(1);
 	check_invalid_cmd(list[1]);
 	if (ft_strnstr(list[1]->args[0], "exit", ft_strlen("exit")))
 	{

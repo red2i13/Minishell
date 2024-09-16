@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/04 11:20:33 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/08/28 10:53:52 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/16 09:38:25 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 #include <stdlib.h>
 #include <stdio.h>
+
 static char	**ft_free(char **ptr, int j)
 {
 	while (j >= 0)
