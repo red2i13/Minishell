@@ -44,15 +44,16 @@ char	*check_cmd(char *cmd, char **paths)
 	char	*tmp;
 
 	num = -1;
-	if (!paths)
-		return (write(2, "minishell: : No such file or directory\n", 40), NULL);
-	else if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, F_OK | X_OK) != 0)
+
+	if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, F_OK | X_OK) != 0)
 	{
 		perror("minishell");
 		return (NULL);
 	}
 	else if ((cmd[0] == '.' || cmd[0] == '/') && !access(cmd, F_OK | X_OK))
 		return (cmd);
+	else if (!paths)
+		return (write(2, "minishell: : No such file or directory\n", 40), NULL);
 	tmp = search_path(cmd, paths, &num);
 	if (tmp)
 		return (tmp);
