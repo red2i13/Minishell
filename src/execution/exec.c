@@ -44,7 +44,6 @@ char	*check_cmd(char *cmd, char **paths)
 	char	*tmp;
 
 	num = -1;
-
 	if ((cmd[0] == '.' || cmd[0] == '/') && access(cmd, F_OK | X_OK) != 0)
 	{
 		perror("minishell");
