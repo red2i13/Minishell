@@ -48,7 +48,11 @@ void	pipe_redirection(t_token *head)
 			else if (tmp->args[0] && tmp->args[0][0] == '>')
 				redir_output(tmp->next->args[0], r);
 			else if (tmp->args[0] && tmp->args[0][0] == '<')
+			{
+				if (check_input_redirection(tmp->next->args[0]))
+					break ;
 				redir_input(tmp->next->args[0]);
+			}
 			tmp = tmp->next;
 		}
 	}
