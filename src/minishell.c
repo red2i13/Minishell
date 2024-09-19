@@ -14,33 +14,6 @@
 
 int		g_status;
 
-/*
-void	p_list(t_token *head)
-{
-	while (head)
-	{
-		printf("n_start==========================\n");
-		for (int i = 0; head->args[i]; i++)
-			printf("{%i}[%s]\n", i, head->args[i]);
-		if (head->args[head->arg_size] == NULL)
-			printf("[NULL]\n");
-		printf("%i\n", head->arg_size);
-		if (head->type == HEREDOC)
-			printf("HEREDOC\n");
-		if (head->type == RED)
-			printf("RED\n");
-		if (head->type == PIPE)
-			printf("PIPE\n");
-		if (head->type == CMD)
-			printf("CMD\n");
-		if (head->type == FILE_N)
-			printf("FILE_N\n");
-		printf("index = %i\n", head->index);
-		printf("n_end==========================\n");
-		head = head->next;
-	}
-}
-*/
 int	loop(int argc, char **argv, t_list *lists[2])
 {
 	char	*line;
