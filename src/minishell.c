@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/28 18:01:06 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/15 15:16:44 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:48:45 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	loop(int argc, char **argv, t_list *lists[2])
 		if (line[0] == '\0')
 			continue ;
 		head = cmds_parse(line, lists[0]);
-		if (heredoc(head, lists[0]) == 0)
+		if (heredoc(head, lists, 0, 0) == 0)
 		{
 			list_clear(&head);
 			write(1, "\n", 1);

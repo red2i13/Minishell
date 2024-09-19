@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 10:50:31 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/13 15:46:34 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:48:38 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@
 # include "get_next_line.h"
 # include <dirent.h>
 # include <fcntl.h>
-# include <stdio.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <stdio.h>
 # include <sys/ioctl.h>
 # include <sys/wait.h>
 
@@ -74,7 +74,8 @@ int					check_err(t_token *head);
 void				p_err(t_err n);
 t_token				*cmds_parse(char *line, t_list *envl);
 
-int					heredoc(t_token *head, t_list *env);
+int					heredoc(t_token *head, t_list *list[2], t_token *tmp,
+						int status);
 void				free_arr(char **arr);
 
 char				*expand(char *str, t_list *env, int *q, char ***temp);
@@ -102,7 +103,8 @@ void				fun_init(char ***new_args, t_token **head, char **args,
 						int *i);
 void				fun_init_v2(char ***new_args, t_token **head, char **args,
 						int *i);
-void				fork_heredoc(char *fn, t_token *head, t_list *env);
+void				fork_heredoc(char *fn, t_token *head, t_list *list[2],
+						t_token *tmp);
 void				free_re(t_token *head, char *file_name);
 int					ff_strncmp(const char *s1, const char *s2, size_t n);
 void				free_expand(char *fr, char *brev, char *var, char *str);

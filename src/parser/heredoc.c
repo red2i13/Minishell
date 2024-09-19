@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/10 18:08:46 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 18:08:44 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:52:36 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,12 @@ int	is_q(char *str)
 	return (0);
 }
 
-int	heredoc(t_token *head, t_list *env)
+int	heredoc(t_token *head, t_list *list[2], t_token	*tmp, int status)
 {
 	char	*file_name;
-	int		status;
 	char	fn[16];
 
+	tmp = head;
 	while (head)
 	{
 		signal_setup(0);
@@ -87,9 +87,11 @@ int	heredoc(t_token *head, t_list *env)
 			file_name = ran_file();
 			ft_strlcpy(fn, file_name, 16);
 			if (fork() == 0)
-				fork_heredoc(fn, head, env);
-			else
-				wait(&status);
+			{
+				free(file_name);
+				fork_heredoc(fn, head, list, tmp);
+			}
+			wait(&status);
 			free_arr(head->args);
 			free_re(head, file_name);
 			if (WEXITSTATUS(status) == 5)

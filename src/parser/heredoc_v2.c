@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_v2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/04 12:11:07 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/12 19:43:17 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/19 12:54:00 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	set_int(int *i)
 	i[2] = 0;
 }
 
-void	read_put(char *file_name, char *del, int q, t_list *env)
+int	read_put(char *file_name, char *del, int q, t_list *env)
 {
 	char	*str;
 	int		i[3];
@@ -31,9 +31,9 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 		str = readline(">");
 		if (!str)
 		{
-			write(1,
-				"minishell: warning: here-document delimited by EOF!\n", 53);
-			return ;
+			write(1, "minishell:warning: here-doc delimited by EOF!\n", 47);
+			ft_lstclear(&env, free);
+			return (1);
 		}
 		if (ff_strncmp(str, del, ft_strlen(del)) || (ft_strlen(str) == 0
 				&& ft_strlen(del) == 0))
@@ -45,19 +45,34 @@ void	read_put(char *file_name, char *del, int q, t_list *env)
 		write(fd, "\n", 1);
 		free(str);
 	}
-	close(fd);
+	return (close(fd), 0);
 }
 
-void	fork_heredoc(char *fn, t_token *head, t_list *env)
+void	fork_heredoc(char *fn, t_token *head, t_list *list[2], t_token	*tmp)
 {
 	signal_setup(1);
 	if (is_q(head->next->args[0]))
 	{
 		head->next->args[0] = rm_quote(head->next->args[0]);
-		read_put(fn, head->next->args[0], 1, env);
+		if (read_put(fn, head->next->args[0], 1, list[0]))
+		{
+			list_clear(&tmp);
+			ft_lstclear(&list[1], free);
+			exit(0);
+		}
 	}
 	else
-		read_put(fn, head->next->args[0], 0, env);
+	{
+		if (read_put(fn, head->next->args[0], 0, list[0]))
+		{
+			list_clear(&tmp);
+			ft_lstclear(&list[1], free);
+			exit(0);
+		}
+	}
+	ft_lstclear(&list[0], free);
+	ft_lstclear(&list[1], free);
+	list_clear(&tmp);
 	exit(0);
 }
 
