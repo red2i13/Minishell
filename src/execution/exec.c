@@ -97,10 +97,9 @@ int	essential_cmd(t_token *head, char **paths, t_list **lists[2], char **cmd)
 {
 	if (head->args[0] && !ft_strncmp(head->args[0], "exit", 5))
 	{
-		ft_lstclear(lists[0], &del);
-		ft_lstclear(lists[1], &del);
-		free_arr(paths);
-		ft_exit(head);
+		ft_exit(head, lists, paths);
+		g_status = 1;
+		return (0);
 	}
 	if (!head->args[0] || (head->args[0] && head->args[0][0] == '>'))
 	{

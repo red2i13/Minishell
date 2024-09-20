@@ -48,7 +48,7 @@ t_list		*setup_env(char **env);
 t_list		*setup_exp(t_list *envl);
 char		*fenv(t_list *envl, char *str);
 char		**convert_to_array(t_list *envl);
-void		ft_exit(t_token *head);
+void		ft_exit(t_token *head, t_list **lists[2], char **paths, long val);
 void		init_export(t_token *head, t_list **envl, t_list **exp_list, int i);
 void		change_var_and_free(char *var_name, char *var_value, char *str,
 				t_list *tmpl);

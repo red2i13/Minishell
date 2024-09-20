@@ -17,7 +17,7 @@ char	*color_g(char *user, char *exit_s)
 	char	*temp;
 	char	*ret;
 
-	ret = ft_strjoin(user, "@\033[0;32mminishell [");
+	ret = ft_strjoin(user, "@\033[1;32mminishell [");
 	temp = ret;
 	ret = ft_strjoin(ret, exit_s);
 	free(temp);
@@ -32,7 +32,7 @@ char	*color_r(char *user, char *exit_s)
 	char	*temp;
 	char	*ret;
 
-	ret = ft_strjoin(user, "@\033[0;32mminishell\033[0;31m [");
+	ret = ft_strjoin(user, "@\033[1;32mminishell\033[0;31m [");
 	temp = ret;
 	ret = ft_strjoin(ret, exit_s);
 	free(temp);

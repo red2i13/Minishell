@@ -51,6 +51,7 @@ void	echo(char **cmd)
 	}
 	if (!flag)
 		printf("\n");
+	rl_redisplay();
 }
 
 void	printf_export(char *str, int is_equal)
@@ -79,13 +80,11 @@ void	while_print_export(t_list *exp_list)
 	}
 }
 
-void	ft_exit(t_token *head)
+void	ft_exit(t_token *head, t_list **lists[2], char **paths, long val)
 {
-	long	val;
-
 	if (!head->args[1])
 	{
-		list_clear(&head);
+		clear_child(head, lists[0], lists[1], paths);
 		exit(g_status);
 	}
 	val = ft_atoi(head->args[1]);
@@ -93,17 +92,18 @@ void	ft_exit(t_token *head)
 		|| val == __LONG_LONG_MAX__ || (ft_strlen(head->args[1]) > 20
 			&& head->args[1][0] == '-') || ft_strlen(head->args[1]) > 18)
 	{
-		list_clear(&head);
+		clear_child(head, lists[0], lists[1], paths);
 		print_and_exit("exit\nminishell: exit: numeric argument required\n", 2);
 	}
 	else if (head->args[2])
 	{
 		write(2, "exit\nminishell: exit: too many arguments\n", 42);
+		free_arr(paths);
 		return ;
 	}
 	else if (val != 0)
 	{
-		list_clear(&head);
+		clear_child(head, lists[0], lists[1], paths);
 		print_and_exit("exit\n", val % 256);
 	}
 }
