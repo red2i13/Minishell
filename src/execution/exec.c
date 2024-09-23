@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/07 12:38:20 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/16 12:17:15 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/23 11:30:24 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ void	run_cmd(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	{
 		signal_setup(3);
 		if (execve(cmd, head->args, env) != 0)
-			execve_error(cmd);
-	}
+			execve_error(cmd, head, lists, paths);
+	}		
 	else
 		wait(&num[0]);
 	exit_status(num[0]);

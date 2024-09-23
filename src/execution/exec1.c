@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:50:05 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/16 16:01:59 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/23 09:13:55 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,18 +49,29 @@ int	check_redir(t_token *head, int f)
 	return (0);
 }
 
-void	execve_error(char *cmd)
+void		execve_error(char *cmd, t_token *head, t_list **lists[2], char **paths)
 {
 	struct stat	st;
-
+	(void)paths;
 	stat(cmd, &st);
 	if (S_ISDIR(st.st_mode))
 	{
 		printf_error("is a directory", cmd, 126);
+		ft_lstclear(lists[0], &del);
+		ft_lstclear(lists[1], &del);
+		list_clear(&head);
 		exit(126);
 	}
 	else if (access(cmd, F_OK) == 0)
+	{
+		ft_lstclear(lists[0], &del);
+		ft_lstclear(lists[1], &del);
+		list_clear(&head);
 		exit(0);
+	}
+	ft_lstclear(lists[0], &del);
+	ft_lstclear(lists[1], &del);
+	list_clear(&head);
 	exit(EXIT_FAILURE);
 }
 
