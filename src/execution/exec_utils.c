@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   set_up_env.c                                       :+:      :+:    :+:   */
+/*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/09/10 10:02:04 by ysahraou          #+#    #+#             */
-/*   Updated: 2024/09/10 10:14:44 by ysahraou         ###   ########.fr       */
+/*   Created: 2024/09/22 09:47:15 by rbenmakh          #+#    #+#             */
+/*   Updated: 2024/09/10 09:47:46 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,16 @@ void	set_up_env_exp(t_list **envl, t_list **exp_list, char **env)
 		export(exp_list, envl, "_=", "/usr/bin/env");
 		free(tmp);
 	}
+}
+
+void	cleanup_run_cmd(char ***env, char **cmd, char **paths, t_token *head)
+{
+	free_run_cmd(paths, *env, env, 0);
+	free_str(cmd, &head->args[0]);
+}
+
+void	setup_lists(t_list **lists[2], t_list **envl, t_list **exp_list)
+{
+	lists[0] = envl;
+	lists[1] = exp_list;
 }

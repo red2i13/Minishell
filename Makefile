@@ -9,7 +9,7 @@ PARSER =   get_cmds.c cmds_trim_2.c cmds_trim.c join_cmds.c \
 			parse_utiles.c utiles2.0.c expand_h.c
 EXEC = builtin.c builtin1.c builtin2.c builtin3.c builtin_utils.c \
 		exec.c exec1.c pipes.c pipe1.c pipe_utils.c redirection.c \
-		set_up_env.c exec_utiles.c builtin4.c redirection_utils.c 
+		exec_utils.c exec_utiles.c builtin4.c redirection_utils.c 
 HANDLE_ERR = check_err.c error.c
 SOURCES = src/minishell.c
 OBJ_DIR = obj

@@ -49,10 +49,10 @@ int	check_redir(t_token *head, int f)
 	return (0);
 }
 
-void		execve_error(char *cmd, t_token *head, t_list **lists[2], char **paths)
+void	execve_error(char *cmd, t_token *head, t_list **lists[2], char **paths)
 {
 	struct stat	st;
-	(void)paths;
+
 	stat(cmd, &st);
 	if (S_ISDIR(st.st_mode))
 	{
@@ -60,6 +60,7 @@ void		execve_error(char *cmd, t_token *head, t_list **lists[2], char **paths)
 		ft_lstclear(lists[0], &del);
 		ft_lstclear(lists[1], &del);
 		list_clear(&head);
+		free_arr(paths);
 		exit(126);
 	}
 	else if (access(cmd, F_OK) == 0)
@@ -67,11 +68,13 @@ void		execve_error(char *cmd, t_token *head, t_list **lists[2], char **paths)
 		ft_lstclear(lists[0], &del);
 		ft_lstclear(lists[1], &del);
 		list_clear(&head);
+		free_arr(paths);
 		exit(0);
 	}
 	ft_lstclear(lists[0], &del);
 	ft_lstclear(lists[1], &del);
 	list_clear(&head);
+	free_arr(paths);
 	exit(EXIT_FAILURE);
 }
 

@@ -125,8 +125,7 @@ void	run_cmd(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	int		num[2];
 	t_list	**lists[2];
 
-	lists[0] = envl;
-	lists[1] = exp_list;
+	setup_lists(lists, envl, exp_list);
 	if (!essential_cmd(head, paths, lists, &cmd))
 		return ;
 	num[0] = 0;
@@ -137,12 +136,13 @@ void	run_cmd(t_token *head, t_list **envl, t_list **exp_list, char **paths)
 	{
 		signal_setup(3);
 		if (execve(cmd, head->args, env) != 0)
+		{
+			free(env);
 			execve_error(cmd, head, lists, paths);
-	}		
+		}
+	}
 	else
 		wait(&num[0]);
 	exit_status(num[0]);
-	free_run_cmd(paths, env, &env, 0);
-	if (cmd != head->args[0])
-		free(cmd);
+	cleanup_run_cmd(&env, &cmd, paths, head);
 }

@@ -14,7 +14,6 @@
 # define MINISHELL_H
 
 # include "../libft/libft.h"
-# include <stdio.h>
 # include "parser.h"
 # include <errno.h>
 # include <fcntl.h>
@@ -23,6 +22,7 @@
 # include <readline/readline.h>
 # include <signal.h>
 # include <stdbool.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
 # include <sys/stat.h>
@@ -35,7 +35,8 @@ extern int	g_status;
 void		error_func(int errnum, int exit_num);
 void		error_exit(char *str, int exit_num);
 void		error_and_exit(int exit_num);
-void		execve_error(char *cmd, t_token *head, t_list **lists[2], char **paths);
+void		execve_error(char *cmd, t_token *head, t_list **lists[2],
+				char **paths);
 /*builtin.c*/
 void		echo(char **cmd);
 void		print_env(t_list *envl);
@@ -88,6 +89,10 @@ void		printf_error(char *str, char *cmd, int exit_status);
 void		free_run_cmd(char **paths, char **env, char ***arr, int flag);
 char		**convert_to_array(t_list *envl);
 void		excution(t_token **head, t_list **envl, t_list **exp_list);
+void		free_str(char **str1, char **str2);
+void		cleanup_run_cmd(char ***env, char **cmd, char **paths,
+				t_token *head);
+void		setup_lists(t_list **lists[2], t_list **envl, t_list **exp_list);
 /*redirection.c*/
 int			redir_output(char *filename, int flag);
 int			redir_input(char *filename);

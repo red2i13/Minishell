@@ -40,7 +40,7 @@ int	check_while_input_redirection(t_token *list)
 			if (access(filename, F_OK))
 				return (1);
 			else if (!access(filename, F_OK) && \
-			access(filename, F_OK | R_OK) == -1)
+						access(filename, F_OK | R_OK) == -1)
 			{
 				return (1);
 			}

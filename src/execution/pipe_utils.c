@@ -76,3 +76,11 @@ void	clear_child(t_token *head, t_list **envl, t_list **exp_list,
 	ft_lstclear(exp_list, &del);
 	list_clear(&head);
 }
+
+void	free_str(char **str1, char **str2)
+{
+	if (*str1 != *str2)
+	{
+		free(*str1);
+	}
+}
