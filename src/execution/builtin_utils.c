@@ -6,7 +6,7 @@
 /*   By: rbenmakh <rbenmakh@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/10 09:56:45 by rbenmakh          #+#    #+#             */
-/*   Updated: 2024/09/16 09:37:39 by rbenmakh         ###   ########.fr       */
+/*   Updated: 2024/09/25 10:32:32 by rbenmakh         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ void	print_export(t_list *exp_list)
 	char	*temp;
 
 	head = exp_list;
-	while (exp_list->next)
+	while (exp_list && exp_list->next)
 	{
 		tmp = exp_list->next;
 		while (tmp)
