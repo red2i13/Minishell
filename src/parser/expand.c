@@ -6,7 +6,7 @@
 /*   By: ysahraou <ysahraou@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/16 17:44:04 by codespace         #+#    #+#             */
-/*   Updated: 2024/09/13 15:46:39 by ysahraou         ###   ########.fr       */
+/*   Updated: 2024/09/28 11:07:01 by ysahraou         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ char	*vars_sub(char *str, int i, t_list *env)
 	free(fr);
 	if (!var && str[i] == '?')
 		var = ft_itoa(g_status);
-	else if (!var && str[i] == '$')
-		var = ft_itoa(getpid());
 	if (!var)
 		var = ft_strdup("");
 	path = ft_strjoin(brev, var);
